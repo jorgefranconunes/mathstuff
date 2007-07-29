@@ -1,5 +1,5 @@
-% Orthogonal Daubechies coefficients (normalized to have sum 2).
-% Obtained from http://en.wikipedia.org/wiki/Daubechies_wavelet
+# Orthogonal Daubechies coefficients (normalized to have sum 2).
+# Obtained from http://en.wikipedia.org/wiki/Daubechies_wavelet
 
 D4 = [
 0.6830127
@@ -40,3 +40,22 @@ D10 = [
 -0.01779187
 4.71742793e-3
 ];
+
+
+
+
+
+%
+% Shring lines but keep the same number of points in each line.
+%
+function result = shrinkBy2(values)
+
+  [lineCount, colCount] = size(values);
+  sourceColIndexes      = 1:colCount;
+  destColIndexes        = 1:(colCount/2);
+
+  result                    = zeros(lineCount, colCount);
+  result(:, destColIndexes) = values(:, 2*destColIndexes-1);
+
+endfunction
+

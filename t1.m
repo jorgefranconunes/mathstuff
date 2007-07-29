@@ -1,4 +1,4 @@
-NPOINTS = 10000000;
+NPOINTS = 1000;
 
 
 
@@ -23,5 +23,5 @@ b = [ 0  1];
 x = getCoinTosses(NPOINTS, 0.5);
 y = filter(b, a, x);
 
-#plot(y);
-hist(y, 100);
+plot(y);
+#hist(y, 100);
