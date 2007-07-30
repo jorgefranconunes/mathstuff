@@ -8,6 +8,13 @@ D4 = [
 -0.1830127
 ];
 
+%D4 = [
+%0.482962913144
+%0.836516303737
+%0.224143868042
+%-0.129409522551
+%];
+
 D6 = [
 0.47046721
 1.14111692
@@ -41,12 +48,27 @@ D10 = [
 4.71742793e-3
 ];
 
+D12 = [
+0.15774243
+0.69950381
+1.06226376
+0.44583132
+-0.31998660
+-0.18351806
+0.13788809
+0.03892321
+-0.04466375
+7.83251152e-4
+6.75606236e-3
+-1.52353381e-3
+];
+
 
 
 
 
 %
-% Shring lines but keep the same number of points in each line.
+% Shrink lines but keep the same number of points in each line.
 %
 function result = shrinkBy2(values)
 
@@ -56,6 +78,81 @@ function result = shrinkBy2(values)
 
   result                    = zeros(lineCount, colCount);
   result(:, destColIndexes) = values(:, 2*destColIndexes-1);
+
+endfunction
+
+
+
+
+
+%
+%
+%
+function result = translateLine(x, d)
+
+  pointCount               = length(x);
+  result                   = zeros(1, pointCount);
+  result((d+1):pointCount) = x(1:(pointCount-d));
+
+endfunction
+
+
+
+
+
+%
+% The "d" line vector is expected to contain as many elements as rows in "m".
+%
+function result = translate(m, d)
+
+  [lineCount, rowCount] = size(m);
+  result = zeros(lineCount, rowCount);
+  
+  for line = 1:lineCount
+    result(line, :) = translateLine(m(line,:), d(line));
+  endfor
+
+endfunction
+
+
+
+
+
+%
+%
+%
+function result = waveletStep(phi0, h, unitSize)
+
+  coefCount = length(h);
+  mPhi0 = phi0(ones(1,coefCount), :);
+  mPhi0 = shrinkBy2(mPhi0);
+  mPhi0 = translate(mPhi0, 0.5*unitSize*[0:(coefCount-1)]);
+
+  result = h * mPhi0;
+
+endfunction
+
+
+
+
+
+%
+%
+%
+function [time, phi] = wavelet(h, unitSize, depth)
+
+  coefCount = length(h);
+  maxT      = coefCount - 1;
+
+  phi             = zeros(1, maxT*unitSize);
+  phi(1:unitSize) = ones(1, unitSize);
+
+  for i = 1:depth
+    phi = waveletStep(phi, h, unitSize);
+  endfor
+
+  time = 0:(1/unitSize):maxT;
+  time = time(1:length(phi));
 
 endfunction
 
