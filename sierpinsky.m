@@ -73,11 +73,40 @@ endfunction
 
 
 %
+%
+%
+function ifsProcessPrintImages(Tdata,		\
+			       imgYsize,	\
+			       imgXsize,	\
+			       stepCount,	\
+			       prefix)
+
+  TaIndexes = buildIfsIndexes(Tdata, imgYsize, imgXsize);
+  grayColormap = gray(2);
+
+  u0 = ones(imgYsize, imgXsize);
+
+  for n = 1:stepCount
+    u0 = ifsStep(TaIndexes, u0);
+    fileName = sprintf("%s-%03d.ppm", prefix, n);
+    saveimage(fileName, flipud(2-u0), "ppm");
+  endfor
+
+endfunction
+
+
+
+
+
+%
 % Sierpinsky gasket
 %
+%T0 = [ 1/2 0 0 1/2 0   0];
+%T1 = [ 1/2 0 0 1/2 1/2 0];
+%T2 = [ 1/2 0 0 1/2 1/4 1/2];
 T0 = [ 1/2 0 0 1/2 0   0];
 T1 = [ 1/2 0 0 1/2 1/2 0];
-T2 = [ 1/2 0 0 1/2 1/4 1/2];
+T2 = [ 1/2 0 0 1/2 1/4 sqrt(3)/4];
 T_Sierpinsky = [ T0; T1; T2 ];
 
 %
@@ -116,7 +145,9 @@ imgXsize = size;
 imgYsize = size;
 
 %ifsProcess(T_Sierpinsky, imgYsize, imgXsize);
+%ifsProcessWithStepCount(T_Sierpinsky, imgYsize, imgXsize, 12);
 %ifsProcess(T_Leaf, imgYsize, imgXsize);
-ifsProcess(T_Fern, imgYsize, imgXsize);
+%ifsProcess(T_Fern, imgYsize, imgXsize);
 %ifsProcess(T_GasketA, imgYsize, imgXsize);
 
+ifsProcessPrintImages(T_Sierpinsky, imgYsize, imgXsize, 8, "xxx");
