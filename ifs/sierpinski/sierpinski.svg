@@ -8,8 +8,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="200.15326"
+   height="186.69038"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.44.1"
@@ -17,7 +17,8 @@
    sodipodi:docname="sierpinski.svg"
    inkscape:export-filename="/home/jfn/math/ifs/sierpinski.png"
    inkscape:export-xdpi="86.400002"
-   inkscape:export-ydpi="86.400002">
+   inkscape:export-ydpi="86.400002"
+   version="1.0">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -32,14 +33,15 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.2484974"
      inkscape:cx="239.97622"
-     inkscape:cy="82.881622"
+     inkscape:cy="82.481141"
      inkscape:document-units="px"
      inkscape:current-layer="g9296"
      showgrid="true"
      inkscape:window-width="1019"
      inkscape:window-height="791"
      inkscape:window-x="0"
-     inkscape:window-y="157" />
+     inkscape:window-y="157"
+     inkscape:showpageshadow="false" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -55,7 +57,8 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     style="display:inline">
+     style="display:inline"
+     transform="translate(9.07701e-2,-865.7621)">
     <g
        id="g9357">
       <g
