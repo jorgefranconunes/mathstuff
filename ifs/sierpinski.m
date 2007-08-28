@@ -38,12 +38,14 @@ endfunction
 %
 %
 %
-function ifsProcessWithStepCount(Tdata, imgYsize, imgXsize, stepCount)
+function ifsProcessWithStepCount(Tdata, imgYsize, imgXsize, stepCount, u0)
+
+  if ( nargin == 4 )
+    u0 = ones(imgYsize, imgXsize);
+  endif
 
   TaIndexes = buildIfsIndexes(Tdata, imgYsize, imgXsize);
 
-
-  u0 = ones(imgYsize, imgXsize);
   displayBilevelImage(u0);
 
   for n = 1:stepCount
@@ -60,11 +62,15 @@ endfunction
 %
 %
 %
-function ifsProcess(Tdata, imgYsize, imgXsize)
+  function ifsProcess(Tdata, imgYsize, imgXsize, u0)
 
   stepCount = floor(max(log2(imgYsize), log2(imgXsize)));
 
-  ifsProcessWithStepCount(Tdata, imgYsize, imgXsize, stepCount);
+  if ( nargin == 4 )
+    ifsProcessWithStepCount(Tdata, imgYsize, imgXsize, stepCount, u0);
+  else
+    ifsProcessWithStepCount(Tdata, imgYsize, imgXsize, stepCount);
+  endif
 
 endfunction
 
@@ -79,18 +85,45 @@ function ifsProcessPrintImages(Tdata,		\
 			       imgYsize,	\
 			       imgXsize,	\
 			       stepCount,	\
+			       u0,		\
 			       prefix)
 
   TaIndexes = buildIfsIndexes(Tdata, imgYsize, imgXsize);
   grayColormap = gray(2);
 
-  u0 = ones(imgYsize, imgXsize);
+  n = 0;
+  fileName = sprintf("%s-%03d.ppm", prefix, n);
+  saveimage(fileName, flipud(2-u0), "ppm");
 
   for n = 1:stepCount
     u0 = ifsStep(TaIndexes, u0);
     fileName = sprintf("%s-%03d.ppm", prefix, n);
     saveimage(fileName, flipud(2-u0), "ppm");
   endfor
+
+endfunction
+
+
+
+
+
+%
+%
+%
+function result = triangle(m, n)
+
+  xxLine = [0 : n-1];
+  yyLine = [0 : m-1];
+
+  xx  = xxLine(ones(1,m), :);
+  yy  = yyLine(ones(1,n), :)' / (n-1);
+
+  factor = sqrt(3) / (n-1);
+  ff1 = factor * xx;
+  ff2 = -factor * (xx-n+1);
+
+  result = zeros(m, n);
+  result((yy<=ff1) & (yy<=ff2)) = 1;
 
 endfunction
 
@@ -140,14 +173,18 @@ T_GasketA = [ T0; T1; T2 ];
 %
 %
 %
-size=256;
+%size=256;
+size=192;
 imgXsize = size;
 imgYsize = size;
 
-%ifsProcess(T_Sierpinsky, imgYsize, imgXsize);
+%u0 = ones(imgYsize, imgXsize);
+u0 = triangle(imgYsize, imgXsize);
+
+%ifsProcess(T_Sierpinsky, imgYsize, imgXsize, u0);
 %ifsProcessWithStepCount(T_Sierpinsky, imgYsize, imgXsize, 12);
 %ifsProcess(T_Leaf, imgYsize, imgXsize);
 %ifsProcess(T_Fern, imgYsize, imgXsize);
 %ifsProcess(T_GasketA, imgYsize, imgXsize);
 
-ifsProcessPrintImages(T_Sierpinsky, imgYsize, imgXsize, 8, "xxx");
+ifsProcessPrintImages(T_Sierpinsky, imgYsize, imgXsize, 6, u0, "xxx");
