@@ -1,0 +1,273 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "Point.tea"
+
+
+
+
+
+###########################################################################
+#
+# Represents a polinimo.
+#
+###########################################################################
+
+class Polimino (
+
+    _pointList
+)
+
+
+
+
+
+###########################################################################
+#
+# Receives a variable number of Point instances as arguments.
+#
+###########################################################################
+
+method Polimino constructor args {
+    
+    set! _pointList [sort-points $args]
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method Polimino getPointList () {
+    
+    is $_pointList
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method Polimino getDegree () {
+    
+    length $_pointList
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method Polimino contains? ( point ) {
+    
+    define point-equals ( p ) { $point isSame? $p }
+    apply or [map point-equals $_pointList]
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method Polimino isSame? ( polyomino ) {
+    
+    lists-have-same-points? $_pointList [$polyomino getPointList]
+}
+
+
+define lists-have-same-points? ( l1 l2 ) {
+    
+    if { empty? $l1 } {
+        empty? $l2
+    } {
+        if { empty? $l2 } {
+            is $false
+        } {
+            if { [car $l1] isSame? [car $l2] } {
+                lists-have-same-points? [cdr $l1] [cdr $l2]
+            } {
+                is $false
+            }
+        }
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# Returns a normalized Polimino instance derived from this Polimino.
+#
+###########################################################################
+
+method Polimino normalize () {
+    
+    define minX [$this getMinX]
+    define minY [$this getMinY]
+    
+    if { or {!= $minX 0} {!= $minY 0 } } {
+        $this translate [point [- $minX] [- $minY]]
+    } {
+        is $this
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method Polimino translate ( displacement ) {
+    
+    define translate    [lambda ( point ) { $point translate $displacement }]
+    define newPointList [map translate $_pointList]
+    define newPolimino  [apply new Polimino $newPointList]
+    
+    is $newPolimino
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method Polimino getMinX () { apply min [map get-x $_pointList] }
+method Polimino getMaxX () { apply max [map get-x $_pointList] }
+method Polimino getMinY () { apply min [map get-y $_pointList] }
+method Polimino getMaxY () { apply max [map get-y $_pointList] }
+
+
+define get-x ( point ) { $point get x }
+define get-y ( point ) { $point get y }
+
+
+
+
+
+###########################################################################
+#
+# Creates a new normalized polimino from the points given as arguments.
+#
+###########################################################################
+
+global polimino args {
+    
+    define pointList [map-apply point $args]
+    define polimino  [apply new Polimino $pointList]
+    
+    $polimino normalize
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+global polimino-from-points args {
+    
+    apply new Polimino $args
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+global polimino->string ( polimino ) {
+    
+    define pointList [$polimino getPointList]
+    define result    [str-join [map point->string $pointList] " "]
+    
+    is $result
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define sort-points ( pointList ) {
+    
+    define points [apply [new TVector] append $pointList]
+    
+    $points sort $point-compare
+    
+    $points getElements
+}
+
+
+define point-compare ( p1 p2 ) {
+    
+    define p1x [$p1 get x]
+    define p2x [$p2 get x]
+    define p1y [$p1 get y]
+    define p2y [$p2 get y]
+    
+    cond \
+            { < $p1y $p2y } -1 \
+            { > $p1y $p2y } 1 \
+            { < $p1x $p2x } -1 \
+            { > $p1x $p2x } 1 \
+            0
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

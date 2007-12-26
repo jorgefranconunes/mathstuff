@@ -1,0 +1,55 @@
+./bin/polyominos-render-all.tea 2 poliominos-2.svg 1
+./bin/polyominos-render-all.tea 3 poliominos-3.svg 2
+./bin/polyominos-render-all.tea 4 poliominos-4.svg 4
+./bin/polyominos-render-all.tea 5 poliominos-5.svg 6
+./bin/polyominos-render-all.tea 6 poliominos-6.svg 6
+./bin/polyominos-render-all.tea 7 poliominos-7.svg 12
+
+./bin/polyominos-cube.tea poliominos-cubo.svg
+
+inkscape -w 64 -e poliominos-2.png poliominos-2.svg
+inkscape -w 96 -e poliominos-3.png poliominos-3.svg
+inkscape -w 128 -e poliominos-4.png poliominos-4.svg
+inkscape -w 192 -e poliominos-5.png poliominos-5.svg
+inkscape -w 256 -e poliominos-6.png poliominos-6.svg
+inkscape -w 320 -e poliominos-7.png poliominos-7.svg
+
+inkscape -w 320 -e poliominos-cubo.png poliominos-cubo.svg
+
+
+Found 2 polyominos of order 3
+Found 7 polyominos of order 4
+Found 18 polyominos of order 5
+Found 60 polyominos of order 6
+Found 196 polyominos of order 7
+
+
+
+
+
+
+
+
+
+Cubos Desdobrados
+
+
+Qual é o assunto tratado neste artigo?
+
+O que são poliminós?
+
+Exemplos dos poliminós Tetris (tetraminós).
+
+Classes de poliminós: forma livre; lado único; fixos.
+
+
+
+
+
+Hexaminós e dobragens de cubos.
+
+Exemplo de uma dobragem de um cubo a partir de um haxaminó.
+
+Quais os haxaminós que são dobragens de cubos? Exemplos dados.
+
+Como determinar se um hexaminó é uma dobragem de cubo?

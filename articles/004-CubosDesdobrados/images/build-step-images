@@ -1,0 +1,41 @@
+#!/bin/bash
+
+_scriptDir=$(dirname $0)
+
+
+
+
+
+_imageDir=$_scriptDir
+_imageWidth=128
+
+
+
+
+
+#
+#
+#
+buildImages () {
+
+    local stepList="01 02 03 04 05 06"
+    local width=$_imageWidth
+
+    for step in $stepList ; do
+	local sourceImage=${_imageDir}/Step-${step}.jpg
+	local destImage=${_imageDir}/Step-${step}-${width}.jpg
+
+	convert $sourceImage -resize $width $destImage
+    done
+}
+
+
+
+
+
+#
+# The main script
+#
+
+buildImages
+

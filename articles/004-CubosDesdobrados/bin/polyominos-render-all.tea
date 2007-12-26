@@ -1,0 +1,48 @@
+###########################################################################
+#
+# Generates an SVG image file with a drawing of all polyominos of
+# a given order.
+#
+###########################################################################
+
+import "polimino-svg.tea"
+import "polimino-utils.tea"
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define argc [length $argv]
+
+if { != $argc 3 } {
+    $stderr writeln "Args: polyomino-order SVG-file first-row-count"
+    exit 1
+}
+
+define order            [string->int [nth $argv 0]]
+define path             [nth $argv 1]
+define numberInFirstRow [string->int [nth $argv 2]]
+
+define polyominos [polimino-generate $order]
+
+echo "Found " [length $polyominos] " polyominos of order " $order
+
+polimino-svg-group-render $polyominos $path $numberInFirstRow
+
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+

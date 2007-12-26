@@ -1,0 +1,214 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "Point.tea"
+import "Polimino.tea"
+import "util/lists.tea"
+
+
+
+
+
+###########################################################################
+#
+# Generates all the one-sided form polyominos of the given degree.
+#
+# One-sided polyominos are distinct as long as none is a translation
+# or rotation of another.
+#
+###########################################################################
+
+global polimino-generate ( degree ) {
+    
+    define seed [polimino ( 0 0 )]
+    
+    define allPolyominos [bread-polyominos $degree $seed ()]
+    
+#     set! allPolyominos [map [lambda (p) {$p normalize}] $allPolyominos]
+    
+#     #map echo [map polimino->string $allPolyominos]
+    
+#     define result ()
+    
+#     foreach polyomino $allPolyominos {
+#         if { matches-one-sided? $polyomino $result } {
+#             # Already in the result list
+#         } {
+#             set! result [prepend $polyomino $result]
+#         }
+#     }
+    
+#     list-invert $result
+
+    map make-horizontal $allPolyominos
+}
+
+
+
+
+
+###########################################################################
+#
+# Returns the polyomino with the lowest height from the set composed of
+# the given polyomino and its 90 degree rotation.
+#
+###########################################################################
+
+define make-horizontal ( p ) {
+    
+    define rotatedP [polyomino-rotate-90 $p]
+    
+    if { < [$p getMaxY] [$rotatedP getMaxY] } $p $rotatedP
+}
+
+
+
+
+
+###########################################################################
+#
+# The returned polyominos are not necessarily normalized.
+#
+# base - Polimino instance.
+#
+# root - Point instance. One of the points in the "base" Polimino.
+#
+###########################################################################
+
+define OFFSET_LIST [map-apply point ( (1 0) (0 1) (-1 0) (0 -1) )]
+        
+
+define bread-polyominos ( degree base buffer ) {
+    
+    if { > $degree [$base getDegree] } {
+        define prevPointList [$base getPointList]
+        define checkedPs     ()
+        
+        foreach root [$base getPointList] {
+        
+            foreach offset $OFFSET_LIST {
+                define newPoint [$root translate $offset]
+            
+                if { $base contains? $newPoint } {
+                    # Nothing to do.
+                } {
+                    define newPointList \
+                            [prepend $newPoint $prevPointList]
+                    define newBase      \
+                            [apply polimino-from-points $newPointList]
+                    
+                    set! newBase [$newBase normalize]
+                    
+                    if { matches-one-sided? $newBase $checkedPs } {
+                        # We already used this one as base.
+                    } {
+                        set! checkedPs [prepend $newBase $checkedPs]
+                        set! buffer [bread-polyominos $degree $newBase $buffer]
+                    }
+                }
+            }
+        }
+    } {
+        if { matches-one-sided? $base $buffer } {
+            # Already found
+        } {
+            set! buffer [prepend $base $buffer]
+        }
+    }
+    
+    is $buffer
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define matches-one-sided? ( polyomino pList ) {
+    
+    define workingP   $null
+    define matchFound $false
+    
+    if { not $matchFound } {
+        set! workingP   $polyomino
+        set! matchFound [matches-exactly? $workingP $pList]
+    }
+    if { not $matchFound } {
+        set! workingP   [polyomino-rotate-90 $workingP]
+        set! matchFound [matches-exactly? $workingP $pList]
+    }
+    if { not $matchFound } {
+        set! workingP   [polyomino-rotate-90 $workingP]
+        set! matchFound [matches-exactly? $workingP $pList]
+    }
+    if { not $matchFound } {
+        set! workingP   [polyomino-rotate-90 $workingP]
+        set! matchFound [matches-exactly? $workingP $pList]
+    }
+    
+    is $matchFound
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define matches-exactly? ( polyomino pList ) {
+    
+    if { empty? $pList } {
+        is $false
+    } {
+        if { $polyomino isSame? [car $pList] } {
+            is $true
+        } {
+            matches-exactly? $polyomino [cdr $pList]
+        }
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define polyomino-rotate-90 ( polyomino ) {
+    
+    define newPointList ()
+    
+    foreach p [$polyomino getPointList] {
+        define newPoint [point [$p get y] [- [$p get x]]]
+        set! newPointList [prepend $newPoint $newPointList]
+    }
+    
+    [apply polimino-from-points $newPointList] normalize
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

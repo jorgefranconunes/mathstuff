@@ -1,0 +1,54 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+
+
+
+
+#########################################################################
+#
+# Creates a new class that behaves like a plain structure. It will
+# have a single "get" method to retrieve the value of its fields.
+#
+# The fieldData argument is a list where each element describe a field
+# in the structure. Each element in this list is a list of two elements:
+# the field name, the field initialization value.
+#
+# The constructor of the newly created classes receives multiple
+# arguments. Each argument is a list of two elements: the field name,
+# the field value.
+#
+#########################################################################
+
+global struct-ro ( className fieldData ) {
+    
+    define fieldNames [map car $fieldData]
+    
+    class $className $fieldNames
+    
+    method $className constructor args {
+        # Initialize with default values.
+        map-apply set! $fieldData
+        
+        # Overide with values passed to the constructor.
+        map-apply set! $args
+    }
+    
+    method $className get ( fieldName ) {
+        get $fieldName
+    }
+}
+
+
+
+
+
+#########################################################################
+#
+# 
+#
+#########################################################################
+

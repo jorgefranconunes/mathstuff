@@ -1,0 +1,152 @@
+###########################################################################
+#
+# Utilities for rendering poliminos as SVG image files.
+#
+###########################################################################
+
+import "Polimino.tea"
+import "util/lists.tea"
+
+
+
+
+
+define SVG_PREFIX_FMT "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
+
+<svg
+   xmlns=\"http://www.w3.org/2000/svg\"
+   width=\"{0}\"
+   height=\"{1}\"
+   id=\"{2}\"
+   version=\"1.0\">
+  <g style=\"opacity:1;fill:#bebebe;fill-opacity:1;stroke:black;stroke-width:0.01;stroke-opacity:1\"
+     id=\"layer1\">
+"
+
+define SVG_ENTRY_FMT "
+    <rect
+       id=\"item{0}\"
+       width=\"1\"
+       height=\"1\"
+       x=\"{1}\"
+       y=\"{2}\" />
+"
+
+define SVG_SUFIX "
+  </g>
+</svg>
+"
+
+
+
+
+
+###########################################################################
+#
+# Generates an SVG file containing the drawing of the given Polimino
+# instance.
+# We assume the polimino is already normalized.
+#
+###########################################################################
+
+global polimino-svg-render ( polimino path ) {
+    
+    define output [new TFileOutput $path]
+    define width  [+ 1 [$polimino getMaxX]]
+    define maxY   [$polimino getMaxY]
+    define height [+ 1 $maxY]
+    
+    define prefix [str-fmt $SVG_PREFIX_FMT \
+            [float->string $width] \
+            [float->string $height] \
+            [file-basename $path]]
+    
+    $output write $prefix
+    
+    define counter 1
+    
+    foreach point [$polimino getPointList] {
+        define entry [str-fmt $SVG_ENTRY_FMT \
+                [int->string $counter] \
+                [float->string [$point get x]] \
+                [float->string [- $maxY [$point get y]]]]
+        
+        $output write $entry
+        
+        ++ counter
+    }
+    
+    $output write $SVG_SUFIX
+    
+    $output close
+}
+
+
+
+
+
+###########################################################################
+#
+# poliminoList - List of Polimino instances. We assume they are normalized.
+#
+# numberInFirstRow - Number of figures to draw in the first row.
+#
+###########################################################################
+
+global polimino-svg-group-render ( poliminoList path numberInFirstRow ) {
+    
+    define poliminoCount [length $poliminoList]
+    define maxOffsetX    0x7ffffff
+    
+    define listOfPointLists ()
+    
+    define count   0
+    define offsetX 0
+    define offsetY 0
+    define deltaOffsetY 0
+
+    foreach polimino $poliminoList {
+        define width            [+ 1 [$polimino getMaxX]]
+        define pMaxY            [$polimino getMaxY]
+        define height           [+ 1 $pMaxY]
+        define offset           [point $offsetX [- $offsetY $pMaxY]]
+        define offsetedPolimino [$polimino translate $offset]
+        
+        set! listOfPointLists \
+                [prepend [offsetedPolimino getPointList] $listOfPointLists]
+        
+        ++ count
+        += offsetX [+ 1 $width]
+        set! deltaOffsetY [max $deltaOffsetY [+ 1 $height]]
+        
+        if { == $count $numberInFirstRow } {
+            set! maxOffsetX $offsetX
+        }
+        
+        if { >= $offsetX $maxOffsetX } {
+            set! offsetX 0
+            -= offsetY $deltaOffsetY
+            set! deltaOffsetY 0
+        }
+    }
+
+    define mergedPoints   [apply list-cat $listOfPointLists]
+    define mergedPolimino [apply polimino-from-points $mergedPoints]
+    
+    polimino-svg-render [$mergedPolimino normalize] $path
+}
+
+
+define polimino-max-x ( polimino ) { $polimino getMaxX }
+define polimino-max-y ( polimino ) { $polimino getMaxY }
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
