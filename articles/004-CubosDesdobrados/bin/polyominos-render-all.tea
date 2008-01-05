@@ -19,18 +19,34 @@ import "polimino-utils.tea"
 
 define argc [length $argv]
 
-if { != $argc 3 } {
-    $stderr writeln "Args: polyomino-order SVG-file first-row-count"
+if { != $argc 4 } {
+    $stderr writeln "Args: polyomino-order SVG-file first-row-count F|O"
     exit 1
 }
 
 define order            [string->int [nth $argv 0]]
 define path             [nth $argv 1]
 define numberInFirstRow [string->int [nth $argv 2]]
+define type             [nth $argv 3]
+define typeDescription  $null
+define generator        $null
 
-define polyominos [polimino-generate $order]
+if { str== $type "F" } {
+    set! generator $polimino-generate-free
+    set! typeDescription "free"
+} {
+    set! generator $polimino-generate-one-sided
+    set! typeDescription "one-sided"
+}
+echo [str-fmt "Will generate {0} form polyominos." $typeDescription]
 
-echo "Found " [length $polyominos] " polyominos of order " $order
+define polyominos [$generator $order]
+
+echo [str-fmt \
+        "Found {0} {1} polyominos of order {2}" \
+        [length $polyominos] \
+        $typeDescription \
+        $order]
 
 polimino-svg-group-render $polyominos $path $numberInFirstRow
 

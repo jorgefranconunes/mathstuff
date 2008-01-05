@@ -24,6 +24,23 @@ Found 60 polyominos of order 6
 Found 196 polyominos of order 7
 
 
+./bin/polyominos-render-all.tea 4 poliominos-4-free.svg 5 F
+./bin/polyominos-render-all.tea 5 poliominos-5-free.svg 12 F
+./bin/polyominos-render-all.tea 6 poliominos-6-free.svg 12 F
+./bin/polyominos-render-all.tea 7 poliominos-7-free.svg 18 F
+
+inkscape -w 256 -e poliominos-4-free.png poliominos-4-free.svg
+inkscape -w 480 -e poliominos-5-free.png poliominos-5-free.svg
+inkscape -w 480 -e poliominos-6-free.png poliominos-6-free.svg
+inkscape -w 480 -e poliominos-7-free.png poliominos-7-free.svg
+
+Found 5 free polyominos of order 4
+Found 12 free polyominos of order 5
+Found 35 free polyominos of order 6
+Found 108 free polyominos of order 7
+
+
+
 
 
 
