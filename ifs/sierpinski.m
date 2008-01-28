@@ -62,7 +62,7 @@ endfunction
 %
 %
 %
-  function ifsProcess(Tdata, imgYsize, imgXsize, u0)
+function ifsProcess(Tdata, imgYsize, imgXsize, u0)
 
   stepCount = floor(max(log2(imgYsize), log2(imgXsize)));
 

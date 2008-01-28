@@ -1,0 +1,30 @@
+
+
+
+
+
+
+Evolução no tempo das variações de preços de produtos financeiros.
+
+Bonecos:
+
+Gráfico da evolução da cotação diário (fecho) do BCP.
+
+Gráfico das variações diárias (fecho) do BCP.
+
+Gráfico das variações percentuais diárias (fecho) do BCP.
+
+
+
+
+
+A obter: Ficheiro com histórico das cotações de fecho do BCP.
+
+
+
+
+
+Ferramentas:
+
+Gerador do ficheiro ficheiro de cotações de fecho a partir da BD do
+sistema COL.
