@@ -28,3 +28,16 @@ Ferramentas:
 
 Gerador do ficheiro ficheiro de cotações de fecho a partir da BD do
 sistema COL.
+
+A partir do ficheiro de amostras mostra gráfico da evolução no tempo
+de: a) Valor; b) Variações consecutivas; c) Variações percentuais
+consecutivas.
+
+
+
+
+
+Para ler um array a partir de um ficheiro de texto contendo apenas
+valores numéricos:
+
+xxx=load("file-path");

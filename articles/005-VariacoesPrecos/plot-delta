@@ -1,0 +1,175 @@
+#!/bin/bash
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+_scriptDir=$(dirname $0)
+_baseDir=$(cd ${_scriptDir}/; pwd)
+
+
+
+
+
+_inputFile=
+_outputPrefix=
+
+
+
+
+
+###########################################################################
+#
+# Displays a message to stderr and exits the process.
+#
+# Arguments: 
+#
+# 1. The message to be displayed.
+#
+###########################################################################
+
+myError () {
+
+    echo "***" "$@" >&2
+    exit 1
+}
+
+
+
+
+
+###########################################################################
+#
+# Displays an help messages describing the configuration options.
+#
+###########################################################################
+
+displayHelp () {
+
+    displayHeader
+
+    cat <<EOF
+
+Generates image files containing the plots of a time series, its first
+difference and its first relative differences.
+
+Available options:
+--input=PATH
+	Path of data file containing the time series values. Text file
+	where each line contains a decimal value.
+--output=STRING
+	Prefix for the pathnames of the generated image files.
+--help
+	Prints this help text.
+
+EOF
+}
+
+
+
+
+
+###########################################################################
+#
+# Processes the command line options.
+#
+###########################################################################
+
+processCliArgs () {
+
+    for option in "$@" ; do
+	case $option in
+	    --input=* )
+		_inputFile=$(expr "$option" : '--input=\(.*\)')
+		;;
+	    --output=* )
+		_outputPrefix=$(expr "$option" : '--output=\(.*\)')
+		;;
+	    --help )
+		displayHelp
+		exit 0
+		;;
+	    --*=* )
+		option=`expr $option : '\(--.*\)=.*'`
+		myError "$option : unrecognized option. Use --help for details."
+		;;
+	    * )
+		myError "$option : unrecognized option. Use --help for details."
+		;;
+	esac
+    done
+
+    if [ -z "$_inputFile" ] ; then
+	myError "Missing mandatory --input option. Use --help for details."
+    fi
+    if [ -z "$_outputPrefix" ] ; then
+	myError "Missing mandatory --output option. Use --help for details."
+    fi
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+doPloting () {
+
+    local input=${_inputFile}
+    local file1=${_outputPrefix}-series.eps
+    local file2=${_outputPrefix}-delta.eps
+    local file3=${_outputPrefix}-deltarel.eps
+
+    cd $_baseDir
+    octave <<EOF
+source "utils.m"
+
+x        = load("${input}");
+delta    = delta(x);
+deltaRel = deltaRel(x);
+
+grid("on");
+
+plot(x, "-;;");
+print("$file1", "-deps2");
+
+plot(delta, "-;;");
+print("$file2", "-deps2");
+
+plot(deltaRel, "-;;");
+print("$file3", "-deps2");
+EOF
+}
+
+
+
+
+
+###########################################################################
+#
+# The main script.
+#
+###########################################################################
+
+processCliArgs "$@"
+
+echo "Input data file     : $_inputFile"
+echo "Output files prefix : $_outputPrefix"
+
+doPloting
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
