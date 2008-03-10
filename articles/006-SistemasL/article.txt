@@ -1,0 +1,27 @@
+
+
+
+
+
+
+A curva de Koch - Definição, propriedades.
+
+Figuras das primeiras iterações da curva de Koch.
+
+
+Sistemas-L - Definição, exemplos.
+
+Curva de Koch definida como um sistema-L.
+
+Outros exemplos de sistemas-L.
+
+
+
+Programa Tea para calcular a iteração n de um sistema L.
+
+Programa Tea para gerar um ficheiro SVG com a representação visual de
+uma string de um sistema L.
+
+
+Notas: Para gerar o ficheiro SVG é necessário determinar as dimensões
+(width, height) da figura
