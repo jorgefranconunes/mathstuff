@@ -17,10 +17,21 @@ Outros exemplos de sistemas-L.
 
 
 
+
+
 Programa Tea para calcular a iteração n de um sistema L.
 
 Programa Tea para gerar um ficheiro SVG com a representação visual de
 uma string de um sistema L.
+
+
+Programas de teste:
+
+- Teste de uma iteração de um sistema-L. Imprimir axioma (x(0)),
+  imprimir efeito da regra de produção (x(1)).
+
+
+
 
 
 Notas: Para gerar o ficheiro SVG é necessário determinar as dimensões
