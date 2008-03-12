@@ -5,8 +5,8 @@
 ###########################################################################
 
 import "l-systems.tea"
-
-
+import "TurtleGraphicsEngine.tea"
+import "math/math-functions.tea"
 
 
 
@@ -17,10 +17,17 @@ import "l-systems.tea"
 #
 ###########################################################################
 
-define format-x ( symbolList ) {
+define print-point-list ( pointList ) {
     
-    str-join [map $symbol->string $symbolList] " "
+    map print-point $pointList
 }
+
+
+define print-point ( point ) {
+    
+    echo "( " [$point get x] ", " [$point get y] ")"
+}
+
 
 
 
@@ -36,7 +43,7 @@ define format-x ( symbolList ) {
 # Koch curve production map.
 #
 define kochProductionMapData (
-    ( F ( F + F - - F - F ) )
+    ( F ( F + F - - F + F ) )
     ( + ( + ) )
     ( - ( - ) )
 )
@@ -47,10 +54,25 @@ define x0 ( F )
 define x1 [$kockProductionFunction $x0]
 define x2 [$kockProductionFunction $x1]
 
-echo "x(0) = " [format-x $x0]
-echo "x(1) = " [format-x $x1]
-echo "x(2) = " [format-x $x2]
+define actionMap (
+    ( F forward )
+    ( + turnLeft )
+    ( - turnRight )
+)
 
+define pathEngine [new TurtleGraphicsEngine \
+        1.0 \
+        [/ $M_PI 3.0] \
+        [- [/ $M_PI 3.0]] \
+        $actionMap]
+
+define path0 [$pathEngine run $x0]
+echo
+print-point-list [$path0 getPointList]
+
+define path1 [$pathEngine run $x1]
+echo
+print-point-list [$path1 getPointList]
 
 
 

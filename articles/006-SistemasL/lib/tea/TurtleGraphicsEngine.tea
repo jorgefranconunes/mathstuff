@@ -4,8 +4,7 @@
 #
 ###########################################################################
 
-import "math/math-functions.tea"
-import "util/struct.tea"
+import "TurtleGraphicsPath.tea"
 
 
 
@@ -17,16 +16,12 @@ import "util/struct.tea"
 #
 ###########################################################################
 
-class TurtleGraphicsPath (
+class TurtleGraphicsEngine (
 
-    # List of Point instances
-    _pointList
-
-    # Point instance representing the last point added to _pointList
-    _currentPosition
-
-    # Current direction angle in radians. Starts at 0.0.
-    _currentDirection
+    _forwardStepLength
+    _leftTurnAngle
+    _rightTurnAngle
+    _actionMap
 )
 
 
@@ -35,15 +30,20 @@ class TurtleGraphicsPath (
 
 ###########################################################################
 #
-# 
+# Arguments:
+#
+# actionMap - List where each element is a list with two elements: symbol
+# that may appear in a symbol string, action (symbol).
 #
 ###########################################################################
 
-method TurtleGraphicsPath constructor () {
-    
-    set! _currentPosition  [new Point]
-    set! _currentDirection 0.0
-    set! _pointList        ( $_currentPosition )
+method TurtleGraphicsEngine constructor ( 
+    forwardStepLength leftTurnAngle rightTurnAngle actionMap ) {
+        
+    set! _forwardStepLength $forwardStepLength
+    set! _leftTurnAngle     $leftTurnAngle
+    set! _rightTurnAngle    $rightTurnAngle
+    set! _actionMap         $actionMap
 }
 
 
@@ -56,16 +56,9 @@ method TurtleGraphicsPath constructor () {
 #
 ###########################################################################
 
-method TurtleGraphicsPath forward ( length ) {
+method TurtleGraphicsEngine forward ( path ) {
     
-    define deltaX      [* $length [cos $_currentDirection]]
-    define deltaY      [* $length [sin $_currentDirection]]
-    define newPosition [new Point \
-            ( x [+ [$_currentPosition get x] $deltaX] ) \
-            ( y [+ [$_currentPosition get y] $deltaY] ) ]
-
-    set! _currentPosition $newPosition
-    append $newPosition $_pointList
+    $path forward $_forwardStepLength
 }
 
 
@@ -78,9 +71,9 @@ method TurtleGraphicsPath forward ( length ) {
 #
 ###########################################################################
 
-method TurtleGraphicsPath turn ( angle ) {
+method TurtleGraphicsEngine turnLeft ( path ) {
     
-    += _currentDirection $angle
+    $path turn $_leftTurnAngle
 }
 
 
@@ -93,9 +86,9 @@ method TurtleGraphicsPath turn ( angle ) {
 #
 ###########################################################################
 
-method TurtleGraphicsPath getPointList () {
+method TurtleGraphicsEngine turnRight ( path ) {
     
-    is $_pointList
+    $path turn $_rightTurnAngle
 }
 
 
@@ -108,11 +101,26 @@ method TurtleGraphicsPath getPointList () {
 #
 ###########################################################################
 
-struct-ro Point (
-    ( x 0.0 )
-    ( y 0.0 )
-)
+method TurtleGraphicsEngine run ( symbolList ) {
+    
+    define path [new TurtleGraphicsPath]
+    
+    define forward   () { $path forward $_forwardStepLength }
+    define turnLeft  () { $path turn $_leftTurnAngle }
+    define turnRight () { $path turn $_rightTurnAngle }
+    
+    
+    map-apply define [map-apply [lambda (s f) {is ($s [get $f])}] $_actionMap]
+    
+    map call-function [map get $symbolList]
+    
+    is $path
+}
 
+
+define call-function ( f ) {
+    $f
+}
 
 
 
