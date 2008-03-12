@@ -1,0 +1,101 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+
+
+
+
+define SVG_PREFIX "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
+
+<svg
+    xmlns=\"http://www.w3.org/2000/svg\"
+    width=\"{4}\"
+    height=\"{5}\"
+    viewbox=\"{0} {1} {2} {3}\"
+    id=\"{6}\"
+    version=\"1.0\">
+
+  <g style=\"opacity:1; fill:#bebebe; fill-opacity:1; stroke:black; stroke-width:0.01; stroke-opacity:1\" id=\"layer1\">
+
+    <path d=\""
+
+define SVG_SUFIX "\" />
+
+  </g>
+
+</svg>
+"
+
+define SVG_FIRST_POINT "M {0}, {1}"
+define SVG_POINT       " L {0}, {1}"
+
+
+
+
+
+###########################################################################
+#
+# Arguments:
+#
+# path - TurtleGraphicsPath instance.
+#
+# file - File where the SVG object will be written to.
+#
+###########################################################################
+
+global turtle-graphics-path-render-to-svg ( path file ) {
+    
+    define pointList [$path getPointList]
+    define xList     [map get-x $pointList]
+    define yList     [map get-y $pointList]
+    define xMin      [apply min $xList]
+    define xMax      [apply max $xList]
+    define yMin      [apply min $yList]
+    define yMax      [apply max $yList]
+    define width     [- $xMax $xMin]
+    define height    [- $yMax $yMin]
+    
+    define output [new TFileOutput $file]
+    
+    $output write [str-fmt $SVG_PREFIX \
+            [float->string $xMin] \
+            [float->string $yMin] \
+            [float->string $xMax] \
+            [float->string $yMax] \
+            [float->string $width] \
+            [float->string $height] \
+            [file-basename $file]]
+    
+    define firstPoint [car $pointList]
+    $output write [str-fmt $SVG_FIRST_POINT \
+            [float->string [$firstPoint get x]] \
+            [float->string [$firstPoint get y]]]
+    
+    foreach point [cdr $pointList] {
+        $output write [str-fmt $SVG_POINT \
+                [float->string [$point get x]] \
+                [float->string [point get y]]]
+    }
+    
+    $output write $SVG_SUFIX
+    
+    $output close
+}
+
+
+define get-x ( point ) { $point get x }
+define get-y ( point ) { $point get y }
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

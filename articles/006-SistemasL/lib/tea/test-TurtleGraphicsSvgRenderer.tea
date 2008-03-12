@@ -1,0 +1,66 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "l-systems.tea"
+import "TurtleGraphicsEngine.tea"
+import "TurtleGraphicsSvgRenderer.tea"
+import "math/math-functions.tea"
+
+
+
+
+
+
+###########################################################################
+#
+# The main script.
+#
+###########################################################################
+
+#
+# Koch curve production map.
+#
+define kochProductionMapData (
+    ( F ( F + F - - F + F ) )
+    ( + ( + ) )
+    ( - ( - ) )
+)
+define kockProductionFunction \
+        [lSystem-get-production-function $kochProductionMapData]
+
+define x0 ( F - -  F - - F)
+define x1 [$kockProductionFunction $x0]
+define x2 [$kockProductionFunction $x1]
+
+define actionMap (
+    ( F forward )
+    ( + turnLeft )
+    ( - turnRight )
+)
+
+define pathEngine [new TurtleGraphicsEngine \
+        1.0 \
+        [/ $M_PI 3.0] \
+        [- [/ $M_PI 3.0]] \
+        $actionMap]
+
+define path0 [$pathEngine run $x0]
+turtle-graphics-path-render-to-svg $path0 "koch-00.svg"
+
+define path1 [$pathEngine run $x1]
+turtle-graphics-path-render-to-svg $path1 "koch-01.svg"
+
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

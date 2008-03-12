@@ -30,9 +30,32 @@ Programas de teste:
 - Teste de uma iteração de um sistema-L. Imprimir axioma (x(0)),
   imprimir efeito da regra de produção (x(1)).
 
+- Teste da geração da lista de pontos correspondendo a uma string de
+  symbolos.
+
+- Teste da geração do ficheiro SVG correspondendo a lista de pontos.
+
 
 
 
 
 Notas: Para gerar o ficheiro SVG é necessário determinar as dimensões
 (width, height) da figura
+
+
+Definição de um caminho em SVG:
+
+<path d="M 150, 50 L 200, 100 L 250, 100 L 250, 50 L 300, 50 L 300, 10 L350, 60">
+
+
+
+
+<svg viewbox= "0 0 600 400" >
+
+  <g style="opacity:1; fill:#bebebe; fill-opacity:1; stroke:black; stroke-width:0.01; stroke-opacity:1" id="layer1">
+
+    <path d="M 150, 50 L 200, 100 L 250, 100 L 250, 50 L 300, 50 L 300, 10 L350, 60">
+
+  </g>
+
+</svg>
