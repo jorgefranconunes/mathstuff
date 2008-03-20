@@ -14,28 +14,51 @@
 #
 #########################################################################
 
-global list-cat args  {
+global list-cat args {
     
-    define l1   [car $args]
-    define rest [cdr $args]
+    define head  ()
+    define tail  $head
     
-    if { empty? $rest } {
-        is $l1
-    } {
-        cat-two-lists $l1 [apply list-cat $rest]
+    foreach aList $args {
+        foreach item $aList {
+            define newEmpty ()
+            set-car! $tail $item
+            set-cdr! $tail $newEmpty
+            set! tail $newEmpty
+        }
     }
+    
+    is $head
 }
 
 
-define cat-two-lists ( l1 l2 ) {
+#
+# This is the recursive version. Prettier, but heavy on the Java
+# small stack...
+#
+
+# global list-cat args  {
     
-    if { empty? $l1 } {
-        is $l2
-    } {
-        define h1 [car $l1]
-        prepend $h1 [cat-two-lists [cdr $l1] $l2]
-    }
-}
+#     define l1   [car $args]
+#     define rest [cdr $args]
+    
+#     if { empty? $rest } {
+#         is $l1
+#     } {
+#         cat-two-lists $l1 [apply list-cat $rest]
+#     }
+# }
+
+
+# define cat-two-lists ( l1 l2 ) {
+    
+#     if { empty? $l1 } {
+#         is $l2
+#     } {
+#         define h1 [car $l1]
+#         prepend $h1 [cat-two-lists [cdr $l1] $l2]
+#     }
+# }
 
 
 

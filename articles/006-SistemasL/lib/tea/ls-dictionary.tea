@@ -1,0 +1,84 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "l-systems.tea"
+import "TurtleGraphicsEngine.tea"
+
+
+
+
+
+define _dictionary [new THashtable]
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+global ls-dictionary-register ( key data ) {
+    
+    $_dictionary put $key $data
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+global ls-dictionary-get-all-names () {
+    
+    $_dictionary getKeys
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+global ls-dictionary-render-steps ( name filePrefix depth ) {
+    
+    define fileNameTemplate [str-cat $filePrefix "-{0,Number,00}.svg"]
+    define lSystemData      [$_dictionary get $name]
+    map-apply define $lSystemData
+    define pathEngine       [new TurtleGraphicsEngine \
+            $forwardStepLength \
+            $leftAngle \
+            $rightAngle \
+            $actionMap]
+    
+    lSystem-render-steps \
+            $productionMapData \
+            $x0 \
+            $pathEngine \
+            $fileNameTemplate \
+            $depth
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

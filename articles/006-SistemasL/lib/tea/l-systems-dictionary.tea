@@ -1,0 +1,179 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "ls-dictionary.tea"
+import "math/math-functions.tea"
+
+
+
+
+
+define koch (
+    ( productionMapData (
+        ( F ( F + F - - F + F ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( F - -  F - - F) )
+    ( actionMap (
+        ( F forward )
+        ( + turnLeft )
+        ( - turnRight )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 3.0] )
+    ( rightAngle        [- [/ $M_PI 3.0]] )
+)
+
+define koch2 (
+    ( productionMapData (
+        ( F ( F + F - F - F + F ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( F - F - F - F ) )
+    ( actionMap (
+        ( F forward )
+        ( + turnLeft )
+        ( - turnRight )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 2.0] )
+    ( rightAngle        [- [/ $M_PI 2.0]] )
+)
+
+define sierpinski (
+    ( productionMapData (
+        ( A ( B - A - B ) )
+        ( B ( A + B + A ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( B - A - B ) )
+    ( actionMap (
+        ( A forward )
+        ( B forward )
+        ( + turnLeft )
+        ( - turnRight )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 3.0] )
+    ( rightAngle        [- [/ $M_PI 3.0]] )
+)
+
+define sierpinski2 (
+    ( productionMapData (
+        ( F ( F - G + F + G - F ) )
+        ( G ( G G ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( F - G - G) )
+    ( actionMap (
+        ( F forward )
+        ( G forward )
+        ( + turnLeft )
+        ( - turnRight )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 1.5] )
+    ( rightAngle        [- [/ $M_PI 1.5]] )
+)
+
+define dragon (
+    ( productionMapData (
+        ( F ( F ) )
+        ( X ( X + Y F + ) )
+        ( Y ( - F X - Y ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( F X ) )
+    ( actionMap (
+        ( F forward )
+        ( X nop )
+        ( Y nop )
+        ( + turnLeft )
+        ( - turnRight )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 2] )
+    ( rightAngle        [- [/ $M_PI 2]] )
+)
+
+define hilbert (
+    ( productionMapData (
+        ( F ( F ) )
+        ( L ( + R F - L F L - F R + ) )
+        ( R ( - L F + R F R + F L - ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( + R F - L F L - F R + ) )
+    ( actionMap (
+        ( F forward )
+        ( L nop )
+        ( R nop )
+        ( + turnLeft )
+        ( - turnRight )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 2] )
+    ( rightAngle        [- [/ $M_PI 2]] )
+)
+
+define levyC (
+    ( productionMapData (
+        ( F ( + F - - F + ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( + F - - F + ) )
+    ( actionMap (
+        ( F forward )
+        ( L nop )
+        ( R nop )
+        ( + turnRight )
+        ( - turnLeft )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 4] )
+    ( rightAngle        [- [/ $M_PI 4]] )
+)
+
+
+
+
+
+define all-data (
+    koch
+    koch2
+    sierpinski
+    sierpinski2
+    dragon
+    hilbert
+    levyC
+)
+
+map [lambda (s) {ls-dictionary-register $s [get $s]}] $all-data
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

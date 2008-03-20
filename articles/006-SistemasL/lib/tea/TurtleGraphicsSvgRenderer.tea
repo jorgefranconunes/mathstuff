@@ -14,11 +14,14 @@ define SVG_PREFIX "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
     xmlns=\"http://www.w3.org/2000/svg\"
     width=\"{4}\"
     height=\"{5}\"
-    viewbox=\"{0} {1} {2} {3}\"
     id=\"{6}\"
     version=\"1.0\">
 
-  <g style=\"opacity:1; fill:#bebebe; fill-opacity:1; stroke:black; stroke-width:0.01; stroke-opacity:1\" id=\"layer1\">
+<!-- viewbox=\"{0} {1} {2} {3}\" -->
+
+  <g 
+    style=\"stroke:black; stroke-width:{7}; stroke-opacity:1; fill:none\" 
+    id=\"layer1\">
 
     <path d=\""
 
@@ -31,6 +34,8 @@ define SVG_SUFIX "\" />
 
 define SVG_FIRST_POINT "M {0}, {1}"
 define SVG_POINT       " L {0}, {1}"
+
+define SVG_STROKE_WIDTH_FACTOR 0.003
 
 
 
@@ -57,6 +62,7 @@ global turtle-graphics-path-render-to-svg ( path file ) {
     define yMax      [apply max $yList]
     define width     [- $xMax $xMin]
     define height    [- $yMax $yMin]
+    define strokeWidth [* $width $SVG_STROKE_WIDTH_FACTOR]
     
     define output [new TFileOutput $file]
     
@@ -67,17 +73,19 @@ global turtle-graphics-path-render-to-svg ( path file ) {
             [float->string $yMax] \
             [float->string $width] \
             [float->string $height] \
-            [file-basename $file]]
+            [file-basename $file] \
+            [float->string $strokeWidth]]
     
-    define firstPoint [car $pointList]
+    define firstPoint [normalize [car $pointList] $xMin $xMax $yMin $yMax]
     $output write [str-fmt $SVG_FIRST_POINT \
             [float->string [$firstPoint get x]] \
             [float->string [$firstPoint get y]]]
     
     foreach point [cdr $pointList] {
+        define myPoint [normalize $point $xMin $xMax $yMin $yMax]
         $output write [str-fmt $SVG_POINT \
-                [float->string [$point get x]] \
-                [float->string [point get y]]]
+                [float->string [$myPoint get x]] \
+                [float->string [$myPoint get y]]]
     }
     
     $output write $SVG_SUFIX
@@ -88,6 +96,13 @@ global turtle-graphics-path-render-to-svg ( path file ) {
 
 define get-x ( point ) { $point get x }
 define get-y ( point ) { $point get y }
+
+define normalize ( point xMin xMax yMin yMax ) {
+    
+    new Point \
+            ( x [- [$point get x] $xMin] ) \
+            ( y [- [- $yMax $yMin] [- [$point get y] $yMin]] )
+}
 
 
 

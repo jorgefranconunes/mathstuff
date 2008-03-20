@@ -1,0 +1,72 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "l-systems.tea"
+import "TurtleGraphicsEngine.tea"
+import "math/math-functions.tea"
+
+
+
+
+
+
+###########################################################################
+#
+# The main script.
+#
+###########################################################################
+
+define argc [length $argv]
+
+if { != $argc 2 } {
+    echo "Args: svg-file-prefix depth"
+    exit 1
+}
+
+define filePrefix       [nth $argv 0]
+define fileNameTemplate [str-cat $filePrefix "-{0,Number,00}.svg"]
+define depth            [string->int [nth $argv 1]]
+
+#
+# Koch curve production map.
+#
+define kochProductionMapData (
+    ( F ( F + F - - F + F ) )
+    ( + ( + ) )
+    ( - ( - ) )
+)
+
+define x0 ( F - -  F - - F)
+
+define actionMap (
+    ( F forward )
+    ( + turnLeft )
+    ( - turnRight )
+)
+
+define pathEngine [new TurtleGraphicsEngine \
+        1.0 \
+        [/ $M_PI 3.0] \
+        [- [/ $M_PI 3.0]] \
+        $actionMap]
+
+lSystem-render-steps \
+        $kochProductionMapData \
+        $x0 \
+        $pathEngine \
+        $fileNameTemplate \
+        $depth
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

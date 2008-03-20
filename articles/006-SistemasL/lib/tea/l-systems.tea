@@ -5,6 +5,7 @@
 ###########################################################################
 
 import "util/lists.tea"
+import "TurtleGraphicsSvgRenderer.tea"
 
 
 
@@ -33,6 +34,55 @@ define symbol->data ( s l ) {
 
 define call-function ( f ) {
     $f
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+global lSystem-render-steps \
+        ( productionMapData x0 pathEngine fileNameTemplate depth ) {
+    
+    define productionFunction \
+            [lSystem-get-production-function $productionMapData]
+    
+    lSystem-do-render-steps \
+            $productionFunction \
+            $x0 \
+            $pathEngine \
+            $fileNameTemplate \
+            0 \
+            $depth
+}
+
+
+define  lSystem-do-render-steps \
+        ( productionFunction x pathEngine fileNameTemplate step depth ) {
+    
+    define path [$pathEngine run $x]
+    define file [str-fmt $fileNameTemplate $step]
+    
+    echo "Rendering step " $step " to \"" $file "\"..."
+    turtle-graphics-path-render-to-svg $path $file
+    
+    if { > $depth 0 } {
+        echo "Calculating step " [+ $step 1] "..."
+        define nextX [$productionFunction $x]
+        
+        lSystem-do-render-steps \
+                $productionFunction \
+                $nextX \
+                $pathEngine \
+                $fileNameTemplate \
+                [+ $step 1] \
+                [- $depth 1]
+    }
 }
 
 

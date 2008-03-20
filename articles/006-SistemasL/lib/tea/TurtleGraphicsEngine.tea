@@ -108,7 +108,7 @@ method TurtleGraphicsEngine run ( symbolList ) {
     define forward   () { $path forward $_forwardStepLength }
     define turnLeft  () { $path turn $_leftTurnAngle }
     define turnRight () { $path turn $_rightTurnAngle }
-    
+    define nop       () { } # No operation
     
     map-apply define [map-apply [lambda (s f) {is ($s [get $f])}] $_actionMap]
     

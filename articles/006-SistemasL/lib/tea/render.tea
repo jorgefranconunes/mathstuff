@@ -1,0 +1,76 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "l-systems-dictionary.tea"
+import "ls-dictionary.tea"
+
+
+
+
+
+define _lSystemNames [new THashtable]
+
+map \
+        [lambda (name) {$_lSystemNames put [symbol->string $name] $name}] \
+        [ls-dictionary-get-all-names]
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define print-known-types () {
+    
+    echo "Supported L-system types:"
+    map [lambda (s) {echo "\t" $s}] [$_lSystemNames getKeys]
+}
+
+
+
+
+
+###########################################################################
+#
+# The main script.
+#
+###########################################################################
+
+define argc [length $argv]
+
+if { != $argc 3 } {
+    echo "Args: l-system-type svg-file-prefix depth"
+    print-known-types
+    exit 1
+}
+
+define type       [nth $argv 0]
+define typeName   [$_lSystemNames get $type]
+define filePrefix [nth $argv 1]
+define depth      [string->int [nth $argv 2]]
+
+if { null? $typeName } {
+    echo "*** Unknown L-system type \"" $type "\""
+    print-known-types
+    exit 1
+}
+
+ls-dictionary-render-steps $typeName $filePrefix $depth
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
