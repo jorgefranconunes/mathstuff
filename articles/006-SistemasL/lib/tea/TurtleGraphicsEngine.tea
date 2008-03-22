@@ -110,9 +110,11 @@ method TurtleGraphicsEngine run ( symbolList ) {
     define turnRight () { $path turn $_rightTurnAngle }
     define nop       () { } # No operation
     
-    map-apply define [map-apply [lambda (s f) {is ($s [get $f])}] $_actionMap]
+    map-apply define $_actionMap
+    define actionList         [apply list-cat [map get $symbolList]]
+    define actionFunctionList [map get $actionList]
     
-    map call-function [map get $symbolList]
+    map call-function $actionFunctionList
     
     is $path
 }

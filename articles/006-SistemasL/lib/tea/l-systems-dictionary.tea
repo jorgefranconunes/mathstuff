@@ -20,9 +20,9 @@ define koch (
     ( x0 
         ( F - -  F - - F) )
     ( actionMap (
-        ( F forward )
-        ( + turnLeft )
-        ( - turnRight )
+        ( F (forward) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
     ) )
     ( forwardStepLength 1.0 )
     ( leftAngle         [/ $M_PI 3.0] )
@@ -38,29 +38,32 @@ define koch2 (
     ( x0 
         ( F - F - F - F ) )
     ( actionMap (
-        ( F forward )
-        ( + turnLeft )
-        ( - turnRight )
+        ( F (forward) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
     ) )
     ( forwardStepLength 1.0 )
     ( leftAngle         [/ $M_PI 2.0] )
     ( rightAngle        [- [/ $M_PI 2.0]] )
 )
 
+#
+# "Chaos and Fractals", page 383.
+#
 define sierpinski (
     ( productionMapData (
-        ( A ( B - A - B ) )
-        ( B ( A + B + A ) )
+        ( L ( + R - L - R + ) )
+        ( R ( - L + R + L - ) )
         ( + ( + ) )
         ( - ( - ) )
     ) )
     ( x0 
-        ( B - A - B ) )
+        ( L ) )
     ( actionMap (
-        ( A forward )
-        ( B forward )
-        ( + turnLeft )
-        ( - turnRight )
+        ( L (turnLeft forward turnRight forward turnRight forward turnLeft) )
+        ( R (turnRight forward turnLeft forward turnLeft forward turnRight) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
     ) )
     ( forwardStepLength 1.0 )
     ( leftAngle         [/ $M_PI 3.0] )
@@ -77,36 +80,38 @@ define sierpinski2 (
     ( x0 
         ( F - G - G) )
     ( actionMap (
-        ( F forward )
-        ( G forward )
-        ( + turnLeft )
-        ( - turnRight )
+        ( F (forward) )
+        ( G (forward) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
     ) )
     ( forwardStepLength 1.0 )
     ( leftAngle         [/ $M_PI 1.5] )
     ( rightAngle        [- [/ $M_PI 1.5]] )
 )
 
+#
+# "Chaos and Fractals", page 385
+#
 define dragon (
     ( productionMapData (
-        ( F ( F ) )
-        ( X ( X + Y F + ) )
+        ( D ( - D + + E ) )
+        ( E ( D - - E + ) )
         ( Y ( - F X - Y ) )
         ( + ( + ) )
         ( - ( - ) )
     ) )
     ( x0 
-        ( F X ) )
+        ( D ) )
     ( actionMap (
-        ( F forward )
-        ( X nop )
-        ( Y nop )
-        ( + turnLeft )
-        ( - turnRight )
+        ( D (turnRight turnRight forward turnLeft turnLeft forward) )
+        ( E (forward turnRight turnRight forward turnLeft turnLeft) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
     ) )
     ( forwardStepLength 1.0 )
-    ( leftAngle         [/ $M_PI 2] )
-    ( rightAngle        [- [/ $M_PI 2]] )
+    ( leftAngle         [/ $M_PI 4] )
+    ( rightAngle        [- [/ $M_PI 4]] )
 )
 
 define hilbert (
@@ -120,11 +125,11 @@ define hilbert (
     ( x0 
         ( + R F - L F L - F R + ) )
     ( actionMap (
-        ( F forward )
-        ( L nop )
-        ( R nop )
-        ( + turnLeft )
-        ( - turnRight )
+        ( F (forward) )
+        ( L (nop) )
+        ( R (nop) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
     ) )
     ( forwardStepLength 1.0 )
     ( leftAngle         [/ $M_PI 2] )
@@ -140,11 +145,11 @@ define levyC (
     ( x0 
         ( + F - - F + ) )
     ( actionMap (
-        ( F forward )
-        ( L nop )
-        ( R nop )
-        ( + turnRight )
-        ( - turnLeft )
+        ( F (forward) )
+        ( L (nop) )
+        ( R (nop) )
+        ( + (turnRight) )
+        ( - (turnLeft) )
     ) )
     ( forwardStepLength 1.0 )
     ( leftAngle         [/ $M_PI 4] )

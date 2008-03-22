@@ -6,6 +6,7 @@
 
 import "l-systems-dictionary.tea"
 import "ls-dictionary.tea"
+import "util/lists.tea"
 
 
 
@@ -30,7 +31,9 @@ map \
 define print-known-types () {
     
     echo "Supported L-system types:"
-    map [lambda (s) {echo "\t" $s}] [$_lSystemNames getKeys]
+    map \
+            [lambda (s) {echo "\t" $s}] \
+            [list-sort [$_lSystemNames getKeys] $str-cmp]
 }
 
 
