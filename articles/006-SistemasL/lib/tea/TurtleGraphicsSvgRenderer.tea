@@ -60,9 +60,15 @@ global turtle-graphics-path-render-to-svg ( path file ) {
     define xMax      [apply max $xList]
     define yMin      [apply min $yList]
     define yMax      [apply max $yList]
-    define width     [- $xMax $xMin]
-    define height    [- $yMax $yMin]
-    define strokeWidth [* $width $SVG_STROKE_WIDTH_FACTOR]
+    define strokeWidth [* [- $xMax $xMin] $SVG_STROKE_WIDTH_FACTOR]
+    
+    -= xMin $strokeWidth
+    += xMax $strokeWidth
+    -= yMin $strokeWidth
+    += yMax $strokeWidth
+    
+    define width  [- $xMax $xMin]
+    define height [- $yMax $yMin]
     
     define output [new TFileOutput $file]
     

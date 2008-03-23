@@ -1,6 +1,6 @@
 ###########################################################################
 #
-# 
+# Tests for class "TurtleGraphicsEngine".
 #
 ###########################################################################
 
@@ -55,9 +55,9 @@ define x1 [$kockProductionFunction $x0]
 define x2 [$kockProductionFunction $x1]
 
 define actionMap (
-    ( F forward )
-    ( + turnLeft )
-    ( - turnRight )
+    ( F (forward) )
+    ( + (turnLeft) )
+    ( - (turnRight) )
 )
 
 define pathEngine [new TurtleGraphicsEngine \

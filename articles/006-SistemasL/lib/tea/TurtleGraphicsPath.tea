@@ -22,6 +22,8 @@ class TurtleGraphicsPath (
     # List of Point instances
     _pointList
 
+    _tail
+
     # Point instance representing the last point added to _pointList
     _currentPosition
 
@@ -44,6 +46,7 @@ method TurtleGraphicsPath constructor () {
     set! _currentPosition  [new Point]
     set! _currentDirection 0.0
     set! _pointList        ( $_currentPosition )
+    set! _tail             [cdr $_pointList]
 }
 
 
@@ -65,7 +68,11 @@ method TurtleGraphicsPath forward ( length ) {
             ( y [+ [$_currentPosition get y] $deltaY] ) ]
 
     set! _currentPosition $newPosition
-    append $newPosition $_pointList
+    
+    define newTail ()
+    set-car! $_tail $newPosition
+    set-cdr! $_tail $newTail
+    set! _tail $newTail
 }
 
 

@@ -11,6 +11,9 @@ import "math/math-functions.tea"
 
 
 
+#
+#
+#
 define koch (
     ( productionMapData (
         ( F ( F + F - - F + F ) )
@@ -27,6 +30,27 @@ define koch (
     ( forwardStepLength 1.0 )
     ( leftAngle         [/ $M_PI 3.0] )
     ( rightAngle        [- [/ $M_PI 3.0]] )
+)
+
+#
+# Quadratic Koch island. "Chaos and Fractals", page 386.
+#
+define koch-quadratic (
+    ( productionMapData (
+        ( F ( F + F - F - F F + F + F - F ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( F + F + F + F ) )
+    ( actionMap (
+        ( F (forward) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 2.0] )
+    ( rightAngle        [- [/ $M_PI 2.0]] )
 )
 
 define koch2 (
@@ -91,7 +115,7 @@ define sierpinski2 (
 )
 
 #
-# "Chaos and Fractals", page 385
+# Dragon curve. "Chaos and Fractals", page 385
 #
 define dragon (
     ( productionMapData (
@@ -114,6 +138,9 @@ define dragon (
     ( rightAngle        [- [/ $M_PI 4]] )
 )
 
+#
+# Hilbert curve. "Chaos and Fractals", page 389
+#
 define hilbert (
     ( productionMapData (
         ( F ( F ) )
@@ -123,11 +150,11 @@ define hilbert (
         ( - ( - ) )
     ) )
     ( x0 
-        ( + R F - L F L - F R + ) )
+        ( L ) )
     ( actionMap (
         ( F (forward) )
-        ( L (nop) )
-        ( R (nop) )
+        ( L (turnLeft forward turnRight forward turnRight forward turnLeft) )
+        ( R (turnRight forward turnLeft forward turnLeft forward turnRight) )
         ( + (turnLeft) )
         ( - (turnRight) )
     ) )
@@ -162,6 +189,7 @@ define levyC (
 
 define all-data (
     koch
+    koch-quadratic
     koch2
     sierpinski
     sierpinski2

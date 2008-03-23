@@ -13,7 +13,18 @@ Sistemas-L - Definição, exemplos.
 
 Curva de Koch definida como um sistema-L.
 
+
 Outros exemplos de sistemas-L.
+
+Quadratic Koch island.
+
+Sierpinski arrowhead.
+
+Dragon curve.
+
+Hilbert curve.
+
+Largura das imagens: 128 pixeis.
 
 
 
@@ -30,10 +41,18 @@ Programas de teste:
 - Teste de uma iteração de um sistema-L. Imprimir axioma (x(0)),
   imprimir efeito da regra de produção (x(1)).
 
+test-lSystem.tea
+
+
 - Teste da geração da lista de pontos correspondendo a uma string de
   symbolos.
 
+test-TurtleGraphicsEngine.tea
+
+
 - Teste da geração do ficheiro SVG correspondendo a lista de pontos.
+
+test-TurtleGraphicsSvgRenderer.tea
 
 
 
@@ -59,3 +78,8 @@ Definição de um caminho em SVG:
   </g>
 
 </svg>
+
+
+
+
+

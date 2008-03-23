@@ -19,22 +19,29 @@ import "TurtleGraphicsSvgRenderer.tea"
 
 global lSystem-get-production-function ( productionMapData ) {
     
-    map-apply define [map-apply symbol->data $productionMapData]
+    map-apply define $productionMapData
     
-    lambda ( symbolList ) {
-        apply list-cat [map call-function [map get $symbolList]]
-    }
+    lambda ( symbolList ) { apply list-cat [map get $symbolList] }
 }
 
+# global lSystem-get-production-function ( productionMapData ) {
+    
+#     map-apply define [map-apply symbol->data $productionMapData]
+    
+#     lambda ( symbolList ) {
+#         apply list-cat [map call-function [map get $symbolList]]
+#     }
+# }
 
-define symbol->data ( s l ) {
-    is ( $s [lambda () { is $l }] )
-}
+
+# define symbol->data ( s l ) {
+#     is ( $s [lambda () { is $l }] )
+# }
 
 
-define call-function ( f ) {
-    $f
-}
+# define call-function ( f ) {
+#     $f
+# }
 
 
 
@@ -65,6 +72,7 @@ global lSystem-render-steps \
 define  lSystem-do-render-steps \
         ( productionFunction x pathEngine fileNameTemplate step depth ) {
     
+    echo "Running step " $step
     define path [$pathEngine run $x]
     define file [str-fmt $fileNameTemplate $step]
     
