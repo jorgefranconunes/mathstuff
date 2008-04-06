@@ -6,7 +6,11 @@
 
 A curva de Koch - Definição, propriedades.
 
-Figuras das primeiras iterações da curva de Koch.
+Construção da curva de Koch. Figura com os três primeiros passos.
+
+Propriedades da ilha de Koch: comprimento em cada passos; área em cada
+passo; área da figura limite.
+
 
 
 Sistemas-L - Definição, exemplos.
@@ -16,15 +20,36 @@ Curva de Koch definida como um sistema-L.
 
 Outros exemplos de sistemas-L.
 
-Quadratic Koch island.
+Para cada um dos exemplos indicar os atributos do sistema-L e uma
+figura com as 6 primeiras iterações.
 
-Sierpinski arrowhead.
+a) Quadratic Koch island.
 
-Dragon curve.
+b) Sierpinski arrowhead.
 
-Hilbert curve.
+c) Dragon curve.
+
+d) Hilbert curve.
 
 Largura das imagens: 128 pixeis.
+
+
+
+
+
+Geração da imagens:
+
+cd .../articles/006-SistemasL
+
+tsh -library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-line ./images/koch-line 5
+
+tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-island ./images/koch-island 5
+
+tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea sierpinski ./images/sierpinski 5
+
+tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea dragon ./images/dragon 5
+
+tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea hilbert ./images/hilbert 5
 
 
 

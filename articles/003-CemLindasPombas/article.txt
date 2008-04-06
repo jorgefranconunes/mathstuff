@@ -1,0 +1,22 @@
+
+
+
+
+
+
+Um gavião, durante um vôo, encontra um bando de pombas. Aproxima-se e
+cumprimenta-as.
+
+- Olá, cem lindas pombas.
+
+Ao que uma das pombas dá a seguinte resposta.
+
+- Estás enganado, gavião. Nós, outras tantas como nós, a quarta parte
+  de nós e contigo gavião cem aves são.
+
+Quantas pombas temos então?
+
+$latex x + x + \frac{1}{4}x + 1 = 100$
+
+Fazendo as contas chegamos à conclusão que o gavião afinal tinha visto
+44 pombas.

@@ -14,14 +14,35 @@ import "math/math-functions.tea"
 #
 #
 #
-define koch (
+define koch-line (
     ( productionMapData (
         ( F ( F + F - - F + F ) )
         ( + ( + ) )
         ( - ( - ) )
     ) )
     ( x0 
-        ( F - -  F - - F) )
+        ( F ) )
+    ( actionMap (
+        ( F (forward) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 3.0] )
+    ( rightAngle        [- [/ $M_PI 3.0]] )
+)
+
+#
+#
+#
+define koch-island (
+    ( productionMapData (
+        ( F ( F + F - - F + F ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( F - -  F - - F ) )
     ( actionMap (
         ( F (forward) )
         ( + (turnLeft) )
@@ -72,7 +93,7 @@ define koch2 (
 )
 
 #
-# "Chaos and Fractals", page 383.
+# Sierpinski arrowhead "Chaos and Fractals", page 383.
 #
 define sierpinski (
     ( productionMapData (
@@ -163,6 +184,9 @@ define hilbert (
     ( rightAngle        [- [/ $M_PI 2]] )
 )
 
+#
+#
+#
 define levyC (
     ( productionMapData (
         ( F ( + F - - F + ) )
@@ -188,7 +212,8 @@ define levyC (
 
 
 define all-data (
-    koch
+    koch-line
+    koch-island
     koch-quadratic
     koch2
     sierpinski
