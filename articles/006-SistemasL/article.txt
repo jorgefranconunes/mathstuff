@@ -45,11 +45,15 @@ tsh -library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-line ./images/k
 
 tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-island ./images/koch-island 5
 
+tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-quadratic ./images/koch-quadratic 5
+
 tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea sierpinski ./images/sierpinski 5
 
 tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea dragon ./images/dragon 5
 
 tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea hilbert ./images/hilbert 5
+
+for f in images/*.svg; do inkscape -w 128 --export-background="#ffffff" -e images/$(basename $f .svg).png $f; done
 
 
 

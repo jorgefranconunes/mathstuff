@@ -1,0 +1,36 @@
+
+
+
+
+
+
+Estudos de algumas normas em R^2.
+
+O que é uma norma?
+
+Distância induzida por uma norma.
+
+
+
+
+
+d_1(x,y) = \sum_i \left|x_i - y_i\right|
+
+d_n(x,y) = \left( \sum_i \left|x_i-y_i\right|^n \right)
+
+d_\infty(x,y) = \max_i \left|x_i-y_i\right|
+
+
+
+
+
+Imagens do artigo:
+
+Linhas de nível de diferentes normas, representando a distância à
+origem.
+
+Gráfico da função R^2->R distância à origem.
+
+Diagrama de células Voronoi. O que é uma célula Voronoi?
+
+Gráfico da função do erro de quantificação.
