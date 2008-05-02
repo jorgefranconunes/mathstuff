@@ -35,7 +35,9 @@ define SVG_SUFIX "\" />
 define SVG_FIRST_POINT "M {0}, {1}"
 define SVG_POINT       " L {0}, {1}"
 
-define SVG_STROKE_WIDTH_FACTOR 0.001
+# We choose a line width of 1/256 because most images will be rendered
+# into PNGs images having a 256 pixels width.
+define SVG_STROKE_WIDTH_FACTOR [/ 1.0 256.0]
 
 
 

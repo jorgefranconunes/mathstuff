@@ -54,6 +54,27 @@ define koch-island (
 )
 
 #
+#
+#
+define koch-island-2 (
+    ( productionMapData (
+        ( F ( F + F - F - F + F ) )
+        ( + ( + ) )
+        ( - ( - ) )
+    ) )
+    ( x0 
+        ( F - F - F - F ) )
+    ( actionMap (
+        ( F (forward) )
+        ( + (turnLeft) )
+        ( - (turnRight) )
+    ) )
+    ( forwardStepLength 1.0 )
+    ( leftAngle         [/ $M_PI 3.0] )
+    ( rightAngle        [- [/ $M_PI 3.0]] )
+)
+
+#
 # Quadratic Koch island. "Chaos and Fractals", page 386.
 #
 define koch-quadratic (
@@ -64,24 +85,6 @@ define koch-quadratic (
     ) )
     ( x0 
         ( F + F + F + F ) )
-    ( actionMap (
-        ( F (forward) )
-        ( + (turnLeft) )
-        ( - (turnRight) )
-    ) )
-    ( forwardStepLength 1.0 )
-    ( leftAngle         [/ $M_PI 2.0] )
-    ( rightAngle        [- [/ $M_PI 2.0]] )
-)
-
-define koch2 (
-    ( productionMapData (
-        ( F ( F + F - F - F + F ) )
-        ( + ( + ) )
-        ( - ( - ) )
-    ) )
-    ( x0 
-        ( F - F - F - F ) )
     ( actionMap (
         ( F (forward) )
         ( + (turnLeft) )
@@ -215,7 +218,7 @@ define all-data (
     koch-line
     koch-island
     koch-quadratic
-    koch2
+    koch-island-2
     sierpinski
     sierpinski2
     dragon

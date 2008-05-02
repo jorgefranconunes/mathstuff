@@ -41,17 +41,17 @@ Geração da imagens:
 
 cd .../articles/006-SistemasL
 
-tsh -library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-line ./images/koch-line 5
+/usr/local/tea-3.2.1/bin/tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-line ./images/koch-line 5
 
-tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-island ./images/koch-island 5
+/usr/local/tea-3.2.1/bin/tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-island ./images/koch-island 5
 
-tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-quadratic ./images/koch-quadratic 5
+/usr/local/tea-3.2.1/bin/tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea koch-quadratic ./images/koch-quadratic 5
 
-tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea sierpinski ./images/sierpinski 5
+/usr/local/tea-3.2.1/bin/tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea sierpinski ./images/sierpinski 5
 
-tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea dragon ./images/dragon 5
+/usr/local/tea-3.2.1/bin/tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea dragon ./images/dragon 11
 
-tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea hilbert ./images/hilbert 5
+/usr/local/tea-3.2.1/bin/tsh --library=../../lib/tea/:./lib/tea/ ./lib/tea/render.tea hilbert ./images/hilbert 5
 
 for f in images/*.svg; do inkscape -w 128 --export-background="#ffffff" -e images/$(basename $f .svg).png $f; done
 
