@@ -1,0 +1,13 @@
+2007/08/23
+
+Resumo:
+
+1. 
+
+
+
+
+
+for f in *.ppm ; do pnmcrop $f | pnmtopng > $(basename $f .ppm).png ; done
+
+for f in *.ppm ; do convert $f -filter Cubic -resize 192 -format png $(basename $f .ppm).png ; done
