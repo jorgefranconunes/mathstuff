@@ -1,0 +1,22 @@
+
+
+
+
+
+
+Tool for accessing EXIF data on image files.
+
+http://libexif.sourceforge.net/
+
+
+tar xvfj .../libexif-0.6.16.tar.bz2
+cd ./libexif-0.6.16
+./configure
+make && make install
+
+tar xvfj .../exif-0.6.15
+cd ./exif-0.6.15
+./configure
+make && make install
+
+exif -m -t 0x0132 ~/fotografias/20081012/IMG_0136.JPG
