@@ -20,3 +20,12 @@ cd ./exif-0.6.15
 make && make install
 
 exif -m -t 0x0132 ~/fotografias/20081012/IMG_0136.JPG
+
+
+
+
+
+Pretende-se uma ferramenta que modifica o nome de um ficheiro com uma
+imagem JPEG para um novo nome que contém indicação da data+hora. A
+informação de data+hora é obtida dos dados EXIF do ficheiro JPEG. Se o
+ficheiro JPEG não contiver dados EXIF é simplesmente ignorado.
