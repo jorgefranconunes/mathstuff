@@ -1,0 +1,8 @@
+
+
+
+
+
+
+Colour metric (http://www.compuphase.com/cmetric.htm) - Description of
+some color metrics.
