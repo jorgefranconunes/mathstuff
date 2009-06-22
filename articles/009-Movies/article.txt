@@ -22,6 +22,13 @@ make && make install
 exif -m -t 0x0132 ~/fotografias/20081012/IMG_0136.JPG
 
 
+Ou, usando o pacote ImageMagick que vem de base com o Fedora:
+
+identify -format "%wx%h" sample.png 
+
+O comando "identify" permite também obter valores de tags EXIF.
+
+
 
 
 
@@ -29,3 +36,11 @@ Pretende-se uma ferramenta que modifica o nome de um ficheiro com uma
 imagem JPEG para um novo nome que contém indicação da data+hora. A
 informação de data+hora é obtida dos dados EXIF do ficheiro JPEG. Se o
 ficheiro JPEG não contiver dados EXIF é simplesmente ignorado.
+
+
+
+
+
+Tools for creating video files from a sequence of frames:
+
+http://electron.mit.edu/~gsteele/ffmpeg/
