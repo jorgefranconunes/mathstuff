@@ -28,6 +28,10 @@ identify -format "%wx%h" sample.png
 
 O comando "identify" permite também obter valores de tags EXIF.
 
+Para obter a data contida num ficheiro JPEG:
+
+identify -format "%[EXIF:DateTimeOriginal]" xxx.jpg
+
 
 
 

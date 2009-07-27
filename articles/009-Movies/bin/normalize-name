@@ -1,0 +1,229 @@
+#!/bin/bash
+###########################################################################
+#
+# Copyright (c) 2009 Jorge Nunes, All Rights Reserved.
+#
+###########################################################################
+
+###########################################################################
+#
+# $Id$
+#
+#
+# Renames a JPEG file to a name that includes the date.
+#
+#
+# Revisions:
+#
+# 2009/07/27 Created. (jfn)
+#
+###########################################################################
+
+_scriptName=$0
+_scriptDir=$(dirname $0)
+_mainBaseDir=$(cd $_scriptDir/../../..; pwd)
+
+source ${_mainBaseDir}/lib/bash/my-functions.sh
+
+
+
+
+
+CONF_EXIF_DATE=DateTimeOriginal
+
+
+
+
+
+#
+#
+#
+_jpegFile=""
+_prefix="img-"
+
+
+
+
+
+###########################################################################
+#
+# Displays an help messages describing the configuration options.
+#
+###########################################################################
+
+displayHelp () {
+
+    displayHeader
+
+    cat <<EOF
+Renames a JPEG file to follow naming conventions.
+
+Available options:
+
+--jpeg-file=PREFIX
+        The path of the file to rename.
+
+--prefix=NAME
+        Prefix of the new name. This option is not mandatory.
+
+--help
+	Prints this help text.
+
+EOF
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+processCliArgs () {
+
+    for option in "$@" ; do
+	case $option in
+	    --jpeg-file=* )
+		_jpegFile=$(expr "$option" : '--jpeg-file=\(.*\)')
+		;;
+	    --prefix=* )
+		_prefix=$(expr "$option" : '--prefix=\(.*\)')
+		;;
+	    --help )
+		displayHelp
+		exit 0
+		;;
+	    --*=* )
+		option=$(expr "$option" : '\(--.*\)=.*')
+		myError "$option : unknown option. Use --help for details."
+		;;
+	    * )
+		myError "$option : unknown option. Use --help for details."
+		;;
+	esac
+    done
+
+    if [ -z "$_jpegFile" ] ; then
+        myError "Missing mandatory --jpeg-file option. Use --help for details."
+    fi
+
+    if [ -z "$_prefix" ] ; then
+        myError "Missing mandatory --prefix option. Use --help for details."
+    fi
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+normalizeFileName () {
+
+    local sourcePath=$_jpegFile
+    local sourceDir=$(dirname $sourcePath)
+
+    myLog "Processing \"$(basename $sourcePath)\"..."
+    myLog "	Source dir : \"$sourceDir\""
+
+    if [ ! -f "$sourcePath" ] ; then
+        myError "Could not read \"$sourcePath\"..."
+    fi
+
+    local sourceDate=$(getSourceDate $sourcePath)
+
+    if [ -z "$sourceDate" ] ; then
+        myError "File \"${sourcePath}\" does not contain EXIF tag \"${CONF_EXIF_DATE}\"..."
+    fi
+
+    local sourceExtension=$(expr "$sourcePath" : '.*\.\(.*\)')
+    local sourceBasename=$(basename $sourcePath $sourceExtension)
+    local targetBasename=$(buildNormalizedName $sourceDate)    
+    local targetPath=${sourceDir}/${targetBasename}.jpg
+
+    if [ -f "$targetPath" ] ; then
+        myError "Target \"$targetPath\" already exists..."
+    fi
+
+    myLog "	Target     : \"$(basename $targetPath)\""
+
+    mv "$sourcePath" "$targetPath"
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+getSourceDate () {
+
+    local jpegPath=$1
+    local jpegDate=$(identify -format "%[EXIF:${CONF_EXIF_DATE}]" $jpegPath 2>/dev/null)
+    local result=""
+
+    if [ ! -z "$jpegDate" ] ; then
+        local yy=$(expr "$jpegDate" : '\(....\):..:.. ..:..:...*')
+        local MM=$(expr "$jpegDate" : '....:\(..\):.. ..:..:...*')
+        local dd=$(expr "$jpegDate" : '....:..:\(..\) ..:..:...*')
+        local HH=$(expr "$jpegDate" : '....:..:.. \(..\):..:...*')
+        local mm=$(expr "$jpegDate" : '....:..:.. ..:\(..\):...*')
+        local ss=$(expr "$jpegDate" : '....:..:.. ..:..:\(..\).*')
+
+        result="${yy}${MM}${dd}${HH}${mm}${ss}"
+    fi
+
+    echo "$result"
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+buildNormalizedName () {
+
+    local sufix=$1
+
+    echo "${_prefix}${sufix}"
+}
+
+
+
+
+
+###########################################################################
+#
+# The main script.
+#
+###########################################################################
+
+processCliArgs "$@"
+normalizeFileName
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
