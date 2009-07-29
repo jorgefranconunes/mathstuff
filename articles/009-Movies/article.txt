@@ -41,6 +41,8 @@ imagem JPEG para um novo nome que contém indicação da data+hora. A
 informação de data+hora é obtida dos dados EXIF do ficheiro JPEG. Se o
 ficheiro JPEG não contiver dados EXIF é simplesmente ignorado.
 
+bin/normalize-name
+
 
 
 
@@ -48,3 +50,44 @@ ficheiro JPEG não contiver dados EXIF é simplesmente ignorado.
 Tools for creating video files from a sequence of frames:
 
 http://electron.mit.edu/~gsteele/ffmpeg/
+
+
+
+
+
+Rotation clockwise about the origin by an angle a is accomplished with
+the matrix:
+
+  {cos(a), sin(a), -sin(a), cos(a), 0, 0}
+
+Rotation by 10 degrees (a=0.1745)
+
+cos(a) = 0.9848
+sin(a) = 0.1736
+
+
+Image aaa.jpg has dimensions 506x262.
+
+
+Para fazer uma transformação afim de uma imagem:
+
+convert \
+    -virtual-pixel Transparent \
+    -affine 0.9848,0.1736,-0.1736,0.9848,0,0 \
+    -transform aaa.jpg \
+    +repage \
+    yyy.png
+
+
+Para fazer uma transformação afim de uma imagem e sobrepô-la à imagem
+original:
+
+convert \
+    aaa.jpg \
+    -virtual-pixel Transparent \
+    -affine 0.9848,0.1736,-0.1736,0.9848,0,0 \
+    -transform aaa.jpg \
+    -compose DstOver \
+    -flatten \
+    -crop 506x262+0+0 \
+    xxx.png
