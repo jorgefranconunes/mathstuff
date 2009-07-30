@@ -91,3 +91,71 @@ convert \
     -flatten \
     -crop 506x262+0+0 \
     xxx.png
+
+
+
+
+
+Passos do processamento:
+
+
+Preparação
+
+1. Separar as imagens adquiridas em conjuntos de cenas. Cada imagem
+será atribuida a uma cena específica.
+
+2. Para cada cena serão definidos os pontos de referência. Um ponto de
+referência deverá ser facilmente visível em todas as imagens de uma
+cena. Pelo menos dois pontos de referência devem ser registados para
+cada imagem.
+
+3. Para cada imagem será necessário determinar as posições dos pontos
+de referência. Para cada cena existirá um ficheiro de configuração com
+os seguintes dados:
+
+a) Lista de todas as imagens da cena, ordenadas por ordem temporal
+crescente.
+
+b) Para cada imagem a lista das coordenadas dos pontos de referência.
+
+
+Geração das imagens amostra
+
+Uma imagem adquirida é transformada numa imagem amostra por translação
+e rotação apropriadas.
+
+
+Geração das imagens frame
+
+Uma imagem amostra é uma imagem frame. Cada imagem frame corresponde a
+um instante no tempo.
+
+Será preciso gerar as imagens frame intermédias entre cada imagem
+amostra. São obtidas por combinação linear das imagens amostra nos
+extremos do intervalo onde cai a imagem frame.
+
+As imagens frame serão usadas para criar o filme.
+
+
+
+
+
+Ficheiro de configuração da cena.
+
+
+movie-scene MySceneId
+
+movie-sample-size 
+
+movie-sample \
+    ( file img-20090423102523.jpg ) \
+    ( reference-points (
+        ( ( pointId MyPointA )
+          ( point-x 578 )
+          ( point-y 345 )
+        )
+        ( ( pointId MyPointB )
+          ( point-x 267 )
+          ( point-y 449 )
+        )
+    ) )
