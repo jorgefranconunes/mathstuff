@@ -159,3 +159,23 @@ movie-sample \
           ( point-y 449 )
         )
     ) )
+
+
+
+
+
+Cenas
+
+01 - Zoom 1, com Oeiras Parque do lado direito. 
+
+02 - Zoom 1, com torre do lado esquerdo. Lado esquerdo da cena 01.
+
+03 - Zoom 3, com torre ao centro.
+
+04 - Zoom 3, com eucalipto do lado direito.
+
+05 - Zoom 3, com eucalipto ao centro.
+
+06 - Zoom 3, com eucalipto do lado esquerdo.
+
+07 - Zoom 3, com Oeiras Parque do lado direito.
