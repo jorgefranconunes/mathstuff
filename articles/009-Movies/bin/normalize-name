@@ -53,8 +53,6 @@ _prefix="img-"
 
 displayHelp () {
 
-    displayHeader
-
     cat <<EOF
 Renames a JPEG file to follow naming conventions.
 

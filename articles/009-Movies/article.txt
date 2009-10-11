@@ -179,3 +179,7 @@ Cenas
 06 - Zoom 3, com eucalipto do lado esquerdo.
 
 07 - Zoom 3, com Oeiras Parque do lado direito.
+
+07 - Zoom 3, relvado com poste e rua empedrada do lado direito.
+
+08 - Zoom 3, relvado com poste ao centro.
