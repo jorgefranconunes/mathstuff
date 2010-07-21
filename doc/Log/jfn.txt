@@ -1,3 +1,120 @@
+2010/07/21
+
+Resumo:
+
+1. 011-StopMotionMovies - Iniciada a implementação da ferramenta para
+a geração de videos stop-motion.
+
+
+
+
+
+Para criar uma imagem intermédia entre duas, com pesos distintos:
+
+composite -blend $PERCENTAGE input1.png input2.png output.png
+
+
+Para criar a média de n imagens:
+
+convert input1.png input2.png input3.png -average output.png
+
+
+
+
+
+2010/07/20
+
+Resumo:
+
+1. 011-StopMotionMovies - Análise de ferramenta para geração de videos
+stop-motion.
+
+
+
+
+
+yum install xawtv
+yum install fswebcam
+
+fswebcam -r 640x480 -d v4l2:/dev/video0 --input 0 --frames 5 --skip 20 --no-banner --png 9 xxx.png
+
+
+
+Exemplo de captura de frames e de geração de ficheiros de video:
+
+index=0
+while [ $index -lt 60 ] ; do
+    name=$(printf "frame-%06d.png" $index)
+    echo $name
+    fswebcam -q -d v4l2:/dev/video0 --input 0 --frames 5 --skip 20 --no-banner --png 9 $name
+    index=$(expr $index + 1)
+done
+
+
+ffmpeg -i frame-%06d.png -b 400000 movie.mpg
+
+
+
+
+
+Objectivo: Criação de um video a partir de uma sequência de frames.
+
+As frames foram adquiridas a intervalos de tempo não necessariamente
+regulares. Cada frame tem associada uma timestamp, ou seja, é
+conhecido o instante de tempo a que a frame é referente.
+
+Designemos as frames obtidas directamente do dispositivo de aquisição
+por frames originais.
+
+Para gerar o video é necessária uma outra sequência de frames. A esta
+sequência de frames usada como entrada directa para o video chamaremos
+frames derivadas.
+
+O conjunto das frames derivadas inclui as frames originais. Inclui
+também, entre as frames originais outras frames obtidas de
+interpolação entre as frames originais consecutivas.
+
+
+Tomemos o tempo t de duração do video e dividamo-lo em fps * t slots,
+em que "fps" é o número de frames por segundo para o formato de video
+pretendido (tipicamente fps=25).
+
+Para cada slot iremos criar uma frame derivada. No primeiro slot cai a
+primeira frame original. No último slot cai a última frame original.
+
+Para cada frame original: determinar o slot a que pertence e colocá-la
+nesse slot.
+
+
+
+
+
+
+
+Parâmetros de entrada:
+
+Lista de frames originais.
+
+Tempo de duração (segundos) pretendido para o video a ser criado.
+
+Valor de fps para o video a ser criado (25, por omissão).
+
+Directoria onde são criadas as frames derivadas.
+
+
+
+
+
+Frame - file; time.
+
+Movie
+
+CalculatedFrame - inputFrameList ; index; time; outputFrame
+
+
+
+
+
 2007/08/23
 
 Resumo:

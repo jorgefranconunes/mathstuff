@@ -1,0 +1,159 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "util/lists.tea"
+
+import "Frame.tea"
+import "FrameSequence.tea"
+
+
+
+
+
+define REGEX_NAME [regexp-pattern ".*-(\\d+).*"]
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+class FrameSequenceLoader (
+
+    _inputDir
+    _inputPrefix
+    _inputSufix
+)
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method FrameSequenceLoader constructor ( inputDir inputPrefix inputSufix ) {
+    
+    set! _inputDir    $inputDir
+    set! _inputPrefix $inputPrefix
+    set! _inputSufix  $inputSufix
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method FrameSequenceLoader load () {
+    
+    my-log "Loading input frames:"
+    my-log "\tDirectory   : {0}" $_inputDir
+    my-log "\tFile prefix : {0}" $_inputPrefix
+    my-log "\tFile sufix  : {0}" $_inputSufix
+    
+    define nameRegex [str-cat $_inputPrefix ".*" $_inputSufix]
+    define nameList  [glob $inputDir $nameRegex]
+    
+    set! nameList [list-sort $nameList $str-cmp]
+    
+    define frameSequence [new FrameSequence]
+    define startTimeBI   [get-time-from-name [car $nameList]]
+    
+    my-log "\tStart time  : {0}" [$startTimeBI toString]
+    
+    define loadOneFrame  [lambda ( name ) { 
+        define frame [load-one-frame $_inputDir  $name $startTimeBI]
+        $frameSequence addFrame $frame
+    }]
+    
+    map $loadOneFrame $nameList
+    
+    my-log "Loaded {0} input frames." [$frameSequence getFrameCount]
+    
+    is $frameSequence
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define load-one-frame (inputDir name startTimeBI ) {
+    
+    define absoluteTimeBI [get-time-from-name $name]
+    define frameTime      [diffBD $absoluteTimeBI $startTimeBI]
+    define frameFile      [file-join $inputDir $name]
+    
+    # my-log "Loaded frame:"
+    # my-log "\tFile : {0}" $frameFile
+    # my-log "\tTime : {0} - {1}" [$absoluteTimeBI toString] $frameTime
+    
+    new Frame \
+            ( file $frameFile ) \
+            ( time $frameTime )
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define get-time-from-name ( name ) {
+    
+    define matchList [regexp $REGEX_NAME $name]
+    define timeStr   [nth [car $matchList] 1]
+    
+    java-new-instance java.math.BigInteger $timeStr
+}
+
+
+
+
+
+###########################################################################
+#
+# Returns the difference between two BigInteger instance as an
+# integer.
+#
+###########################################################################
+
+define diffBD ( bd1 bd2 ) {
+    
+    * 1000 [[$bd1 subtract $bd2] intValue]
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

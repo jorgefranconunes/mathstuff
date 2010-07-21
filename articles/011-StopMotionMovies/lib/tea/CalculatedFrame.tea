@@ -1,0 +1,125 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+class CalculatedFrame (
+    
+    _index
+    _time
+    _inputFrameList
+    _inputFrameCount
+    _frameCalculator
+    _isBuilt
+)
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrame constructor ( index time ) {
+    
+    set! _index           $index
+    set! _time            $time
+    set! _inputFrameList  ()
+    set! _inputFrameCount 0
+    set! _isBuilt         $false
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrame addInputFrame ( frame ) {
+    
+    set! _inputFrameList [prepend $frame $_inputFrameList]
+    ++ _inputFrameCount
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrame getInputFrameList () { is $_inputFrameList }
+
+method CalculatedFrame getInputFrameCount () { is $_inputFrameCount }
+
+method CalculatedFrame getIndex () { is $_index }
+
+method CalculatedFrame getTime () { is $_time }
+
+method CalculatedFrame hasCalculator? () { not-null? $_frameCalculator }
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrame setCalculator ( calculator ) {
+    
+    set! _frameCalculator $calculator
+}   
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrame build () {
+    
+    if $_isBuilt {
+        # Nothing to do
+    } {
+        $_frameCalculator
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

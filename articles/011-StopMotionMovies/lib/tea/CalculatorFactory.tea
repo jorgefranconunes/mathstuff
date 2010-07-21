@@ -1,0 +1,142 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+
+
+
+
+define FILE_FMT  "output-%06d.png"
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+class CalculatorFactory (
+
+    _outputDir
+)
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatorFactory constructor ( outputDir ) {
+    
+    set! _outputDir $outputDir
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatorFactory createInterpolator ( calculatedFrame previousCalculatedFrame calculatedFrameItem ) {
+    
+    lambda () {
+        calculator-interpolator $outputDir $calculatedFrame $previousCalculatedFrame $calculatedFrameItem
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatorFactory createIdentity ( calculatedFrame ) {
+    
+    lambda () {
+        calculator-identity $outputDir $calculatedFrame
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatorFactory createAverager ( calculatedFrame ) {
+    
+    # TBD
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define calculator-identity ( outputDir calculatedFrame ) {
+    
+    define frameIndex     [$calculatedFrame getIndex]
+    define inputFrame     [car [$calculatedFrame getInputFrameList]]
+    define inputFrameFile [$inputFrame get file]
+    define outputFileName [str-printf $FILE_FMT $frameIndex]
+    
+    my-log "Calculating frame {0} - identity..." $frameIndex
+    my-log "\tInput frame : {0}" $inputFrameFile
+    my-log "\tOutput file : {0}" $outputFileName
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define calculator-interpolator ( outputDir calculatedFrame previousCalculatedFrame calculatedFrameItem) {
+    
+    define frameIndex     [$calculatedFrame getIndex]
+    define outputFileName [str-printf $FILE_FMT $frameIndex]
+    
+    my-log "Calculating frame {0} - interpolator..." $frameIndex
+    my-log "\tOutput file : {0}" $outputFileName
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

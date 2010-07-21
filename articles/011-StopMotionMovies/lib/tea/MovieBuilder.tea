@@ -1,0 +1,212 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "CalculatedFrame.tea"
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+class MovieBuilder (
+
+    _inputFrameList
+    _calculatedFrameList
+)
+
+
+
+
+
+###########################################################################
+#
+# @duration - Duration in seconds of movie to be created.
+#
+###########################################################################
+
+method MovieBuilder constructor ( frameSequence duration fps ) {
+    
+    define outputFrameCount [* $duration $fps]
+    define startTime        [$frameSequence getStartTime]
+    define endTime          [$frameSequence getEndTime]
+    define deltaTime        [/ [- $endTime $startTime] $outputFrameCount]
+    
+    if { <= $deltaTime 0 } {
+        error "End time too near start time..."
+    }
+    
+    define inputFrameList   [$frameSequence getFrameList]
+    define calculatedFrameList \
+            [create-empty-calculated-frames $startTime $endTime $deltaTime]
+
+    set! _inputFrameList      [$frameSequence getFrameList]
+    set! _calculatedFrameList $calculatedFrameList
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method MovieBuilder build ( calculatorFactory ) {
+    
+    assign-input-frames $_calculatedFrameList  $_inputFrameList
+    assign-calculators $_calculatedFrameList $calculatorFactory
+    
+    foreach calculatedFrame $_calculatedFrameList {
+        $calculatedFrame build
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define create-empty-calculated-frames ( startTime endTime deltaTime ) {
+    
+    my-log "Creating empty calculated frames (delta={0})..." $deltaTime
+    
+    define index 0
+    define time  $startTime
+    define head  ( [new CalculatedFrame $index $startTime] )
+    define tail  $head
+    
+    += time $deltaTime
+    ++ index
+    
+    while { <= $time $endTime } {
+        define newLastItem ( [new CalculatedFrame $index $time] )
+        set-cdr! $tail $newLastItem
+        set! tail $newLastItem
+        
+        += time $deltaTime
+        ++ index
+    }
+    
+    my-log "Created {0} calculated frames." $index
+    
+    is $head
+}
+
+
+
+
+
+###########################################################################
+#
+# Assigns input frames to calculated frames.
+#
+###########################################################################
+
+define assign-input-frames ( calculatedFrameList inputFrameList ) {
+    
+    my-log "Assining input frames to calculated frames..."
+    
+    define inputFrameItem $inputFrameList
+    define inputFrame     [car $inputFrameItem]
+    define inputFrameTime [$inputFrame get time]
+    
+    foreach calculatedFrame $calculatedFrameList {
+        define calculatedFrameTime [$calculatedFrame getTime]
+        
+        while { and {not-null? $inputFrameTime} {<= $inputFrameTime $calculatedFrameTime} } {
+            $calculatedFrame addInputFrame $inputFrame
+            
+            set! inputFrameItem [cdr $inputFrameItem]
+            set! inputFrame     [if {not-empty? $inputFrameItem} {car $inputFrameItem} $null]
+            set! inputFrameTime [if {not-null? $inputFrame} {$inputFrame get time} $null]
+        }
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define assign-calculators ( calculatedFrameList calculatorFactory ) {
+    
+    my-log "Assigning calculators to calculated frames..."
+    
+    define previousCalculatedFrame $null
+    define calculatedFrameItem     $calculatedFrameList
+    
+    while { not-empty? $calculatedFrameItem } {
+        define calculatedFrame [car $calculatedFrameItem]
+        
+        if { not [$calculatedFrame hasCalculator?] } {
+            define calculator [create-calculator $calculatedFrame $previousCalculatedFrame $calculatedFrameItem $calculatorFactory]
+        
+            $calculatedFrame setCalculator $calculator
+        }
+
+        
+        set! previousCalculatedFrame $calculatedFrame
+        set! calculatedFrameItem     [cdr $calculatedFrameItem]
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define create-calculator ( calculatedFrame
+                           previousCalculatedFrame
+                           calculatedFrameItem
+                           calculatorFactory ) {
+    
+    define inputFrameCount [$calculatedFrame getInputFrameCount]
+    
+    cond {
+        == $inputFrameCount 0 } {
+        $calculatorFactory createInterpolator \
+                $calculatedFrame $previousCalculatedFrame $calculatedFrameItem
+    } {
+        == $inputFrameCount 1 } {
+        $calculatorFactory createIdentity $calculatedFrame
+    } {
+        $calculatorFactory createAverager $calculatedFrame
+    }
+        
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
