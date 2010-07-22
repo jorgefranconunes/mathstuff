@@ -1,0 +1,133 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+import "CalculatedFrame.tea"
+
+
+
+
+
+class CalculatedFrameSequence (
+
+    _frames
+    _deltaTime
+    _halfDeltaTime
+)
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrameSequence constructor ( startTime endTime deltaTime ) {
+    
+    my-log "Creating empty calculated frames (delta={0})..." $deltaTime
+    
+    define frames [new TVector]
+    define index  0
+    define time   $startTime
+    
+    $frames append [new CalculatedFrame $index $time]
+    += time $deltaTime
+    ++ index
+    
+    while { <= $time $endTime } {        
+        $frames append [new CalculatedFrame $index $time]
+        
+        += time $deltaTime
+        ++ index
+    }
+    
+    my-log "Created {0} calculated frames." $index
+    
+    set! _frames        $frames
+    set! _deltaTime     $deltaTime
+    set! _halfDeltaTime [/ $deltaTime 2]
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrameSequence assignInputFrame ( inputFrame ) {
+    
+    define inputFrameTime  [+ [$inputFrame get time] $_halfDeltaTime]
+    define index           [/ $inputFrameTime $_deltaTime]
+    define calculatedFrame [$_frames getAt $index]
+    
+    $calculatedFrame addInputFrame $inputFrame
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrameSequence build () {
+    
+    define calculatedFrameList [$_frames getElements]
+    
+    foreach calculatedFrame $calculatedFrameList {
+        $calculatedFrame build
+    }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrameSequence getFrameList () {
+    
+    $_frames getElements
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrameSequence getFrameWithIndex ( index ) {
+    
+    $_frames getAt $index
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

@@ -10,6 +10,10 @@
 
 define FILE_FMT  "output-%06d.png"
 
+define SCRIPT_IDENTITY     "calculator-identity"
+define SCRIPT_AVERAGER     "calculator-averager"
+define SCRIPT_INTERPOLATOR "calculator-interpolator"
+
 
 
 
@@ -22,6 +26,7 @@ define FILE_FMT  "output-%06d.png"
 
 class CalculatorFactory (
 
+    _scriptDir
     _outputDir
 )
 
@@ -35,8 +40,9 @@ class CalculatorFactory (
 #
 ###########################################################################
 
-method CalculatorFactory constructor ( outputDir ) {
+method CalculatorFactory constructor ( scriptDir outputDir ) {
     
+    set! _scriptDir $scriptDir
     set! _outputDir $outputDir
 }
 
@@ -50,10 +56,10 @@ method CalculatorFactory constructor ( outputDir ) {
 #
 ###########################################################################
 
-method CalculatorFactory createInterpolator ( calculatedFrame previousCalculatedFrame calculatedFrameItem ) {
+method CalculatorFactory createInterpolator ( calculatedFrame calculatedFrameSequence ) {
     
     lambda () {
-        calculator-interpolator $outputDir $calculatedFrame $previousCalculatedFrame $calculatedFrameItem
+        calculator-interpolator $_scriptDir $_outputDir $calculatedFrame $calculatedFrameSequence
     }
 }
 
@@ -70,7 +76,7 @@ method CalculatorFactory createInterpolator ( calculatedFrame previousCalculated
 method CalculatorFactory createIdentity ( calculatedFrame ) {
     
     lambda () {
-        calculator-identity $outputDir $calculatedFrame
+        calculator-identity $_scriptDir $_outputDir $calculatedFrame
     }
 }
 
@@ -86,7 +92,9 @@ method CalculatorFactory createIdentity ( calculatedFrame ) {
 
 method CalculatorFactory createAverager ( calculatedFrame ) {
     
-    # TBD
+    lambda () {
+        calculator-averager $_scriptDir $_outputDir $calculatedFrame
+    }
 }
 
 
@@ -99,16 +107,23 @@ method CalculatorFactory createAverager ( calculatedFrame ) {
 #
 ###########################################################################
 
-define calculator-identity ( outputDir calculatedFrame ) {
+define calculator-identity ( scriptDir outputDir calculatedFrame ) {
     
     define frameIndex     [$calculatedFrame getIndex]
+    define frameTime      [$calculatedFrame getTime]
     define inputFrame     [car [$calculatedFrame getInputFrameList]]
     define inputFrameFile [$inputFrame get file]
-    define outputFileName [str-printf $FILE_FMT $frameIndex]
+    define outputFileName [get-output-file-name $outputDir $frameIndex]
     
-    my-log "Calculating frame {0} - identity..." $frameIndex
+    my-log "Calculating frame {0} ({1}) - identity..." $frameIndex $frameTime
     my-log "\tInput frame : {0}" $inputFrameFile
     my-log "\tOutput file : {0}" $outputFileName
+    
+    system [file-join $scriptDir $SCRIPT_IDENTITY] \
+            $inputFrameFile \
+            $outputFileName
+    
+    is $outputFileName
 }
 
 
@@ -121,13 +136,106 @@ define calculator-identity ( outputDir calculatedFrame ) {
 #
 ###########################################################################
 
-define calculator-interpolator ( outputDir calculatedFrame previousCalculatedFrame calculatedFrameItem) {
+define calculator-interpolator ( scriptDir outputDir calculatedFrame calculatedFrameSequence) {
     
     define frameIndex     [$calculatedFrame getIndex]
-    define outputFileName [str-printf $FILE_FMT $frameIndex]
+    define frameTime      [$calculatedFrame getTime]
+    define outputFileName [get-output-file-name $outputDir $frameIndex]
     
-    my-log "Calculating frame {0} - interpolator..." $frameIndex
+    define beginFrame [search-side-frame $frameIndex $-- $calculatedFrameSequence]
+    define endFrame   [search-side-frame $frameIndex $++ $calculatedFrameSequence]
+    define beginFrameIndex [$beginFrame getIndex]
+    define endFrameIndex   [$endFrame getIndex]
+    define fullSpan        [- $endFrameIndex $beginFrameIndex]
+    define span            [- $frameIndex $beginFrameIndex]
+    
+    define weight         [/ [* 100 $span] $fullSpan]
+    define beginFrameFile [$beginFrame getResultFile]
+    define endFrameFile   [$endFrame getResultFile]
+    
+    my-log "Calculating frame {0} ({1}) - interpolator..." $frameIndex $frameTime
     my-log "\tOutput file : {0}" $outputFileName
+    my-log "\tBegin file  : {0}" $beginFrameFile
+    my-log "\tEnd file    : {0}" $endFrameFile
+    my-log "\tWeight      : {0}" $weight
+    
+    system [file-join $scriptDir $SCRIPT_INTERPOLATOR] \
+            $beginFrameFile \
+            $endFrameFile \
+            [int->string $weight] \
+            $outputFileName
+    
+    is $outputFileName
+}
+
+
+define search-side-frame ( startIndex updateIndex calculatedFrameSequence) {
+    
+    define index  $startIndex
+    define result $null
+    
+    while { null? $result } {
+        $updateIndex index
+        
+        define calculatedFrame \
+                [$calculatedFrameSequence getFrameWithIndex $index]
+        
+        if { $calculatedFrame hasInputFrames? } {
+            set! result $calculatedFrame
+        }
+    }
+    
+    is $result
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define calculator-averager ( scriptDir outputDir calculatedFrame ) {
+    
+    define frameIndex     [$calculatedFrame getIndex]
+    define frameTime      [$calculatedFrame getTime]
+    define inputFrameList [$calculatedFrame getInputFrameList]
+    define outputFileName [get-output-file-name $outputDir $frameIndex]
+    
+    my-log "Calculating frame {0} ({1}) - averager..." $frameIndex $frameTime
+    define inputFrameCount 0
+    foreach inputFrame $inputFrameList {
+        define inputFrameFile [$inputFrame get file]
+        my-log "\tInput frame {0} : {1}" $inputFrameCount $inputFrameFile
+        ++ inputFrameCount
+    }
+    my-log "\tOutput file   : {0}" $outputFileName
+    
+    apply system [file-join $scriptDir $SCRIPT_AVERAGER] \
+            $outputFileName \
+            [map [lambda (f) {$f get file}] $inputFrameList]
+    
+    is $outputFileName
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+define get-output-file-name ( outputDir index ) {
+    
+    define basename [str-printf $FILE_FMT $index]
+    
+    file-join $outputDir $basename
 }
 
 

@@ -1,0 +1,14 @@
+#!/bin/bash
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+_inputFile1=$1
+_inputFile2=$2
+_weight=$3
+_outputFile=$4
+
+composite -dissolve $_weight $_inputFile2 $_inputFile1 $_outputFile
+

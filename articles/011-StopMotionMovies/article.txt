@@ -1,0 +1,50 @@
+
+
+
+
+
+
+Exemplo de captura de frames:
+
+index=0
+while [ $index -lt 60 ] ; do
+    name=$(printf "frame-%06d.png" $index)
+    echo $name
+    fswebcam -q -d v4l2:/dev/video0 --input 0 -r 640x480 --frames 5 --skip 20 --no-banner --png 0 $name
+    index=$(expr $index + 1)
+done
+
+
+
+
+
+Exemplo de geração de ficheiros de video:
+
+ffmpeg -i frame-%06d.png -b 600000 movie.mp4
+
+
+
+
+
+Para criar uma imagem intermédia entre duas, com pesos distintos:
+
+composite -dissolve $PERCENTAGE input2.png input1.png output.png
+
+
+Para criar a média de n imagens:
+
+convert input1.png input2.png input3.png -average output.png
+
+
+
+
+
+tsh \
+    --library=./lib/tea:/home/jfn/work/math/lib/tea \
+    ./lib/tea/build-movie-frames.tea \
+    ./bin ~/tmp/xxx input- png ./tmp 10
+
+
+
+
+

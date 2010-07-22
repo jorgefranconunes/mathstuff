@@ -21,7 +21,7 @@ class CalculatedFrame (
     _inputFrameList
     _inputFrameCount
     _frameCalculator
-    _isBuilt
+    _resultFile
 )
 
 
@@ -40,7 +40,6 @@ method CalculatedFrame constructor ( index time ) {
     set! _time            $time
     set! _inputFrameList  ()
     set! _inputFrameCount 0
-    set! _isBuilt         $false
 }
 
 
@@ -72,6 +71,8 @@ method CalculatedFrame addInputFrame ( frame ) {
 method CalculatedFrame getInputFrameList () { is $_inputFrameList }
 
 method CalculatedFrame getInputFrameCount () { is $_inputFrameCount }
+
+method CalculatedFrame hasInputFrames? () { > $_inputFrameCount 0 }
 
 method CalculatedFrame getIndex () { is $_index }
 
@@ -106,11 +107,28 @@ method CalculatedFrame setCalculator ( calculator ) {
 
 method CalculatedFrame build () {
     
-    if $_isBuilt {
-        # Nothing to do
+    if { null? $_resultFile } {
+        set! _resultFile [$_frameCalculator]
     } {
-        $_frameCalculator
+        # Everything was already done.
     }
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+method CalculatedFrame getResultFile () {
+    
+    $this build
+    
+    is $_resultFile
 }
 
 

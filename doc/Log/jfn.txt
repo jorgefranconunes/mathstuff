@@ -11,7 +11,7 @@ a geração de videos stop-motion.
 
 Para criar uma imagem intermédia entre duas, com pesos distintos:
 
-composite -blend $PERCENTAGE input1.png input2.png output.png
+composite -dissolve $PERCENTAGE input2.png input1.png output.png
 
 
 Para criar a média de n imagens:

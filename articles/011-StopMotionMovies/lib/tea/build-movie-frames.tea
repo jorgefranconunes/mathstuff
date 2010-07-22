@@ -38,10 +38,10 @@ define my-log args {
 #
 ###########################################################################
 
-define build-movie-frames ( inputDir inputPrefix inputSufix outputDir duration fps ) {
+define build-movie-frames ( scriptDir inputDir inputPrefix inputSufix outputDir duration fps ) {
     
     define loader [new FrameSequenceLoader $inputDir $inputPrefix $inputSufix]
-    define calculatorFactory [new CalculatorFactory $outputDir]
+    define calculatorFactory [new CalculatorFactory $scriptDir $outputDir]
     define frameSequence     [$loader load]
     define builder           [new MovieBuilder $frameSequence $duration $fps]
     
@@ -60,19 +60,20 @@ define build-movie-frames ( inputDir inputPrefix inputSufix outputDir duration f
 
 define argc [length $argv]
 
-if { != [length $argv] 5 } {
-    echo "Args: input-dir input-prefix input-sufix output-dir duration"
+if { != [length $argv] 6 } {
+    echo "Args: script-dir input-dir input-prefix input-sufix output-dir duration"
     exit 1
 }
 
-define inputDir    [nth $argv 0]
-define inputPrefix [nth $argv 1]
-define inputSufix  [nth $argv 2]
-define outputDir   [nth $argv 3]
-define duration    [string->int [nth $argv 4]]
+define scriptDir   [nth $argv 0]
+define inputDir    [nth $argv 1]
+define inputPrefix [nth $argv 2]
+define inputSufix  [nth $argv 3]
+define outputDir   [nth $argv 4]
+define duration    [string->int [nth $argv 5]]
 define fps         25
 
-build-movie-frames $inputDir $inputPrefix $inputSufix $outputDir $duration $fps
+build-movie-frames $scriptDir $inputDir $inputPrefix $inputSufix $outputDir $duration $fps
 
 
 

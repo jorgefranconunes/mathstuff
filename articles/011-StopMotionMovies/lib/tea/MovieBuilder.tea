@@ -4,7 +4,7 @@
 #
 ###########################################################################
 
-import "CalculatedFrame.tea"
+import "CalculatedFrameSequence.tea"
 
 
 
@@ -19,7 +19,7 @@ import "CalculatedFrame.tea"
 class MovieBuilder (
 
     _inputFrameList
-    _calculatedFrameList
+    _calculatedFrameSequence
 )
 
 
@@ -43,12 +43,12 @@ method MovieBuilder constructor ( frameSequence duration fps ) {
         error "End time too near start time..."
     }
     
-    define inputFrameList   [$frameSequence getFrameList]
-    define calculatedFrameList \
-            [create-empty-calculated-frames $startTime $endTime $deltaTime]
+    define inputFrameList          [$frameSequence getFrameList]
+    define calculatedFrameSequence \
+            [new CalculatedFrameSequence $startTime $endTime $deltaTime]
 
-    set! _inputFrameList      [$frameSequence getFrameList]
-    set! _calculatedFrameList $calculatedFrameList
+    set! _inputFrameList          [$frameSequence getFrameList]
+    set! _calculatedFrameSequence $calculatedFrameSequence
 }
 
 
@@ -63,48 +63,10 @@ method MovieBuilder constructor ( frameSequence duration fps ) {
 
 method MovieBuilder build ( calculatorFactory ) {
     
-    assign-input-frames $_calculatedFrameList  $_inputFrameList
-    assign-calculators $_calculatedFrameList $calculatorFactory
+    assign-input-frames $_calculatedFrameSequence  $_inputFrameList
+    assign-calculators $_calculatedFrameSequence $calculatorFactory
     
-    foreach calculatedFrame $_calculatedFrameList {
-        $calculatedFrame build
-    }
-}
-
-
-
-
-
-###########################################################################
-#
-# 
-#
-###########################################################################
-
-define create-empty-calculated-frames ( startTime endTime deltaTime ) {
-    
-    my-log "Creating empty calculated frames (delta={0})..." $deltaTime
-    
-    define index 0
-    define time  $startTime
-    define head  ( [new CalculatedFrame $index $startTime] )
-    define tail  $head
-    
-    += time $deltaTime
-    ++ index
-    
-    while { <= $time $endTime } {
-        define newLastItem ( [new CalculatedFrame $index $time] )
-        set-cdr! $tail $newLastItem
-        set! tail $newLastItem
-        
-        += time $deltaTime
-        ++ index
-    }
-    
-    my-log "Created {0} calculated frames." $index
-    
-    is $head
+    $_calculatedFrameSequence build
 }
 
 
@@ -117,24 +79,12 @@ define create-empty-calculated-frames ( startTime endTime deltaTime ) {
 #
 ###########################################################################
 
-define assign-input-frames ( calculatedFrameList inputFrameList ) {
+define assign-input-frames ( calculatedFrameSequence inputFrameList ) {
     
     my-log "Assining input frames to calculated frames..."
     
-    define inputFrameItem $inputFrameList
-    define inputFrame     [car $inputFrameItem]
-    define inputFrameTime [$inputFrame get time]
-    
-    foreach calculatedFrame $calculatedFrameList {
-        define calculatedFrameTime [$calculatedFrame getTime]
-        
-        while { and {not-null? $inputFrameTime} {<= $inputFrameTime $calculatedFrameTime} } {
-            $calculatedFrame addInputFrame $inputFrame
-            
-            set! inputFrameItem [cdr $inputFrameItem]
-            set! inputFrame     [if {not-empty? $inputFrameItem} {car $inputFrameItem} $null]
-            set! inputFrameTime [if {not-null? $inputFrame} {$inputFrame get time} $null]
-        }
+    foreach inputFrame $inputFrameList {
+        $calculatedFrameSequence assignInputFrame $inputFrame
     }
 }
 
@@ -148,25 +98,16 @@ define assign-input-frames ( calculatedFrameList inputFrameList ) {
 #
 ###########################################################################
 
-define assign-calculators ( calculatedFrameList calculatorFactory ) {
+define assign-calculators ( calculatedFrameSequence calculatorFactory ) {
     
     my-log "Assigning calculators to calculated frames..."
     
-    define previousCalculatedFrame $null
-    define calculatedFrameItem     $calculatedFrameList
+    define calculatedFrameList [$calculatedFrameSequence getFrameList]
     
-    while { not-empty? $calculatedFrameItem } {
-        define calculatedFrame [car $calculatedFrameItem]
+    foreach calculatedFrame $calculatedFrameList {
+        define calculator [create-calculator $calculatedFrame $calculatedFrameSequence $calculatorFactory]
         
-        if { not [$calculatedFrame hasCalculator?] } {
-            define calculator [create-calculator $calculatedFrame $previousCalculatedFrame $calculatedFrameItem $calculatorFactory]
-        
-            $calculatedFrame setCalculator $calculator
-        }
-
-        
-        set! previousCalculatedFrame $calculatedFrame
-        set! calculatedFrameItem     [cdr $calculatedFrameItem]
+        $calculatedFrame setCalculator $calculator
     }
 }
 
@@ -181,8 +122,7 @@ define assign-calculators ( calculatedFrameList calculatorFactory ) {
 ###########################################################################
 
 define create-calculator ( calculatedFrame
-                           previousCalculatedFrame
-                           calculatedFrameItem
+                           calculatedFrameSequence
                            calculatorFactory ) {
     
     define inputFrameCount [$calculatedFrame getInputFrameCount]
@@ -190,7 +130,7 @@ define create-calculator ( calculatedFrame
     cond {
         == $inputFrameCount 0 } {
         $calculatorFactory createInterpolator \
-                $calculatedFrame $previousCalculatedFrame $calculatedFrameItem
+                $calculatedFrame $calculatedFrameSequence
     } {
         == $inputFrameCount 1 } {
         $calculatorFactory createIdentity $calculatedFrame
