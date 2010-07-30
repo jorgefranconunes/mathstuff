@@ -70,3 +70,14 @@ Exemplo de uma dobragem de um cubo a partir de um haxaminó.
 Quais os haxaminós que são dobragens de cubos? Exemplos dados.
 
 Como determinar se um hexaminó é uma dobragem de cubo?
+
+
+
+
+
+Tetris
+
+Binário original para MS-DOS obtido em
+http://vadim.oversigma.com/Tetris.htm
+
+Para correr binários MS-DOS em Linux (Fedora): dosbox (yum install dosbox)
