@@ -7,3 +7,13 @@
 Colour metric (http://www.compuphase.com/cmetric.htm) - Description of
 some color metrics.
 
+Delaunay Triangulation -
+http://en.wikipedia.org/wiki/Delaunay_triangulation
+
+Area of a triangle given the coordinates of its vertexs:
+http://mathforum.org/library/drmath/view/55063.html
+
+Checking if a point is inside a triangle:
+http://mathforum.org/library/drmath/view/54505.html
+
+
