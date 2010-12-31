@@ -1,3 +1,52 @@
+2010/12/31
+
+Resumo:
+
+1. 
+
+
+
+
+
+IFS com SVG
+
+Em vez de usar uma matriz de pixeis para representar a imagem, será
+usada uma representação SVG.
+
+Dado um objecto inicial (quadrado preenchido com 1 unidade de lado),
+cada passo cria um novo objecto SVG resultante da união das
+transformações do objecto inicial.
+
+O número de iterações tem um limite definido pela resolução em pixels
+da imagem. O número de iterações máximo necessário bastará que seja
+tal que a imagem inicial seja reduzida para as dimensões de um pixel.
+
+Seja s o maior factor de escala das transformações. Tem-se
+necessariamente que s<1 (caso contrário não seria uma contração). Para
+uma imagem quadrada com w pixeis de lado bastará que o número de
+iterações não ultrapasse um valor n tal que s^n < 1/w.
+
+O número de objectos SVG cresce exponencialmente. O número de objectos
+em cada passo corresponde a memória ocupada. Quantos mais objectos,
+mais memória ocupada. A quantidade de memória ocupada é relevante
+tanto na ferramenta que calcula as iterações como na ferramente que
+faz o rendering da imagem correspondente (Inkscape).
+
+
+SVG info - http://www.w3.org/TR/SVG/
+
+defs - Elemento para definir um objecto que é usado/referenciado noutros
+contextos.
+
+use - Elemento para usar/instanciar um objecto anteriormente definido
+com "defs". Pode receber o atributo "transform".
+
+Atributo "transform" de "g" e "use".
+
+
+
+
+
 2010/07/21
 
 Resumo:
