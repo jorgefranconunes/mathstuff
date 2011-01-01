@@ -33,7 +33,10 @@ tanto na ferramenta que calcula as iterações como na ferramente que
 faz o rendering da imagem correspondente (Inkscape).
 
 
-SVG info - http://www.w3.org/TR/SVG/
+SVG info - 
+
+http://www.w3.org/TR/SVG/
+http://www.mecxpert.de/svg/fractals.html
 
 defs - Elemento para definir um objecto que é usado/referenciado noutros
 contextos.

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="demo"
+   version="1.0">
+
+
+  <defs>
+    
+    <symbol id="object00">
+      <rect
+         id="item1"
+         style="stroke:gray; stroke-width:0.004; stroke-opacity:1; fill:black"
+         width="1"
+         height="1"
+         x="0"
+         y="0" />
+    </symbol>
+    
+<!--    <symbol id="object00">
+      <image
+         id="item1"
+         xlink:href="file:///home/jfn/jfn-120x160.jpg"
+         preserveAspectRatio="xMidYMid"
+         transform="matrix(1 0 0 -1 0 1)"
+         width="1"
+         height="1"
+         x="0"
+         y="0" />
+    </symbol> -->
+
+    <!-- Sierpinsky gasket -->
+    <symbol id="object01">
+      <use transform="matrix(0.5 0 0 0.5 0    0)" xlink:href="#object00" />
+      <use transform="matrix(0.5 0 0 0.5 0.5  0)" xlink:href="#object00" />
+      <use transform="matrix(0.5 0 0 0.5 0.25 0.433)" xlink:href="#object00" />
+    </symbol>
+
+    <symbol id="object02">
+      <use transform="matrix(0.5 0 0 0.5 0    0)" xlink:href="#object01" />
+      <use transform="matrix(0.5 0 0 0.5 0.5  0)" xlink:href="#object01" />
+      <use transform="matrix(0.5 0 0 0.5 0.25 0.433)" xlink:href="#object01" />
+    </symbol>
+
+    <symbol id="object03">
+      <use transform="matrix(0.5 0 0 0.5 0    0)" xlink:href="#object02" />
+      <use transform="matrix(0.5 0 0 0.5 0.5  0)" xlink:href="#object02" />
+      <use transform="matrix(0.5 0 0 0.5 0.25 0.433)" xlink:href="#object02" />
+    </symbol>
+
+    <symbol id="object04">
+      <use transform="matrix(0.5 0 0 0.5 0    0)" xlink:href="#object03" />
+      <use transform="matrix(0.5 0 0 0.5 0.5  0)" xlink:href="#object03" />
+      <use transform="matrix(0.5 0 0 0.5 0.25 0.433)" xlink:href="#object03" />
+    </symbol>
+
+    <symbol id="object05">
+      <use transform="matrix(0.5 0 0 0.5 0    0)" xlink:href="#object04" />
+      <use transform="matrix(0.5 0 0 0.5 0.5  0)" xlink:href="#object04" />
+      <use transform="matrix(0.5 0 0 0.5 0.25 0.433)" xlink:href="#object04" />
+    </symbol>
+
+    <symbol id="object06">
+      <use transform="matrix(0.5 0 0 0.5 0    0)" xlink:href="#object05" />
+      <use transform="matrix(0.5 0 0 0.5 0.5  0)" xlink:href="#object05" />
+      <use transform="matrix(0.5 0 0 0.5 0.25 0.433)" xlink:href="#object05" />
+    </symbol>
+
+    <symbol id="object07">
+      <use transform="matrix(0.5 0 0 0.5 0    0)" xlink:href="#object06" />
+      <use transform="matrix(0.5 0 0 0.5 0.5  0)" xlink:href="#object06" />
+      <use transform="matrix(0.5 0 0 0.5 0.25 0.433)" xlink:href="#object06" />
+    </symbol>
+
+  </defs>
+
+
+  <g 
+     id="layer1">
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(0,0)"
+       xlink:href="#object00" />
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(1.1,0)"
+       xlink:href="#object01" />
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(2.2,0)"
+       xlink:href="#object02" />
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(3.3,0)"
+       xlink:href="#object03" />
+
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(0,-1.1)"
+       xlink:href="#object04" />
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(1.1,-1.1)"
+       xlink:href="#object05" />
+<!--
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(2.2,1.1)"
+       xlink:href="#object06" />
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) translate(3.3,1.1)"
+       xlink:href="#object07" />
+
+
+    <use 
+       transform="scale(256) matrix(1 0 0 -1 0 1) matrix(1 0 0 -1 0 1)"
+       xlink:href="#object05" />
+-->
+  </g>
+
+</svg>

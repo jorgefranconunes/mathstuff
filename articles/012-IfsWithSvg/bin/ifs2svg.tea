@@ -1,0 +1,97 @@
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+
+
+
+
+define PROLOGUE "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
+
+<svg
+   xmlns=\"http://www.w3.org/2000/svg\"
+   xmlns:xlink=\"http://www.w3.org/1999/xlink\"
+   id=\"demo\"
+   version=\"1.0\">
+
+
+  <defs>
+    
+    <symbol id=\"object0\">
+      <rect
+         id=\"item1\"
+         style=\"stroke:none; fill:black\"
+         width=\"1\"
+         height=\"1\"
+         x=\"0\"
+         y=\"0\" />
+    </symbol>
+"
+
+define STEP_PROLOGUE_FMT "
+    <symbol id=\"object{0}\">"
+
+define STEP_TRANSFORM_FMT "
+      <use transform=\"{0}\" xlink:href=\"#object{1}\" />"
+
+define STEP_EPILOGUE "
+    </symbol>
+"
+
+define EPILOGUE_FMT "
+  </defs>
+
+  <g id=\"layer1\">
+    <use 
+       transform=\"matrix(1 0 0 -1 0 0)\"
+       xlink:href=\"#object{0}\" />
+  </g>
+
+</svg>
+"
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+global ifs2svg ( svgTransformList depth output ) {
+    
+    $output write $PROLOGUE
+    
+    define stepIndex         1
+    define stepIndexPrevious 0
+    
+    while { <= $stepIndex $depth } {
+        $output write [str-fmt $STEP_PROLOGUE_FMT $stepIndex]
+
+        foreach svgTransform $svgTransformList {
+            $output write [str-fmt $STEP_TRANSFORM_FMT $svgTransform $stepIndexPrevious]
+        }
+        
+        $output write $STEP_EPILOGUE
+        
+        ++ stepIndex
+        ++ stepIndexPrevious
+    }
+    
+    $output write [str-fmt $EPILOGUE_FMT $depth]
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
