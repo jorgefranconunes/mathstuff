@@ -26,7 +26,7 @@ cd ./mathstuff
 git config user.name jorgefranconunes
 git config user.email jorgefranconunes@gmail.com
 git remote add origin git@github.com:jorgefranconunes/mathstuff.git
-git push origin master
+git push -u origin master
 
 
 

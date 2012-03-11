@@ -1,0 +1,158 @@
+#!/bin/bash
+###########################################################################
+#
+# Copyright (c) 2012 Jorge Nunes, All Rights Reserved.
+#
+#
+# Tool for generating a PDF file from an SVG file. This is just a
+# helper for invoking inkscape with the right set of options.
+#
+###########################################################################
+
+_scriptDir=$(dirname $0)
+_scriptName=$(basename $0)
+_baseDir=$(cd ${_scriptDir}/..; pwd)
+
+
+
+
+
+source ${_baseDir}/lib/bash/ms-utils.sh
+
+
+
+
+
+#
+# Path of input SVG file.
+#
+_inputFile=
+
+#
+# Path of resulting PNG image file.
+#
+_outputFile=
+
+
+
+
+
+###########################################################################
+#
+# Displays an help messages describing the configuration options.
+#
+###########################################################################
+
+function displayHelp () {
+
+    cat <<EOF
+${_scriptName} - Converts a SVG file to a PDF file.
+
+Available options:
+
+--in=PATH
+	Path of the SVG file to be converted.
+
+--out=PATH
+	Path of the PNG file to be created. If not specified it will
+	default to the same path as the input file, with the extension
+	replaced by ".pdf".
+
+--help
+	Prints this help text.
+
+EOF
+}
+
+
+
+
+
+###########################################################################
+#
+# Processes the command line options.
+#
+###########################################################################
+
+function processCliArgs () {
+
+    for option in "$@" ; do
+	case $option in
+	    --in=* )
+		_inputFile=$(expr "$option" : '--in=\(.*\)')
+		;;
+	    --out=* )
+		_outputFile=$(expr "$option" : '--out=\(.*\)')
+		;;
+	    --help )
+		displayHelp
+		exit 0
+		;;
+	    --*=* )
+		option=`expr $option : '\(--.*\)=.*'`
+		msError "$option : unrecognized option. Use --help for details."
+		;;
+	    * )
+		msError "$option : unrecognized option. Use --help for details."
+		;;
+	esac
+    done
+
+    if [ -z "$_inputFile" ] ; then
+	msError "Missing mandatory --in option. Use --help for details."
+    fi
+
+    if [ -z "$_outputFile" ] ; then
+        local extension=${_inputFile##*.}
+        local outputName=$(basename ${_inputFile} .${extension})
+        
+        _outputFile=$(dirname $_inputFile)/${outputName}.pdf
+    fi
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+function convertSvgToPdf () {
+
+    local svgFile=${_inputFile}
+    local outputFile=${_outputFile}
+
+    inkscape \
+        --export-area-drawing \
+        --export-pdf="${outputFile}" \
+        "${svgFile}" > /dev/null
+}
+
+
+
+
+
+
+###########################################################################
+#
+# The main script.
+#
+###########################################################################
+
+processCliArgs "$@"
+msCheckForTools inkscape
+convertSvgToPdf
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+

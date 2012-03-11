@@ -3,21 +3,10 @@
 #
 # Copyright (c) 2009 Jorge Nunes, All Rights Reserved.
 #
-###########################################################################
-
-#########################################################################
-#
-# $Id$
-#
 #
 # Utility functions. This script is not meant to be executed by
 # itself. Instead it is tipically sourced from within other scripts
 # using the "." operator.
-#
-#
-# Revisions:
-#
-# 2009/07/27 Created. (jfn)
 #
 #########################################################################
 
@@ -35,7 +24,7 @@
 #
 ###########################################################################
 
-myError () {
+msError () {
 
     echo "***" "$@" >&2
     exit 1
@@ -55,7 +44,7 @@ myError () {
 #
 ###########################################################################
 
-myAbort () {
+msAbort () {
 
     echo "***" "$@" >&2
     kill $$
@@ -76,7 +65,7 @@ myAbort () {
 #
 ###########################################################################
 
-myLog () {
+msLog () {
 
 	echo $(date "+%Y/%m/%d %H:%M:%S") "$@"
 }
@@ -91,7 +80,7 @@ myLog () {
 #
 ###########################################################################
 
-myDate () {
+msDate () {
 
     date "+%Y/%m/%d %H:%M:%S"
 }
@@ -106,7 +95,7 @@ myDate () {
 #
 ###########################################################################
 
-myHostname () {
+msHostname () {
 
     uname -n
 }
@@ -128,7 +117,7 @@ myHostname () {
 #
 ###########################################################################
 
-myId () {
+msId () {
 
     local username=$1
 
@@ -149,9 +138,33 @@ myId () {
 #
 ###########################################################################
 
-myWhoAmI () {
+msWhoAmI () {
 
     getent passwd $(ebId) | awk -F: '{print $1}'
+}
+
+
+
+
+
+###########################################################################
+#
+# Checks if a set of required tools is available. If any is missing
+# outputs an error message and terminates the process.
+#
+###########################################################################
+
+function msCheckForTools () {
+
+    local toolList="$@"
+
+    for tool in ${toolList} ; do
+        if type $tool > /dev/null 2>&1 ; then
+            : All is ok
+        else
+            msError "Missing \"${tool}\" tool. Please install this tool."
+        fi
+    done
 }
 
 
