@@ -1,3 +1,37 @@
+2012/03/11
+
+Resumo:
+
+1. 
+
+
+
+
+
+http://git-scm.com/course/svn.html
+
+
+yum install git-svn
+
+
+cat > .../authors.txt <<EOF
+jfn = jorgefranconunes <jorgefranconunes@gmail.com>
+EOF
+
+git svn clone \
+    --authors-file=.../authors.txt \
+    --stdlayout \
+    svn+ssh://ssh.pdmfc.com/home/jfn/svn/math mathstuff
+cd ./mathstuff
+git config user.name jorgefranconunes
+git config user.email jorgefranconunes@gmail.com
+git remote add origin git@github.com:jorgefranconunes/mathstuff.git
+git push origin master
+
+
+
+
+
 2010/12/31
 
 Resumo:
