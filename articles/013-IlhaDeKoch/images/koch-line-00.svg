@@ -2,18 +2,18 @@
 
 <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="1.0078125"
-    height="0.0078125"
+    width="1000.78125"
+    height="7.8125"
     id="koch-line-00.svg"
     version="1.0">
 
 <!-- viewbox="-0.00390625 -0.00390625 1.00390625 0.00390625" -->
 
   <g 
-    style="stroke:black; stroke-width:0.00390625; stroke-opacity:1; fill:none" 
+    style="stroke:black; stroke-width:3.90625; stroke-opacity:1; fill:none" 
     id="layer1">
 
-    <path d="M 0.00390625, 0.00390625 L 1.00390625, 0.00390625" />
+    <path d="M 3.90625, 3.90625 L 1003.90625, 3.90625" />
 
   </g>
 

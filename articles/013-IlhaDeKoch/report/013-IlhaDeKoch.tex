@@ -12,6 +12,16 @@
 \usepackage{amsfonts}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage[colorlinks=true]{hyperref}
+
+
+
+
+
+
+\title{Ilha de Koch}
+\author{Jorge Nunes ({\tt\href{mailto:jorgefranconunes@gmail.com}{jorgefranconunes@gmail.com}})}
+\date{Junho 2010}
 
 
 
@@ -19,12 +29,15 @@
 
 \begin{document}
 
-\section*{Ilha de Koch}
+\maketitle
 
-Neste artigo iremos falar muito superficialmente sobre as figuras
-geométricas conhecidas como linha de Koch e ilha de Koch. O nome vem
-do matemático sueco Helge von Koch, que em 1904 referiu num artigo
-pela primeira vez a curva que é hoje conhecida como linha de Koch.
+
+\begin{abstract}
+\noindent Neste artigo abordaremos resumida as figuras geométricas
+conhecidas como linha de Koch e ilha de Koch. O nome vem do matemático
+sueco Helge von Koch, que em 1904 referiu num artigo pela primeira vez
+a curva que é hoje conhecida como linha de Koch.
+\end{abstract}
 
 
 
@@ -34,7 +47,7 @@ pela primeira vez a curva que é hoje conhecida como linha de Koch.
 
 A linha de Koch é uma figura geométrica que nos será útil para definir
 a ilha de Koch. Consideremos a sequência de figuras que descrevemos em
-seguida. Começamos com um segmento horizontal, com uma unidade de
+seguida. Partimos de um segmento horizontal, com uma unidade de
 comprimento.
 
 \begin{figure}[H]
@@ -44,7 +57,7 @@ comprimento.
 \end{figure}
 
 
-Em seguida, dividimos este segmento em três partes iguais e
+Começamos por dividir este segmento em três partes iguais e
 substituimos a parte do meio por outros dois segmentos correspondendo
 a dois lados de um triângulo equilátero. Este passo está ilustrado na
 figura em baixo. O comprimento de cada um destes 4 segmentos é 1/3
@@ -57,11 +70,11 @@ pelo que o comprimento da linha completa é de 4/3.
 \end{figure}
 
 
-No terceiro passo fazemos algo semelhante ao realizado no segundo
+No segundo passo fazemos algo semelhante ao realizado no primeiro
 passo, agora para cada um dos 4 segmentos da figura. Cada segmento é
 dividido em três e a parte do meio substituida por outros dois
 segmentos formando dois lados de um triângulo equilátero. Se no
-segundo passo a figura era composta por segmentos de comprimento 1/3
+primeiro passo a figura era composta por segmentos de comprimento 1/3
 agora os segmentos são de comprimento 1/9 e o comprimento total passou
 a ser 16/9.
 
@@ -72,7 +85,7 @@ a ser 16/9.
 \end{figure}
 
 
-As figuras em baixo correspondem aos passos 4, 5, 6 desta iteração.
+As figuras em baixo correspondem aos passos 3, 4 e 5 deste processo.
 
 \begin{figure}[H]
   \centering
@@ -83,7 +96,7 @@ As figuras em baixo correspondem aos passos 4, 5, 6 desta iteração.
   \hfill
   \includegraphics[width=0.3\textwidth]{../images/koch-line-05.pdf}
   \hfill
-  \caption{Segunda iteração da construção da linha de Koch.}
+  \caption{Iterações 3, 4 e 5 da construção da linha de Koch.}
 \end{figure}
 
 
@@ -108,7 +121,8 @@ interessantes:
 
 
 É simples verificar que o comprimento da linha de Koch é infinito. De
-facto, se chamarmos ao comprimento da figura do passo n tem-se que
+facto, se chamarmos $L_n$ ao comprimento da figura do passo $n$ tem-se
+que
 
 \[ L_n = \frac{4}{3}L_{n-1} \]
 
@@ -130,6 +144,29 @@ vez de começar com um único segmento começa-se com um triângulo
 equilátero. As imagens em baixo representam as seis primeiras
 iterações do procedimento.
 
+\begin{figure}[H]
+  \centering
+
+  \hfill
+  \includegraphics[width=0.3\textwidth]{../images/koch-island-00.pdf}
+  \hfill
+  \includegraphics[width=0.3\textwidth]{../images/koch-island-01.pdf}
+  \hfill
+  \includegraphics[width=0.3\textwidth]{../images/koch-island-02.pdf}
+  \hfill
+
+  \hfill
+  \includegraphics[width=0.3\textwidth]{../images/koch-island-03.pdf}
+  \hfill
+  \includegraphics[width=0.3\textwidth]{../images/koch-island-04.pdf}
+  \hfill
+  \includegraphics[width=0.3\textwidth]{../images/koch-island-05.pdf}
+  \hfill
+
+  \caption{A figura inicial e as cinco primeiras iterações da
+    construção da ilha de Koch.}
+\end{figure}
+
 
 O perímetro da ilha de Koch é infinito. Tal acontece porque esta
 figura é constituida pela união de três versões idênticas,
@@ -140,8 +177,8 @@ apropriadamente rodadas e deslocadas, da linha de Koch. No entanto a
 A área da ilha de Koch pode ser obtida como o limite das áreas das
 figuras intermédias. Vamos então calcular a área $A_n$ da figura
 do passo n. A área da figura do passo n é dada pela soma da área da
-figura do passo n-1 com as áreas dos pequenos triângulos que são
-adicionados à figura do passo n-1 para obter a figura do passo n.
+figura do passo $n-1$ com as áreas dos pequenos triângulos que são
+adicionados à figura do passo $n-1$ para obter a figura do passo $n$.
 
 Precisamos de saber quantos pequenos triângulos são acrescentados no
 passo n-1 para obter a figura do passo n. Precisamos também de saber o
@@ -155,8 +192,8 @@ número de troços no passo $n$. Tem-se então:
 \[c_0=3, \quad c_n=4c_{n-1} \qquad \Rightarrow \qquad c_n = 3\times 4^n \]
 
 O comprimento do lado dos pequenos triângulos que são acrescentados no
-passo n-1 corresponde ao número de troços que existem no passo
-n. Chamemos-lhe $l_n$. Tem-se que:
+passo $n-1$ corresponde ao número de troços que existem no passo
+$n$. Chamemos-lhe $l_n$. Tem-se que:
 
 \[
  l_0=1, 
@@ -175,31 +212,42 @@ a_n = \frac{\sqrt{3}}{4} l_n^2 = \frac{\sqrt{3}}{4} \left(\frac{1}{9}\right)^n
 
 Com o que já foi dito temos
 
-$latex \displaystyle A_n = A_{n-1} + c_{n-1}a_n $
+\[
+A_n = A_{n-1} + c_{n-1}a_n
+\]
 
-$latex \displaystyle A_n = A_0 + \sum_{k=1}^n c_{k-1}a_k $
+\[
+A_n = A_0 + \sum_{k=1}^n c_{k-1}a_k
+\]
 
-$latex \displaystyle A_n = \frac{\sqrt{3}}{4} \left( 1 + \frac{3}{4} \sum_{k=1}^n \left(\frac{4}{9}\right)^n \right)$
+\[ A_n = \frac{\sqrt{3}}{4} \left( 1 + \frac{3}{4} \sum_{k=1}^n \left(\frac{4}{9}\right)^n \right)
+\]
 
-No limite temos a soma dos termos de uma progressão geométrica de razão 4/9. Sendo $latex \sum_{k=0}^\infty = \frac{1}{1-r}$ ou $latex \sum_{k=1}^\infty = \frac{r}{1-r}$ teremos finalmente a área da ilha de Koch como
 
-$latex \displaystyle A = \lim A_n = \frac{2\sqrt{3}}{5} $
+No limite temos a soma dos termos de uma progressão geométrica de
+razão $\frac{4}{9}$. Sendo $\sum_{k=0}^\infty = \frac{1}{1-r}$, ou
+$\sum_{k=1}^\infty = \frac{r}{1-r}$, teremos finalmente a área $A$ da
+ilha de Koch como
 
-Cólofon
+\[
+A = \lim A_n = \frac{2\sqrt{3}}{5}
+\]
 
-As imagens PNG usadas neste artigo com os diferentes passos das iterações da linha de Koch e ilha de Koch foram geradas com Inkscape a partir de ficheiros SVG.
 
-Os ficheiros SVG com as figuras foram gerados a partir de um programa para geração de iterações de Sistemas-L escrito na linguagem de scripting Tea.
+
+
+
+\section*{Cólofon}
+
+As imagens PNG usadas neste artigo com os diferentes passos das
+iterações da linha de Koch e ilha de Koch foram geradas com
+\href{http://www.inkscape.org/}{Inkscape} a partir de ficheiros SVG.
+
+Os ficheiros SVG com as figuras foram gerados a partir de um programa
+para geração de iterações de Sistemas-L escrito na linguagem de
+scripting \href{http://www.pdmfc.com/tea-site/info/index.html}{Tea}.
 
   
-
-
-
-
-  
-
-
-
 
 
 
