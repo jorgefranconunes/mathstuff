@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   width="6.0"
+   height="2.0"
+   id="poliominos-3-free.svg"
+   version="1.0">
+  <g style="opacity:1;fill:#bebebe;fill-opacity:1;stroke:black;stroke-width:0.01;stroke-opacity:1"
+     id="layer1">
+
+    <rect
+       id="item1"
+       width="1"
+       height="1"
+       x="4.0"
+       y="1.0" />
+
+    <rect
+       id="item2"
+       width="1"
+       height="1"
+       x="5.0"
+       y="1.0" />
+
+    <rect
+       id="item3"
+       width="1"
+       height="1"
+       x="0.0"
+       y="0.0" />
+
+    <rect
+       id="item4"
+       width="1"
+       height="1"
+       x="1.0"
+       y="0.0" />
+
+    <rect
+       id="item5"
+       width="1"
+       height="1"
+       x="2.0"
+       y="0.0" />
+
+    <rect
+       id="item6"
+       width="1"
+       height="1"
+       x="4.0"
+       y="0.0" />
+
+  </g>
+</svg>

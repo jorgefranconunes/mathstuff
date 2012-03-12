@@ -1,0 +1,29 @@
+#!/bin/bash
+###########################################################################
+#
+# Copyright (c) 2012 Jorge Nunes, All Rights Reserved.
+#
+#
+# Generates PDF and PNG versions of all the SVG files found in this
+# directory.
+#
+# The PDF files will be included in the LaTeX report.
+#
+# The PNG files will be referenced from the wiki.
+#
+###########################################################################
+
+_scriptDir=$(dirname $0)
+_baseDir=$(cd ${_scriptDir}/../../..; pwd)
+
+source ${_baseDir}/lib/bash/ms-utils.sh
+
+
+
+
+
+for f in ${_scriptDir}/*.svg ; do
+    msLog "Generating PDF from \"$(basename $f)\"..."
+    ${_baseDir}/bin/svg2pdf --in=${f}
+done
+
