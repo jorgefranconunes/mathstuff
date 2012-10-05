@@ -1,3 +1,84 @@
+2012/10/05
+
+Resumo:
+
+1. 
+
+
+
+
+
+LaTeX on Blogspot:
+
+http://tex.stackexchange.com/questions/13865/how-to-use-latex-on-blogspot
+
+
+Documentation on http://docs.mathjax.org/en/latest/start.html#mathjax-cdn
+
+
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+
+
+Image with caption on Blogger:
+
+<table cellpadding="0" cellspacing="0" class="tr-caption-container" style="float: right; margin-left: 1em; text-align: right;">
+  <tbody>
+    <tr><td style="text-align: center;">
+      <img border="0"
+          src="http://3.bp.blogspot.com/--NRPiL63bao/UG7ULPR1ENI/AAAAAAAAA60/LyX-w_9KQc4/s1600/xxx.png" />
+    </td></tr>
+    <tr><td class="tr-caption" style="text-align: center;">The Daubechies D4 wavlet.</td></tr>
+  </tbody>
+</table>
+
+
+
+
+
+
+This is my first post. Its sole purpose is to check that it is indeed
+possible to use mathematical formulas in Blogger posts.
+
+\[
+\phi(t) = \sum_k c_k \phi(2t-k)
+\]
+
+How about that? The stuff above is a wavelet scaling equation.
+
+This is made possible by MathJax. To obtain the previous equation it
+sufficed to include the following in the flow of the text:
+
+\[
+    \phi(t) = \sum_k \phi(2t-k)
+\]
+
+
+Now is also a good time to check 
+
+
+
+Este é o primeiro texto. O objectivo é verificar que é efectivamente possível apresentar fórmulas matemáticas num blog do WordPress.
+
+
+
+Que tal? Esta é a equação de escalamento que define uma wavelet.
+
+Este resultado foi obtido usando uma funcionalidade do WordPress que permite incluir equações matemáticas no meio do texto. Para obter a equação acima foi inserido o pedaço de código em baixo durante a edição do texto:
+
+$ latex \displaystyle \phi(t) = \sum_k \phi(2t-k) $
+
+Em baixo é suposto estar uma imagem. Este é o gráfico da wavelet D4 de
+Daubechies. Conseguimos pois colocar imagens arbitrárias neste
+blog. Fixe.
+
+E com isto terminamos o capítulo de hoje. Quanto ao próximo, depois se
+verá qual o assunto a abordar.
+
+
+
+
+
 2012/03/11
 
 Resumo:
