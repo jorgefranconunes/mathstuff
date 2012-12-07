@@ -27,9 +27,9 @@ a) Quadratic Koch island.
 
 b) Sierpinski arrowhead.
 
-c) Dragon curve.
+c) Hilbert curve.
 
-d) Hilbert curve.
+d) Dragon curve.
 
 Largura das imagens: 128 pixeis.
 

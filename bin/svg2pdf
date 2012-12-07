@@ -29,7 +29,7 @@ source ${_baseDir}/lib/bash/ms-utils.sh
 _inputFile=
 
 #
-# Path of resulting PNG image file.
+# Path of resulting PDF image file.
 #
 _outputFile=
 
@@ -54,7 +54,7 @@ Available options:
 	Path of the SVG file to be converted.
 
 --out=PATH
-	Path of the PNG file to be created. If not specified it will
+	Path of the PDF file to be created. If not specified it will
 	default to the same path as the input file, with the extension
 	replaced by ".pdf".
 

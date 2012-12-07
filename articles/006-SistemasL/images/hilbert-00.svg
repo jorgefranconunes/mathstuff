@@ -2,18 +2,18 @@
 
 <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="1.0078125"
-    height="1.0078125"
+    width="1007.8125"
+    height="1007.8125"
     id="hilbert-00.svg"
     version="1.0">
 
 <!-- viewbox="-0.00390625 -0.00390625 1.00390625 1.00390625" -->
 
   <g 
-    style="stroke:black; stroke-width:0.00390625; stroke-opacity:1; fill:none" 
+    style="stroke:black; stroke-width:3.90625; stroke-opacity:1; fill:none" 
     id="layer1">
 
-    <path d="M 0.00390625, 1.00390625 L 0.003906250000000062, 0.00390625 L 1.00390625, 0.00390625 L 1.00390625, 1.00390625" />
+    <path d="M 3.90625, 1003.90625 L 3.906250000000062, 3.90625 L 1003.90625, 3.90625 L 1003.90625, 1003.90625" />
 
   </g>
 
