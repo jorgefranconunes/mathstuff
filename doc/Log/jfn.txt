@@ -36,49 +36,6 @@ Image with caption on Blogger:
 
 
 
-
-This is my first post. Its sole purpose is to check that it is indeed
-possible to use mathematical formulas in Blogger posts.
-
-\[
-\phi(t) = \sum_k c_k \phi(2t-k)
-\]
-
-How about that? The stuff above is a wavelet scaling equation.
-
-This is made possible by MathJax. To obtain the previous equation it
-sufficed to include the following in the flow of the text:
-
-\[
-    \phi(t) = \sum_k \phi(2t-k)
-\]
-
-
-Now is also a good time to check 
-
-
-
-Este é o primeiro texto. O objectivo é verificar que é efectivamente possível apresentar fórmulas matemáticas num blog do WordPress.
-
-
-
-Que tal? Esta é a equação de escalamento que define uma wavelet.
-
-Este resultado foi obtido usando uma funcionalidade do WordPress que permite incluir equações matemáticas no meio do texto. Para obter a equação acima foi inserido o pedaço de código em baixo durante a edição do texto:
-
-$ latex \displaystyle \phi(t) = \sum_k \phi(2t-k) $
-
-Em baixo é suposto estar uma imagem. Este é o gráfico da wavelet D4 de
-Daubechies. Conseguimos pois colocar imagens arbitrárias neste
-blog. Fixe.
-
-E com isto terminamos o capítulo de hoje. Quanto ao próximo, depois se
-verá qual o assunto a abordar.
-
-
-
-
-
 2012/03/11
 
 Resumo:
