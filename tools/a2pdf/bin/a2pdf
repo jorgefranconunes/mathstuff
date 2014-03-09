@@ -1,0 +1,241 @@
+#!/bin/bash
+###########################################################################
+#
+# Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+#
+#
+# Converts an Asciidoc document to PDF. A plain report style is used.
+#
+###########################################################################
+
+_scriptDir=$(dirname $0)
+_scriptName=$(basename $0)
+_baseDir=$(cd ${_scriptDir}/..; pwd)
+
+
+
+
+
+_dblatexSpecsFile=${_baseDir}/conf/dblatex/PlainReport.specs
+
+
+
+
+
+###########################################################################
+#
+# Displays a message to stderr and exits the process.
+#
+# Arguments:
+#
+# 1. The message to be displayed.
+#
+###########################################################################
+
+function a2pError () {
+
+    echo "***" $1 >&2
+    exit 1
+}
+
+
+
+
+
+###########################################################################
+#
+# Displays a message to stdout prefixed with the current time.
+#
+# Arguments:
+#
+# 1. The message to be displayed.
+#
+###########################################################################
+
+function a2pLog () {
+
+    echo $(date "+%Y/%m/%d %H:%M:%S") "$@"
+}
+
+
+
+
+
+###########################################################################
+#
+# Checks if a set of required tools is available. If any is missing
+# outputs an error message and terminates the process.
+#
+###########################################################################
+
+function a2pCheckForTools () {
+
+    local toolList="$@"
+
+    for tool in ${toolList} ; do
+        if type $tool > /dev/null 2>&1 ; then
+            : All is ok
+        else
+            a2pError "Missing \"${tool}\" tool. Please install this tool."
+        fi
+    done
+}
+
+
+
+
+
+###########################################################################
+#
+# Displays an help messages describing the configuration options.
+#
+###########################################################################
+
+function displayHelp () {
+
+    cat <<EOF
+
+Prepare PDF document from Asciidoc source
+Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+
+Available options:
+
+--help
+	Prints this help text.
+
+EOF
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+function asciidoc2pdf () {
+
+    local asciidocFile=$1
+    local asciidocExt=${asciidocFile##*.}
+    local asciidocBasename=$(basename ${asciidocFile} .${asciidocExt})
+    local fileDir=$(dirname ${asciidocFile})
+    local docbookFile=${fileDir}/${asciidocBasename}.xml
+    local pdfFile=${fileDir}/${asciidocBasename}.pdf
+    local xmlFile=${fileDir}/${asciidocBasename}.xml
+
+    a2pLog "Converting Asciidoc document to PDF:"
+    a2pLog "	Source : ${asciidocFile}"
+    a2pLog "	Target : ${pdfFile}"
+
+    # We do not use a2x to generate the PDF file because we abhor the
+    # look&feel of the resulting PDF. Instead we will invoke dblatex
+    # ourselves with the appropriate options, including the style used
+    # for the resulting PDF.
+
+    asciidoc2docbook ${asciidocFile} \
+        && docbook2pdf ${docbookFile} \
+        # && rm -f ${xmlFile}
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+function asciidoc2docbook () {
+
+    local asciidocFile=$1
+
+    a2pLog "Generating DocBook document from Asciidoc document..."
+
+    asciidoc \
+        --attribute="imgext=.pdf" \
+        --doctype=article \
+        --backend=docbook \
+        ${asciidocFile}
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+function docbook2pdf () {
+
+    local docbookFile=$1
+
+    a2pLog "Generating PDF document from DocBook document..."
+
+    dblatex \
+        --type=pdf \
+        -S ${_dblatexSpecsFile} \
+        ${docbookFile}
+}
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
+if [ $# -lt 1 ] ; then
+    a2pError "Args: [option ...] asciidoc-file ..."
+fi
+
+a2pCheckForTools asciidoc dblatex
+
+#
+# Process command line options.
+#
+for option in "$@" ; do
+    case "$option" in
+	--help )
+	    displayHelp
+	    exit 0
+	    ;;
+	--*=* )
+            option=$(expr $option : '\(--.*\)=.*')
+            a2pError "${_scriptName} : $option : unknown option. Use --help for details."
+            ;;
+	--* )
+	    option=$(expr $option : '\(--.*\)')
+	    a2pError "${_scriptName} : $option : unknown option. Use --help for details."
+	    ;;
+	* )
+	    break;
+	    ;;
+    esac
+done
+
+
+for source in "$@" ; do
+    asciidoc2pdf ${source}
+done
+
+
+
+
+
+###########################################################################
+#
+# 
+#
+###########################################################################
+
