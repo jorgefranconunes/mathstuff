@@ -137,7 +137,7 @@ function asciidoc2pdf () {
 
     asciidoc2docbook ${asciidocFile} \
         && docbook2pdf ${docbookFile} \
-        # && rm -f ${xmlFile}
+        && rm -f ${xmlFile}
 }
 
 

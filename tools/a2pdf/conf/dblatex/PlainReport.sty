@@ -1,36 +1,352 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
 %
+% LaTeX style for plain reports. Used by dblatex within the a2pdf tool.
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\RequirePackageWithOptions{db2latex}
 
+\NeedsTeXFormat{LaTeX2e}
+
+\ProvidesPackage{PlainReport}
+
+% The defined options
+\DeclareOption{hyperlink}{ \def\DBKhyperlink{yes} }
+\DeclareOption{nohyperlink}{ \def\DBKhyperlink{no} }
+
+% Default values
+\ExecuteOptions{nohyperlink}
+
+% If defined, process the options
+\ProcessOptions\relax
+
+% Needed packages
+\usepackage{ifthen}
+\usepackage{float}       
+\usepackage{footmisc} 
+\usepackage{appendix} 
 \usepackage{lastpage}
 \usepackage{parskip}
+\usepackage{fancyhdr}
+
+% Most Common Packages
+
+\usepackage{latexsym} 
+% FIXME: enumitem is expected by the stylesheets
+
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+
+\usepackage{fancybox} 
+\usepackage{ragged2e} 
+\usepackage{fancyvrb} 
+
+\makeatletter\@namedef{FV@fontfamily@default}{\def\FV@FontScanPrep{}\def\FV@FontFamily{}}\makeatother
+\fvset{obeytabs=true,tabsize=3}
+\makeatletter
+\let\dblatex@center\center\let\dblatex@endcenter\endcenter
+\def\dblatex@nolistI{\leftmargin\leftmargini\topsep\z@ \parsep\parskip \itemsep\z@}
+\def\center{\let\@listi\dblatex@nolistI\@listi\dblatex@center\let\@listi\@listI\@listi}
+\def\endcenter{\dblatex@endcenter}
+\makeatother
+\usepackage{rotating}         
+\usepackage{subfigure}         
+\usepackage{tabularx}
+\usepackage{amsmath,amsthm,amsfonts,amsxtra,amsopn}
+
+\usepackage{a4wide}
+
+
+
+
+
+\newcommand{\DBKreleaseinfo}{Working Paper}
+
+\usepackage{dbk_fonts}
+\usepackage{dbk_hyper}
+\usepackage{dbk_biblio}
+\usepackage{dbk_table}
+\usepackage{dbk_changebar}
+\usepackage{dbk_graphic}
+\usepackage{dbk_verbatim}
+\usepackage{dbk_callout}
+\usepackage{dbk_locale}
+\usepackage{dbk_annot}
 
 \date{\DBKdate}
 
-\floatstyle{plain}
-\restylefloat{figure}
-
-\fancypagestyle{frontmatter}{%
-  \fancyhf{}
-  \fancyfoot[L]{\jobname{}.pdf}
-  \fancyfoot[R]{\thepage/\pageref{LastPage}}
-  \renewcommand{\headrulewidth}{0pt}
+% LaTeX <othercredit> commands to define
+%
+% #1: mapped to <contrib>
+% #2: mapped to <firstname> <surname>
+%
+\def\DBKinditem#1#2{
+  #2  & #1 \tabularnewline
+  \hline
 }
 
+\newenvironment{DBKindtable}{
+  \begin{tabular}{ |l|l| }
+  \hline
+  \emph{Collaborator} & \emph{Contribution}
+  \hline
+}{
+  \end{tabular}
+}
+
+%
+% Latex <revhistory> table
+%
+\newenvironment{DBKrevtable}{
+  \begin{longtable}{ |l|l|l|l| }
+  \hline
+  Revision number & Date & Release Info & Author \tabularnewline
+  \hline
+  \endhead
+}{
+  \end{longtable}
+}
+
+\newcommand{\DBKreference}{}
+\newcommand{\DBKsite}{}
+\newcommand{\DBKedition}{}
+\newcommand{\DBKsubtitle}{}
+\newcommand{\DBKdate}{\today}
+\newcommand{\DBKpubdate}{}
+\newcommand{\DBKindexation}{}
+\newcommand{\DBKrevhistory}{}
+\newcommand{\DBKlegalblock}{}
+\newcommand{\DBKlegaltitle}{}
+\newcommand{\DBKcopyright}{}
+
+% Display ``DRAFT'' as a water mark:
+\usepackage{ifpdf}
+\ifpdf
+\usepackage{pdfpages}
+\usepackage{color}
+\def\showwatermark#1{%
+  \AddToShipoutPicture{
+  \AtTextCenter{%
+  \makebox(0,0)[c]{\resizebox{\textwidth}{!}{%
+  \rotatebox{45}{\textsf{\textbf{\color[gray]{0.8}#1}}}}}%
+  }}
+}
+\else
+\def\showwatermark#1{}%
+\fi
+
+
+
+
+
+\newenvironment{DBKlegalnotice}{
+  \if@twocolumn
+    \noindent\small\textit{\DBKlegaltitle}
+    \/\bfseries---$\!$
+  \else
+    \noindent\begin{center}\small\bfseries\DBKlegaltitle
+    \end{center}\begin{quote}\small
+  \fi
+}{
+  \vspace{0.6em}\par\if@twocolumn\else\end{quote}\fi
+}
+
+
+
+
+
+%
+% Headings and footers.
+%
 \fancyfoot[L]{\jobname{}.pdf}
 \fancyfoot[C]{}
 \fancyfoot[R]{\thepage/\pageref{LastPage}}
 
-\renewcommand{\maketitle}{
-  \stdmaketitle
+
+
+
+
+%
+% More commands expected by the db2latex style.
+%
+
+\newcommand{\frontmatter}{}
+\newcommand{\mainmatter}{}
+\newcommand{\backmatter}{}
+
+
+
+
+
+% ----------------------------------------------
+% Define a new LaTeX environment (adminipage)
+% ----------------------------------------------
+\newenvironment{admminipage}%
+{ % this code corresponds to the \begin{adminipage} command
+  \begin{Sbox}%
+  \begin{minipage}%
+} %done
+{ % this code corresponds to the \end{adminipage} command
+  \end{minipage}
+  \end{Sbox}
+  \fbox{\TheSbox}
+} %done
+
+% ----------------------------------------------
+% Define a new LaTeX length (admlength)
+% ----------------------------------------------
+\newlength{\admlength}
+
+% ----------------------------------------------
+% Define a new LaTeX environment (admonition)
+% With 2 parameters:
+% #1 The image (e.g. note.pdf)
+% #2 The caption
+% ----------------------------------------------
+\newenvironment{DBKadmonition}[2] {
+  % this code corresponds to the \begin{admonition} command
+  \hspace{0mm}\newline\hspace*\fill\newline
   \noindent
-  \thispagestyle{fancy}
-  \newpage
+  \setlength{\fboxsep}{5pt}
+  \setlength{\admlength}{\linewidth}
+  \addtolength{\admlength}{-10\fboxsep}
+  \addtolength{\admlength}{-10\fboxrule}
+  \admminipage{\admlength}
+  {\bfseries \sc\large{#2}} \newline
+  ~\\[1mm]
+  \sffamily
+  \ifthenelse{\equal{#1}{}}{
+    \def\admgraph{false}
+  }{
+    \def\admgraph{true}
+    \includegraphics[width=1cm]{#1}
+    \addtolength{\admlength}{-1cm}
+    \addtolength{\admlength}{-20pt}
+    \begin{minipage}[lt]{\admlength}
+  }
+  \parskip=0.5\baselineskip \advance\parskip by 0pt plus 2pt
+} %done
+{ % this code corresponds to the \end{admonition} command
+  \vspace{5mm} 
+  \ifthenelse{\equal{\admgraph}{false}}{}{
+    \end{minipage}
+  }
+  \endadmminipage
+  \vspace{.5em}
+  \par
 }
 
-\renewcommand{\frontmatter}{\cleardoublepage\pagestyle{frontmatter}}
-\renewcommand{\mainmatter}{\cleardoublepage\pagestyle{fancy}}
-\pagenumbering{arabic}
+\newenvironment{sidebar}[1][\textwidth]{
+  \hspace{0mm}\newline%
+  \noindent\begin{Sbox}\begin{minipage}{#1}
+}{
+  \end{minipage}\end{Sbox}\shadowbox{\TheSbox}%
+}
+
+
+
+
+
+\makeatletter
+\newcommand{\dbz}{\penalty \z@}
+\newcommand{\docbooktolatexpipe}{\ensuremath{|}\dbz}
+\newskip\docbooktolatexoldparskip
+\newcommand{\docbooktolatexnoparskip}{\docbooktolatexoldparskip=\parskip\parskip=0pt plus 1pt}
+\newcommand{\docbooktolatexrestoreparskip}{\parskip=\docbooktolatexoldparskip}
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else\hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
+\ifx\dblatex@chaptersmark\@undefined\def\dblatex@chaptersmark#1{\markboth{\MakeUppercase{#1}}{}}\fi
+\let\save@makeschapterhead\@makeschapterhead
+\def\dblatex@makeschapterhead#1{\vspace*{-80pt}\save@makeschapterhead{#1}}
+\def\@makeschapterhead#1{\dblatex@makeschapterhead{#1}\dblatex@chaptersmark{#1}}
+
+			
+\AtBeginDocument{\ifx\refname\@undefined\let\docbooktolatexbibname\bibname\def\docbooktolatexbibnamex{\bibname}\else\let\docbooktolatexbibname\refname\def\docbooktolatexbibnamex{\refname}\fi}
+% Facilitate use of \cite with \label
+\newcommand{\docbooktolatexbibaux}[2]{%
+  \protected@write\@auxout{}{\string\global\string\@namedef{docbooktolatexcite@#1}{#2}}
+}
+
+%\usepackage{cite}
+%\renewcommand\citeleft{(}  % parentheses around list
+%\renewcommand\citeright{)} % parentheses around list
+\newcommand{\docbooktolatexcite}[2]{%
+  \@ifundefined{docbooktolatexcite@#1}%
+  {\cite{#1}}%
+  {\def\@docbooktolatextemp{#2}\ifx\@docbooktolatextemp\@empty%
+   \cite{\@nameuse{docbooktolatexcite@#1}}%
+   \else\cite[#2]{\@nameuse{docbooktolatexcite@#1}}%
+   \fi%
+  }%
+}
+\newcommand{\docbooktolatexbackcite}[1]{%
+  \ifx\Hy@backout\@undefined\else%
+    \@ifundefined{docbooktolatexcite@#1}{%
+      % emit warning?
+    }{%
+      \ifBR@verbose%
+        \PackageInfo{backref}{back cite \string`#1\string' as \string`\@nameuse{docbooktolatexcite@#1}\string'}%
+      \fi%
+      \Hy@backout{\@nameuse{docbooktolatexcite@#1}}%
+    }%
+  \fi%
+}
+
+% --------------------------------------------
+% A way to honour <footnoteref>s
+% Blame j-devenish (at) users.sourceforge.net
+% In any other LaTeX context, this would probably go into a style file.
+\newcommand{\docbooktolatexusefootnoteref}[1]{\@ifundefined{@fn@label@#1}%
+  {\hbox{\@textsuperscript{\normalfont ?}}%
+    \@latex@warning{Footnote label `#1' was not defined}}%
+  {\@nameuse{@fn@label@#1}}}
+\newcommand{\docbooktolatexmakefootnoteref}[1]{%
+  \protected@write\@auxout{}%
+    {\global\string\@namedef{@fn@label@#1}{\@makefnmark}}%
+  \@namedef{@fn@label@#1}{\hbox{\@textsuperscript{\normalfont ?}}}%
+  }
+
+% index labeling helper
+\let\dbtolatex@@theindex\theindex
+\let\dbtolatex@@endtheindex\endtheindex
+\renewenvironment{theindex}{
+  \if@openright\cleardoublepage\else\clearpage\fi
+  \dbtolatex@@theindex
+  % To have the index in the TOC
+  \@ifundefined{chapter}{
+    \addcontentsline{toc}{section}{\numberline{}\indexname}
+  }{
+    \refstepcounter{chapter}
+    \ifnum \value{part} >\z@
+      \addcontentsline{toc}{part}{\protect\numberline{}\indexname}
+    \else
+      \addcontentsline{toc}{chapter}{\numberline{}\indexname}
+    \fi
+  }
+}{
+  \dbtolatex@@endtheindex%
+}
+
+\newlength\saveparskip \newlength\saveparindent
+\newlength\tempparskip \newlength\tempparindent
+
+% Prevent multiple openings of the same aux file
+% (happens when backref is used with multiple bibliography environments)
+\ifx\AfterBeginDocument\undefined\let\AfterBeginDocument\AtBeginDocument\fi
+\AfterBeginDocument{
+  \let\latex@@starttoc\@starttoc
+  \def\@starttoc#1{%
+    \@ifundefined{docbooktolatex@aux#1}{%
+      \global\@namedef{docbooktolatex@aux#1}{}%
+      \latex@@starttoc{#1}%
+    }{}
+  }
+}
+
+
+
+
+
+\lstset{numbers=left}
 

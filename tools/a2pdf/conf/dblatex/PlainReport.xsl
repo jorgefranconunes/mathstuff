@@ -4,6 +4,14 @@
 <!-- Options used for documentclass -->
 <xsl:param name="latex.class.options">a4paper,11pt</xsl:param>
 
+<!-- The admonition graphics, inherited from DBLatex. -->
+<xsl:param name="figure.note">note</xsl:param>
+<xsl:param name="figure.tip">tip</xsl:param>
+<xsl:param name="figure.warning">warning</xsl:param>
+<xsl:param name="figure.caution">caution</xsl:param>
+<xsl:param name="figure.important">important</xsl:param>
+
+<!-- -->
 <xsl:param name="doc.lot.show"></xsl:param>
 
 <!--  -->
