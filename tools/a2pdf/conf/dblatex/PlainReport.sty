@@ -6,7 +6,6 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \NeedsTeXFormat{LaTeX2e}
 
 \ProvidesPackage{PlainReport}
@@ -21,26 +20,32 @@
 % If defined, process the options
 \ProcessOptions\relax
 
-% Needed packages
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath,amsthm,amsfonts,amsxtra,amsopn}
+\usepackage{appendix}
+\usepackage{fancybox}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{footmisc}
 \usepackage{ifthen}
-\usepackage{float}       
-\usepackage{footmisc} 
-\usepackage{appendix} 
 \usepackage{lastpage}
 \usepackage{parskip}
-\usepackage{fancyhdr}
+\usepackage{ragged2e}
+\usepackage{rotating}         
+\usepackage{subfigure}         
+\usepackage{tabularx}
 
-% Most Common Packages
-
-\usepackage{latexsym} 
-% FIXME: enumitem is expected by the stylesheets
-
-\usepackage{enumitem}
-\setlist[itemize]{leftmargin=*}
-
-\usepackage{fancybox} 
-\usepackage{ragged2e} 
-\usepackage{fancyvrb} 
+\usepackage{fancyvrb}
 
 \makeatletter\@namedef{FV@fontfamily@default}{\def\FV@FontScanPrep{}\def\FV@FontFamily{}}\makeatother
 \fvset{obeytabs=true,tabsize=3}
@@ -50,41 +55,138 @@
 \def\center{\let\@listi\dblatex@nolistI\@listi\dblatex@center\let\@listi\@listI\@listi}
 \def\endcenter{\dblatex@endcenter}
 \makeatother
-\usepackage{rotating}         
-\usepackage{subfigure}         
-\usepackage{tabularx}
-\usepackage{amsmath,amsthm,amsfonts,amsxtra,amsopn}
-
-\usepackage{a4wide}
 
 
 
 
 
-\newcommand{\DBKreleaseinfo}{Working Paper}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Define the page size.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{dbk_fonts}
-\usepackage{dbk_hyper}
-\usepackage{dbk_biblio}
-\usepackage{dbk_table}
-\usepackage{dbk_changebar}
-\usepackage{dbk_graphic}
-\usepackage{dbk_verbatim}
-\usepackage{dbk_callout}
-\usepackage{dbk_locale}
-\usepackage{dbk_annot}
+\usepackage{geometry}
+
+\geometry{
+  includeheadfoot,
+  margin=2.54cm
+}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \date{\DBKdate}
 
+\newcommand{\DBKcopyright}{}
+\newcommand{\DBKdate}{\today}
+\newcommand{\DBKedition}{}
+\newcommand{\DBKindexation}{}
+\newcommand{\DBKlegalblock}{}
+\newcommand{\DBKlegaltitle}{}
+\newcommand{\DBKpubdate}{}
+\newcommand{\DBKreleaseinfo}{Working Paper}
+\newcommand{\DBKreference}{}
+\newcommand{\DBKrevhistory}{}
+\newcommand{\DBKsite}{}
+\newcommand{\DBKsubtitle}{}
+
+\usepackage{dbk_annot}
+\usepackage{dbk_biblio}
+\usepackage{dbk_callout}
+\usepackage{dbk_changebar}
+\usepackage{dbk_fonts}
+\usepackage{dbk_graphic}
+\usepackage{dbk_hyper}
+\usepackage{dbk_locale}
+\usepackage{dbk_table}
+\usepackage{dbk_verbatim}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Headings and footers.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancyfoot[L]{\jobname{}.pdf}
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage/\pageref{LastPage}}
+
+\pagestyle{fancy}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\let\origmaketitle\maketitle
+\renewcommand{\maketitle}{
+  \origmaketitle
+  \thispagestyle{fancy}
+}
+
+\newcommand{\frontmatter}{}
+\newcommand{\mainmatter}{}
+\newcommand{\backmatter}{}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lstset{numbers=left}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % LaTeX <othercredit> commands to define
 %
 % #1: mapped to <contrib>
 % #2: mapped to <firstname> <surname>
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \def\DBKinditem#1#2{
   #2  & #1 \tabularnewline
   \hline
 }
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newenvironment{DBKindtable}{
   \begin{tabular}{ |l|l| }
@@ -95,9 +197,16 @@
   \end{tabular}
 }
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Latex <revhistory> table
 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newenvironment{DBKrevtable}{
   \begin{longtable}{ |l|l|l|l| }
   \hline
@@ -108,19 +217,16 @@
   \end{longtable}
 }
 
-\newcommand{\DBKreference}{}
-\newcommand{\DBKsite}{}
-\newcommand{\DBKedition}{}
-\newcommand{\DBKsubtitle}{}
-\newcommand{\DBKdate}{\today}
-\newcommand{\DBKpubdate}{}
-\newcommand{\DBKindexation}{}
-\newcommand{\DBKrevhistory}{}
-\newcommand{\DBKlegalblock}{}
-\newcommand{\DBKlegaltitle}{}
-\newcommand{\DBKcopyright}{}
 
-% Display ``DRAFT'' as a water mark:
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Display ``DRAFT'' as a water mark.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usepackage{ifpdf}
 \ifpdf
 \usepackage{pdfpages}
@@ -140,6 +246,12 @@
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newenvironment{DBKlegalnotice}{
   \if@twocolumn
     \noindent\small\textit{\DBKlegaltitle}
@@ -156,54 +268,38 @@
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Headings and footers.
+% Define a new LaTeX environment (admminipage)
 %
-\fancyfoot[L]{\jobname{}.pdf}
-\fancyfoot[C]{}
-\fancyfoot[R]{\thepage/\pageref{LastPage}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
-
-%
-% More commands expected by the db2latex style.
-%
-
-\newcommand{\frontmatter}{}
-\newcommand{\mainmatter}{}
-\newcommand{\backmatter}{}
-
-
-
-
-
-% ----------------------------------------------
-% Define a new LaTeX environment (adminipage)
-% ----------------------------------------------
 \newenvironment{admminipage}%
-{ % this code corresponds to the \begin{adminipage} command
+{ % this code corresponds to the \begin{admminipage} command
   \begin{Sbox}%
   \begin{minipage}%
 } %done
-{ % this code corresponds to the \end{adminipage} command
+{ % this code corresponds to the \end{admminipage} command
   \end{minipage}
   \end{Sbox}
   \fbox{\TheSbox}
 } %done
 
-% ----------------------------------------------
-% Define a new LaTeX length (admlength)
-% ----------------------------------------------
-\newlength{\admlength}
 
-% ----------------------------------------------
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 % Define a new LaTeX environment (admonition)
 % With 2 parameters:
 % #1 The image (e.g. note.pdf)
 % #2 The caption
-% ----------------------------------------------
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newlength{\admlength}
+
 \newenvironment{DBKadmonition}[2] {
   % this code corresponds to the \begin{admonition} command
   \hspace{0mm}\newline\hspace*\fill\newline
@@ -237,6 +333,16 @@
   \par
 }
 
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newenvironment{sidebar}[1][\textwidth]{
   \hspace{0mm}\newline%
   \noindent\begin{Sbox}\begin{minipage}{#1}
@@ -247,6 +353,12 @@
 
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \makeatletter
 \newcommand{\dbz}{\penalty \z@}
@@ -268,9 +380,7 @@
   \protected@write\@auxout{}{\string\global\string\@namedef{docbooktolatexcite@#1}{#2}}
 }
 
-%\usepackage{cite}
-%\renewcommand\citeleft{(}  % parentheses around list
-%\renewcommand\citeright{)} % parentheses around list
+
 \newcommand{\docbooktolatexcite}[2]{%
   \@ifundefined{docbooktolatexcite@#1}%
   {\cite{#1}}%
@@ -293,10 +403,12 @@
   \fi%
 }
 
-% --------------------------------------------
+% 
 % A way to honour <footnoteref>s
 % Blame j-devenish (at) users.sourceforge.net
-% In any other LaTeX context, this would probably go into a style file.
+% In any other LaTeX context, this would probably go into a style
+% file.
+%
 \newcommand{\docbooktolatexusefootnoteref}[1]{\@ifundefined{@fn@label@#1}%
   {\hbox{\@textsuperscript{\normalfont ?}}%
     \@latex@warning{Footnote label `#1' was not defined}}%
@@ -344,9 +456,7 @@
   }
 }
 
+\makeatother
 
 
-
-
-\lstset{numbers=left}
 

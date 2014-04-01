@@ -22,7 +22,7 @@ http://arduino.cc/en/Hacking/PinMapping168#.UxrYyEEux6Y
 
 [[fig-CircuitDiagram]]
 .Circuit diagram showing how to connect the LED to the Arduino board.
-image::../diagram.pdf[scaledwidth="50%"]
+image::../diagram.pdf[scaledwidth="45%"]
 
 And the actual real setup.
 
