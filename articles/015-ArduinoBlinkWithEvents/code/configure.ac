@@ -10,8 +10,10 @@ AM_INIT_AUTOMAKE([
         -Wall
         -Werror
         foreign
+        subdir-objects
 ])
 
+AM_PROG_AR
 AC_PROG_CC
 AC_PROG_RANLIB
 
