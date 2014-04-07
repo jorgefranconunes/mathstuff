@@ -4,8 +4,8 @@
  *
  **************************************************************************/
 
-#ifndef HELLOUTILS_H
-#define HELLOUTILS_H
+#ifndef EVENTLISTENER_H
+#define EVENTLISTENER_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,7 +15,11 @@ extern "C" {
 
 
 
-char *getPackageName(void);
+struct EventListenerStruct;
+typedef struct EventListenerStruct *EventListener;
+
+int  EventListener_getEventType(EventListener self);
+void EventListener_handleEvent(EventListener self);
 
 
 

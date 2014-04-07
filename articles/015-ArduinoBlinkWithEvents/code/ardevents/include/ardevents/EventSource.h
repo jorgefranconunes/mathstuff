@@ -4,18 +4,24 @@
  *
  **************************************************************************/
 
-#ifndef HELLOUTILS_H
-#define HELLOUTILS_H
+#ifndef EVENTSOURCE_H
+#define EVENTSOURCE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include <stdbool.h>
 
 
 
 
-char *getPackageName(void);
+
+struct EventSourceStruct;
+typedef struct EventSourceStruct *EventSource;
+
+int  EventSource_getEventType(EventSource self);
+bool EventSource_isPending(EventSource self);
 
 
 
