@@ -15,11 +15,12 @@ extern "C" {
 
 
 
-struct EventListenerStruct;
-typedef struct EventListenerStruct *EventListener;
+    struct EventListenerStruct {
+    };
+    typedef struct EventListenerStruct EventListener;
 
-int  EventListener_getEventType(EventListener self);
-void EventListener_handleEvent(EventListener self);
+    int  EventListener_getEventType(EventListener *self);
+    void EventListener_handleEvent(EventListener *self);
 
 
 

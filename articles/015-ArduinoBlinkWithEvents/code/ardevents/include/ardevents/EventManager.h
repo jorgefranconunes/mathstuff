@@ -11,22 +11,24 @@
 extern "C" {
 #endif
 
+#include <ardevents/EventListener.h>
+#include <ardevents/EventSource.h>
 
 
 
-    struct EventSourceSlotStruct;
-    typedef struct EventSourceSlotStruct *EventSourceSlot;
+
+
     struct EventSourceSlotStruct {
         EventSource      item;
         EventSourceSlot *next;
     };
+    typedef struct EventSourceSlotStruct *EventSourceSlot;
 
-    struct EventListenerSlotStruct;
-    typedef struct EventListenerSlotStruct *EventListenerSlot;
     struct EventListenerSlotStruct {
         EventListener      item;
         EventListenerSlot *next;
     };
+    typedef struct EventListenerSlotStruct *EventListenerSlot;
 
 
     struct EventManagerStruct;

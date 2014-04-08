@@ -17,11 +17,12 @@ extern "C" {
 
 
 
-struct EventSourceStruct;
-typedef struct EventSourceStruct *EventSource;
+    struct EventSourceStruct {
+    };
+    typedef struct EventSourceStruct EventSource;
 
-int  EventSource_getEventType(EventSource self);
-bool EventSource_isPending(EventSource self);
+    int  EventSource_getEventType(EventSource *self);
+    bool EventSource_isPending(EventSource *self);
 
 
 
