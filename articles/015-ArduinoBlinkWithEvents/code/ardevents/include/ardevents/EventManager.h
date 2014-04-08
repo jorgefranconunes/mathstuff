@@ -19,34 +19,46 @@ extern "C" {
 
 
     struct EventSourceSlotStruct {
-        EventSource      item;
-        EventSourceSlot *next;
+        EventSource                   *item;
+        struct EventSourceSlotStruct  *next;
     };
-    typedef struct EventSourceSlotStruct *EventSourceSlot;
+    typedef struct EventSourceSlotStruct EventSourceSlot;
+
 
     struct EventListenerSlotStruct {
-        EventListener      item;
-        EventListenerSlot *next;
+        EventListener                  *item;
+        struct EventListenerSlotStruct *next;
     };
-    typedef struct EventListenerSlotStruct *EventListenerSlot;
+    typedef struct EventListenerSlotStruct EventListenerSlot;
 
 
-    struct EventManagerStruct;
-    typedef struct EventManagerStruct *EventManager;
+    typedef enum EventManagerStatus {
+        STOPED,
+        STARTED
+    } EventManagerStatus;
 
-    void EventManager_init(EventManager self);
 
-    void EventManager_addSource(EventManager    self,
-                                EventSourceSlot slot,
-                                EventSource     eventSource);
+    struct EventManagerStruct {
+        EventManagerStatus status;
+        EventSourceSlot   *eventSourceListHead;
+        EventListenerSlot *eventListenerListHead;
+    };
+    typedef struct EventManagerStruct EventManager;
 
-    void EventManager_addListener(EventManager      self,
-                                  EventListenerSlot slot,
-                                  EventListener     eventListener);
 
-    void EventManager_start(EventManager self);
+    void EventManager_init(EventManager *self);
 
-    void EventManager_stop(EventManager self);
+    void EventManager_addSource(EventManager    *self,
+                                EventSourceSlot *slot,
+                                EventSource     *eventSource);
+
+    void EventManager_addListener(EventManager      *self,
+                                  EventListenerSlot *slot,
+                                  EventListener     *eventListener);
+
+    void EventManager_start(EventManager *self);
+
+    void EventManager_stop(EventManager *self);
 
 
 

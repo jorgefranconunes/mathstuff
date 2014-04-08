@@ -13,7 +13,7 @@ AM_INIT_AUTOMAKE([
         subdir-objects
 ])
 
-AM_PROG_AR
+#AM_PROG_AR
 AC_PROG_CC
 AC_PROG_RANLIB
 
