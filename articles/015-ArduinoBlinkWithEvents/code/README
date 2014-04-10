@@ -38,3 +38,12 @@ Run unit tests in the host:
 make check
 ----
 
+
+
+
+
+== Miscellanea
+
+Usefull tips on using autotools:
+http://www.clearchain.com/blog/posts/autotools
+

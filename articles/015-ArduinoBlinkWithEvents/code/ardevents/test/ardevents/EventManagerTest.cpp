@@ -6,6 +6,8 @@
 
 #include <CppUTest/TestHarness.h>
 
+#include <ardevents/EventManager.h>
+
 
 
 
@@ -17,15 +19,25 @@
  **************************************************************************/
 
 TEST_GROUP(EventManager) {
-}
+
+
+    void setup() {
+    }
+
+
+    void teardown() {
+    }
+};
 
 
 
 
 
-TEST(EventManager, checkInit) {
+TEST(EventManager, doInit) {
 
-    // TBD
+    EventManager eventManager;
+
+    EventManager_init(&eventManager);
 }
 
 

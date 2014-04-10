@@ -20,8 +20,11 @@ static void EventListenerSlot_init(EventListenerSlot *self,
                                    EventListener     *listener,
                                    EventListenerSlot *next);
 
-static bool EventManager_isRunning(EventManager *self);
 static void EventManager_checkEventSources(EventManager *self);
+static void EventManager_doEventLoop(EventManager *self);
+static void EventManager_fireEvent(EventManager *self,
+                                   int           eventType);
+static bool EventManager_isRunning(EventManager *self);
 
 
 
@@ -35,6 +38,7 @@ static void EventManager_checkEventSources(EventManager *self);
 
 void EventManager_init(EventManager *self) {
 
+    self->status                = STOPED;
     self->eventSourceListHead   = NULL;
     self->eventListenerListHead = NULL;
 }
@@ -89,8 +93,11 @@ void EventManager_addListener(EventManager      *self,
 
 void EventManager_start(EventManager *self) {
 
-    while ( EventManager_isRunning(self) ) {
-        EventManager_checkEventSources(self);
+    if ( !EventManager_isRunning(self) ) {
+        self->status = STARTED;
+        EventManager_doEventLoop(self);
+    } else {
+        /* We are already running. We should blow out...*/
     }
 }
 
@@ -121,9 +128,68 @@ static bool EventManager_isRunning(EventManager *self) {
  *
  **************************************************************************/
 
+static void EventManager_doEventLoop(EventManager *self) {
+
+    while ( EventManager_isRunning(self) ) {
+        EventManager_checkEventSources(self);
+    }
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
 static void EventManager_checkEventSources(EventManager *self) {
 
-    /* TBD */
+    EventSourceSlot *sourceSlot = NULL;
+    
+    for ( sourceSlot=self->eventSourceListHead;
+          sourceSlot!=NULL;
+          sourceSlot=sourceSlot->next ) {
+
+        EventSource *eventSource = sourceSlot->item;
+
+        if ( EventSource_isPending(eventSource) ) {
+            int eventType = EventSource_getEventType(eventSource);
+
+            EventManager_fireEvent(self, eventType);
+        }
+    }
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+static void EventManager_fireEvent(EventManager *self,
+                                   int           eventType) {
+
+    EventListenerSlot *listenerSlot = NULL;
+
+    for ( listenerSlot=self->eventListenerListHead;
+          listenerSlot!=NULL;
+          listenerSlot=listenerSlot->next ) {
+
+        EventListener *listener     = listenerSlot->item;
+        int            listenerType = EventListener_getEventType(listener);
+        bool           isInterested = (eventType==listenerType);
+
+        if ( isInterested ) {
+            EventListener_handleEvent(listener);
+        }
+    }
 }
 
 
@@ -138,7 +204,7 @@ static void EventManager_checkEventSources(EventManager *self) {
 
 void EventManager_stop(EventManager *self) {
 
-    self->status = STARTED;
+    self->status = STOPED;
 }
 
 

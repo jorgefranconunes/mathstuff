@@ -2,7 +2,7 @@
 #
 #
 
-CFLAGS = -g -Os -Wall
+AM_CFLAGS = -g -Os -Wall
 
 noinst_LIBRARIES = \
 	libardevents.a
@@ -20,13 +20,24 @@ libardevents_a_CPPFLAGS = \
 
 
 
+TESTS = \
+	AllTests
+
 check_PROGRAMS = \
 	AllTests
 
 AllTests_SOURCES = \
 	test/AllTests.cpp \
-	tests/ardevents/EventManagerTest.cpp
+	test/ardevents/EventManagerTest.cpp
 
 AllTests_CXXFLAGS = \
-	-I$(top_srcdir)/ardevents/include
+	-I$(top_srcdir)/ardevents/include \
+	-I$(CPPUTEST)/include
+
+AllTests_LDADD = \
+	-L$(top_builddir)/ardevents \
+	-lardevents \
+	-L$(CPPUTEST)/lib \
+	-lCppUTest \
+	-lCppUTestExt
 
