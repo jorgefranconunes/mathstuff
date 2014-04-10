@@ -9,7 +9,9 @@ noinst_LIBRARIES = \
 
 libardevents_a_SOURCES = \
 	src/ardevents/helloutils.c \
-	src/ardevents/EventManager.c
+	src/ardevents/EventListener.c \
+	src/ardevents/EventManager.c \
+	src/ardevents/EventSource.c
 
 libardevents_a_CPPFLAGS = \
 	-I$(top_srcdir)/ardevents/include

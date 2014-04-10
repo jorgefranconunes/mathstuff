@@ -15,9 +15,18 @@ extern "C" {
 
 
 
-    struct EventListenerStruct {
-    };
+    struct EventListenerStruct;
     typedef struct EventListenerStruct EventListener;
+
+    struct EventListenerInterfaceStruct {
+        int  (*getEventType)(EventListener *);
+        void (*handleEvent)(EventListener *);
+    };
+    typedef struct EventListenerInterfaceStruct EventListenerInterface;
+
+    struct EventListenerStruct {
+        EventListenerInterface *vtable;
+    };
 
     int  EventListener_getEventType(EventListener *self);
     void EventListener_handleEvent(EventListener *self);

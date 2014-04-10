@@ -17,9 +17,18 @@ extern "C" {
 
 
 
-    struct EventSourceStruct {
-    };
+    struct EventSourceStruct;
     typedef struct EventSourceStruct EventSource;
+
+    struct EventSourceInterfaceStruct {
+        int  (*getEventType)(EventSource *);
+        bool (*isPending)(EventSource *);
+    };
+    typedef struct EventSourceInterfaceStruct EventSourceInterface;
+
+    struct EventSourceStruct {
+        EventSourceInterface *vtable;
+    };
 
     int  EventSource_getEventType(EventSource *self);
     bool EventSource_isPending(EventSource *self);
