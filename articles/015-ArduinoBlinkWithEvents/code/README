@@ -1,6 +1,16 @@
-Just testing...
 
+
+
+
+
+
+== Seting up the development environment
+
+Download CppUTest from http://cpputest.github.io/ and install it somewhere.
+
+----
 autoreconf --install
 ./configure
 make
+----
 

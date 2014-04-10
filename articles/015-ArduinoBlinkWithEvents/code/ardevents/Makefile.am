@@ -14,3 +14,17 @@ libardevents_a_SOURCES = \
 libardevents_a_CPPFLAGS = \
 	-I$(top_srcdir)/ardevents/include
 
+
+
+
+
+check_PROGRAMS = \
+	AllTests
+
+AllTests_SOURCES = \
+	test/AllTests.cpp \
+	tests/ardevents/EventManagerTest.cpp
+
+AllTests_CXXFLAGS = \
+	-I$(top_srcdir)/ardevents/include
+

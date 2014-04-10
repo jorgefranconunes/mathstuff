@@ -15,6 +15,7 @@ AM_INIT_AUTOMAKE([
 
 #AM_PROG_AR
 AC_PROG_CC
+AC_PROG_CXX
 AC_PROG_RANLIB
 
 AC_CONFIG_HEADERS([config.h])
@@ -24,5 +25,9 @@ AC_CONFIG_FILES([
         ardevents/Makefile
         demos/Makefile
 ])
+
+
+#AC_ARG_WITH([cpputest],...)
+
 
 AC_OUTPUT
