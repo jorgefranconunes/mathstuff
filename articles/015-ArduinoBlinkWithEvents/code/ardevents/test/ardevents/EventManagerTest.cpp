@@ -44,6 +44,18 @@ TEST(EventManager, doInit) {
 
 
 
+TEST(EventManager, startWithNothingToDo) {
+
+    EventManager eventManager;
+
+    EventManager_init(&eventManager);
+    EventManager_start(&eventManager);
+}
+
+
+
+
+
 /**************************************************************************
  *
  * 

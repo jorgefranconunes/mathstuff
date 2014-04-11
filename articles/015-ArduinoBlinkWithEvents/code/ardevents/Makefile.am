@@ -28,10 +28,12 @@ check_PROGRAMS = \
 
 AllTests_SOURCES = \
 	test/AllTests.cpp \
-	test/ardevents/EventManagerTest.cpp
+	test/ardevents/EventManagerTest.cpp \
+	test/ardevents/TestEventSource.c
 
-AllTests_CXXFLAGS = \
+AllTests_CPPFLAGS = \
 	-I$(top_srcdir)/ardevents/include \
+	-I$(top_srcdir)/ardevents/test \
 	-I$(CPPUTEST)/include
 
 AllTests_LDADD = \

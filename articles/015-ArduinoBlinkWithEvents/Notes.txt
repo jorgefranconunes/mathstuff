@@ -1,0 +1,64 @@
+
+
+
+
+
+class EventManager
+
+Manages low level events directly corresponding to interrupts.
+
+
+EventSourceSlot addSource(EventSource source)
+
+EventListenerSlot addListener(EventListener listener)
+
+void start() - 
+
+void stop() - 
+
+
+
+
+
+interface EventSource
+
+Generates events corresonding to interrupts.
+
+
+int getEventType() - 
+
+boolean isPending() - 
+
+
+
+
+
+interface EventListener
+
+Receives events corresponding to interrupts.
+
+
+int getEventType() - 
+
+void handleEvent() - 
+
+
+
+
+
+class TaskScheduler
+
+Used for executing tasks in the future.
+
+
+TaskHandler scheduleTask(Task task, long delay)
+
+TaskHandler schedulePeriodicTask(Task task, long period)
+
+
+
+
+
+interface Procedure
+
+void apply()

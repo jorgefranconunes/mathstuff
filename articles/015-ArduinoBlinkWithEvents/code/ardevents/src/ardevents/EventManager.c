@@ -94,8 +94,17 @@ void EventManager_addListener(EventManager      *self,
 void EventManager_start(EventManager *self) {
 
     if ( !EventManager_isRunning(self) ) {
-        self->status = STARTED;
-        EventManager_doEventLoop(self);
+        bool hasStuffToDo =
+            (self->eventSourceListHead!=NULL)
+            && (self->eventListenerListHead!=NULL);
+
+        if ( hasStuffToDo ) {
+            self->status = STARTED;
+            EventManager_doEventLoop(self);
+        } else {
+            /* Either we have no events sources or we have no one to
+               send events to. So we have nothing to do. */
+        }
     } else {
         /* We are already running. We should blow out...*/
     }
