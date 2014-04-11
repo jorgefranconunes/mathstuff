@@ -20,13 +20,23 @@ extern "C" {
     struct TestEventSourceStruct {
         EventSource base;
         int         eventType;
-        int        *detailList;
-        int         detailCount;
+        int        *tickCountList;
+        int         tickCountSize;
+        int         currentTick;
+        int         currentRemaining;
+        bool        isActive;
+        int         queryCount;
     };
     typedef struct TestEventSourceStruct TestEventSource;
 
     void TestEventSource_init(TestEventSource *self,
-                              int              eventType);
+                              int              eventType,
+                              int             *tickCountList,
+                              int              tickCountSize);
+
+    EventSource *TestEventSource_asEventSource(TestEventSource *self);
+    int          TestEventSource_getQueryCount(TestEventSource *self);
+
 
 
 
