@@ -5,7 +5,7 @@
  **************************************************************************/
 
 #ifndef TICKEVENTTYPE_H
-#define TICKEVENT_TYPE_H
+#define TICKEVENTTYPE_H
 
 #ifdef __cplusplus
 extern "C" {

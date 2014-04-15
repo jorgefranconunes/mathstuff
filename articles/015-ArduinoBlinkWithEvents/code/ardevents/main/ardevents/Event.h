@@ -17,10 +17,10 @@ extern "C" {
 
 
 
+    typedef struct EventStruct Event;
     struct EventStruct {
         EventType *eventType;
     };
-    typedef struct EventStruct Event;
 
 
 

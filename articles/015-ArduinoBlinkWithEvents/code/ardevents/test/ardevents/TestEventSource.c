@@ -4,6 +4,7 @@
  *
  **************************************************************************/
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #include <ardevents/TestEventSource.h>
@@ -89,7 +90,7 @@ int TestEventSource_getQueryCount(TestEventSource *self) {
  *
  **************************************************************************/
 
-static bool TestEventSource_isPending(EventSource *self) {
+static Event *TestEventSource_pollEvent(EventSource *self) {
 
     TestEventSource *me     = (TestEventSource *)self;
     Event           *result = NULL;

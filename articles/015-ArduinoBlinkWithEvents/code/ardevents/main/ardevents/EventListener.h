@@ -17,13 +17,12 @@ extern "C" {
 
 
 
-    struct EventListenerStruct;
     typedef struct EventListenerStruct EventListener;
 
+    typedef struct EventListenerInterfaceStruct EventListenerInterface;
     struct EventListenerInterfaceStruct {
         void (*notify)(EventListener*, Event*);
     };
-    typedef struct EventListenerInterfaceStruct EventListenerInterface;
 
     struct EventListenerStruct {
         EventListenerInterface *vtable;

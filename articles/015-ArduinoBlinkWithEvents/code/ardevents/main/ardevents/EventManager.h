@@ -19,19 +19,19 @@ extern "C" {
 
 
 
-    struct EventSourceSlotStruct {
-        EventSource                   *item;
-        struct EventSourceSlotStruct  *next;
-    };
     typedef struct EventSourceSlotStruct EventSourceSlot;
-
-
-    struct EventListenerSlotStruct {
-        EventType                      *eventType;
-        EventListener                  *item;
-        struct EventListenerSlotStruct *next;
+    struct EventSourceSlotStruct {
+        EventSource     *item;
+        EventSourceSlot *next;
     };
+
+
     typedef struct EventListenerSlotStruct EventListenerSlot;
+    struct EventListenerSlotStruct {
+        EventType         *eventType;
+        EventListener     *item;
+        EventListenerSlot *next;
+    };
 
 
     typedef enum EventManagerStatus {
@@ -40,12 +40,12 @@ extern "C" {
     } EventManagerStatus;
 
 
+    typedef struct EventManagerStruct EventManager;
     struct EventManagerStruct {
         EventManagerStatus status;
         EventSourceSlot   *eventSourceListHead;
         EventListenerSlot *eventListenerListHead;
     };
-    typedef struct EventManagerStruct EventManager;
 
 
     void EventManager_init(EventManager *self);

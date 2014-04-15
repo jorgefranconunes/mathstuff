@@ -5,6 +5,7 @@
  **************************************************************************/
 
 #include <assert.h>
+#include <stddef.h>
 
 #include <ardevents/Event.h>
 #include <ardevents/TestEventListener.h>
@@ -94,7 +95,7 @@ static void TestEventListener_notify(EventListener *self,
     TestEventListener *me = (TestEventListener *)self;
     EventType         *expectedEventType = me->eventType;
 
-    if ( expectedEventType != null ) {
+    if ( NULL != expectedEventType ) {
         assert( expectedEventType == Event_getEventType(event) );
     }
 

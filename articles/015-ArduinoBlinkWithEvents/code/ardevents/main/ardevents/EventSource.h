@@ -17,17 +17,20 @@ extern "C" {
 
 
 
-    struct EventSourceStruct;
     typedef struct EventSourceStruct EventSource;
 
+    typedef struct EventSourceInterfaceStruct EventSourceInterface;
     struct EventSourceInterfaceStruct {
         Event *(*pollEvent)(EventSource *);
     };
-    typedef struct EventSourceInterfaceStruct EventSourceInterface;
 
     struct EventSourceStruct {
         EventSourceInterface *vtable;
     };
+
+
+
+
 
     Event *EventSource_pollEvent(EventSource *self);
 

@@ -15,10 +15,10 @@ extern "C" {
 
 
 
+    typedef struct EventTypeStruct EventType;
     struct EventTypeStruct {
         int id;
     };
-    typedef struct EventTypeStruct EventType;
 
 
 

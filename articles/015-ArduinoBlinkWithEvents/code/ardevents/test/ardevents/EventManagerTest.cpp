@@ -6,11 +6,27 @@
 
 #include <CppUTest/TestHarness.h>
 
+#include <ardevents/Event.h>
 #include <ardevents/EventManager.h>
 #include <ardevents/EventSource.h>
+#include <ardevents/EventType.h>
 
 #include <ardevents/TestEventListener.h>
 #include <ardevents/TestEventSource.h>
+
+
+
+
+
+static EventType  evType1Data;
+static EventType *evType1 = EventType_init(&evType1Data);
+static EventType  evType2Data;
+static EventType *evType2 = EventType_init(&evType2Data);
+
+static Event  ev1Data;
+static Event *ev1 = Event_init(&ev1Data, evType1);
+static Event  ev2Data;
+static Event *ev2 = Event_init(&ev2Data, evType2);
 
 
 
@@ -50,7 +66,7 @@ TEST_GROUP(EventManagerBasics) {
     void testMultiEvents(int             sourceCount,
                          TestEventSource sourceList[],
                          EventSourceSlot sourceSlotList[],
-                         int             sourceEventTypeList[],
+                         Event          *sourceEventList[],
                          int            *tickCountListList[],
                          int             tickCountSizeList[],
                          int             expectedQueryCount,
@@ -58,14 +74,14 @@ TEST_GROUP(EventManagerBasics) {
                          int               listenerCount,
                          TestEventListener listenerList[],
                          EventListenerSlot listenerSlotList[],
-                         int               listenerEventTypeList[],
+                         EventType        *listenerEventTypeList[],
                          int               maxEventCountList[],
                          int               expectedEventCount[]) {
 
         for ( int i=0; i<sourceCount; ++i ) {
             TestEventSource *rSource = &sourceList[i];
             TestEventSource_init(rSource,
-                                 sourceEventTypeList[i],
+                                 sourceEventList[i],
                                  tickCountListList[i],
                                  tickCountSizeList[i]);
             EventManager_addSource(&eventManager,
@@ -81,6 +97,7 @@ TEST_GROUP(EventManagerBasics) {
                                    &eventManager);
             EventManager_addListener(&eventManager,
                                      &listenerSlotList[i],
+                                     listenerEventTypeList[i],
                                      TestEventListener_asEventListener(rLstnr));
         }
 
@@ -115,7 +132,8 @@ TEST_GROUP(EventManagerBasics) {
                  int expectedQueryCount,
                  int expectedEventCount) {
 
-        int eventTypeList[] = { 101 };
+        Event     *eventList[]     = { ev1 };
+        EventType *eventTypeList[] = { evType1 };
 
         TestEventSource sourceList[1];
         EventSourceSlot sourceSlotList[1];
@@ -130,7 +148,7 @@ TEST_GROUP(EventManagerBasics) {
         testMultiEvents(1,
                         sourceList,
                         sourceSlotList,
-                        eventTypeList,
+                        eventList,
                         tickCountListList,
                         tickCountSizeList,
                         expectedQueryCount,
@@ -152,27 +170,27 @@ TEST_GROUP(EventManagerBasics) {
  *
  **************************************************************************/
 
-    void test2x1(int  sourceEventTypeList[],
-                 int *tickCountListList[],
-                 int  tickCountSizeList[],
-                 int  expectedQueryCount,
-                 int  listenerEventType,
-                 int  maxEventCount,
-                 int  expectedEventCount) {
+    void test2x1(Event     *sourceEventList[],
+                 int       *tickCountListList[],
+                 int        tickCountSizeList[],
+                 int        expectedQueryCount,
+                 EventType *listenerEventType,
+                 int        maxEventCount,
+                 int        expectedEventCount) {
 
         TestEventSource sourceList[2];
         EventSourceSlot sourceSlotList[2];
 
         TestEventListener listenerList[1];
         EventListenerSlot listenerSlotList[1];
-        int               listenerEventTypeList[] = { listenerEventType };
+        EventType        *listenerEventTypeList[] = { listenerEventType };
         int               maxEventCountList[] = { maxEventCount };
         int               expectedEventCountList[] = { expectedEventCount };
 
         testMultiEvents(2,
                         sourceList,
                         sourceSlotList,
-                        sourceEventTypeList,
+                        sourceEventList,
                         tickCountListList,
                         tickCountSizeList,
                         expectedQueryCount,
@@ -214,7 +232,7 @@ TEST(EventManagerBasics, startWithNoListener) {
     TestEventSource source;
     EventSourceSlot sourceSlot;
 
-    TestEventSource_init(&source, 100, NULL, 0);
+    TestEventSource_init(&source, ev1, NULL, 0);
 
     EventManager_addSource(&eventManager,
                            &sourceSlot,
@@ -233,10 +251,11 @@ TEST(EventManagerBasics, startWithNoSource) {
     TestEventListener listener;
     EventListenerSlot listenerSlot;
 
-    TestEventListener_init(&listener, 100, 1, &eventManager);
+    TestEventListener_init(&listener, evType1, 1, &eventManager);
 
     EventManager_addListener(&eventManager,
                              &listenerSlot,
+                             evType1,
                              TestEventListener_asEventListener(&listener));
     EventManager_start(&eventManager);
 
@@ -300,17 +319,17 @@ TEST(EventManagerBasics, multipleEvents04) {
 
 TEST(EventManagerBasics, twoSources01) {
 
-    int  sourceEventTypeList[] = { 100, 101 };
-    int  tickCountList01[] = {2, 3};
-    int  tickCountList02[] = {4, 5};
-    int *tickCountListList[] = { tickCountList01, tickCountList02 };
-    int  tickCountSizeList[] = { 2, 2 };
-    int  expectedQueryCount = 3;
-    int  listenerEventType  = 101;
-    int  maxEventCount      = 3;
-    int  expectedEventCount = 3;
+    Event     *sourceEventList[] = { ev1, ev2 };
+    int        tickCountList01[] = { 2, 3 };
+    int        tickCountList02[] = { 4, 5 };
+    int       *tickCountListList[] = { tickCountList01, tickCountList02 };
+    int        tickCountSizeList[] = { 2, 2 };
+    int        expectedQueryCount = 3;
+    EventType *listenerEventType  = evType2;
+    int        maxEventCount      = 3;
+    int        expectedEventCount = 3;
 
-    test2x1(sourceEventTypeList,
+    test2x1(sourceEventList,
             tickCountListList,
             tickCountSizeList,
             expectedQueryCount,
@@ -325,17 +344,17 @@ TEST(EventManagerBasics, twoSources01) {
 
 TEST(EventManagerBasics, twoSources02) {
 
-    int  sourceEventTypeList[] = { 101, 101 };
-    int  tickCountList01[] = {2, 3};
-    int  tickCountList02[] = {4, 5};
-    int *tickCountListList[] = { tickCountList01, tickCountList02 };
-    int  tickCountSizeList[] = { 2, 2 };
-    int  expectedQueryCount = 3;
-    int  listenerEventType  = 101;
-    int  maxEventCount      = 5;
-    int  expectedEventCount = 5;
+    Event     *sourceEventList[] = { ev1, ev1 };
+    int        tickCountList01[] = { 2, 3 };
+    int        tickCountList02[] = { 4, 5 };
+    int       *tickCountListList[] = { tickCountList01, tickCountList02 };
+    int        tickCountSizeList[] = { 2, 2 };
+    int        expectedQueryCount = 3;
+    EventType *listenerEventType  = evType1;
+    int        maxEventCount      = 5;
+    int        expectedEventCount = 5;
 
-    test2x1(sourceEventTypeList,
+    test2x1(sourceEventList,
             tickCountListList,
             tickCountSizeList,
             expectedQueryCount,
