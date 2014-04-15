@@ -12,12 +12,10 @@
 
 
 
-static int  TestEventSource_getEventType(EventSource *self);
-static bool TestEventSource_isPending(EventSource *self);
+static Event *TestEventSource_pollEvent(EventSource *self);
 
 static EventSourceInterface interface = {
-    .getEventType = TestEventSource_getEventType,
-    .isPending    = TestEventSource_isPending
+    .pollEvent    = TestEventSource_pollEvent
 };
 
 
@@ -31,12 +29,12 @@ static EventSourceInterface interface = {
  **************************************************************************/
 
 void TestEventSource_init(TestEventSource *self,
-                          int              eventType,
+                          Event           *event,
                           int             *tickCountList,
                           int              tickCountSize) {
 
     self->base.vtable      = &interface;
-    self->eventType        = eventType;
+    self->event            = event;
     self->tickCountList    = tickCountList;
     self->tickCountSize    = tickCountSize;
     self->currentTick      = 0;
@@ -91,31 +89,13 @@ int TestEventSource_getQueryCount(TestEventSource *self) {
  *
  **************************************************************************/
 
-static int TestEventSource_getEventType(EventSource *self) {
-
-    TestEventSource *me = (TestEventSource *)self;
-
-    int result = me->eventType;
-
-    return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
 static bool TestEventSource_isPending(EventSource *self) {
 
-    TestEventSource *me = (TestEventSource *)self;
+    TestEventSource *me     = (TestEventSource *)self;
+    Event           *result = NULL;
 
     while ( (me->currentTick<me->tickCountSize)
-            && (me->currentRemaining==0) ) {
+            && (0==me->currentRemaining) ) {
         ++(me->currentTick);
         if ( me->currentTick < me->tickCountSize ) {
             me->currentRemaining =
@@ -135,7 +115,11 @@ static bool TestEventSource_isPending(EventSource *self) {
 
     ++(me->queryCount);
 
-    return me->isActive;
+    if ( me->isActive ) {
+        result = me->event;
+    }
+
+    return result;
 }
 
 

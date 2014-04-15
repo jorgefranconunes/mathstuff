@@ -11,6 +11,7 @@
 extern "C" {
 #endif
 
+#include <ardevents/Event.h>
 #include <ardevents/EventSource.h>
 
 
@@ -19,7 +20,7 @@ extern "C" {
 
     struct TestEventSourceStruct {
         EventSource base;
-        int         eventType;
+        Event      *event;
         int        *tickCountList;
         int         tickCountSize;
         int         currentTick;
@@ -30,7 +31,7 @@ extern "C" {
     typedef struct TestEventSourceStruct TestEventSource;
 
     void TestEventSource_init(TestEventSource *self,
-                              int              eventType,
+                              Event           *event,
                               int             *tickCountList,
                               int              tickCountSize);
 

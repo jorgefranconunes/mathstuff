@@ -13,6 +13,7 @@ extern "C" {
 
 #include <ardevents/EventListener.h>
 #include <ardevents/EventManager.h>
+#include <ardevents/EventType.h>
 
 
 
@@ -20,7 +21,7 @@ extern "C" {
 
     struct TestEventListenerStruct {
         EventListener base;
-        int           eventType;
+        EventType    *eventType;
         int           maxEventCount;
         EventManager *eventManager;
         int           eventCount;
@@ -28,7 +29,7 @@ extern "C" {
     typedef struct TestEventListenerStruct TestEventListener;
 
     void TestEventListener_init(TestEventListener *self,
-                                int                eventType,
+                                EventType         *eventType,
                                 int                maxEventCount,
                                 EventManager      *eventManager);
 

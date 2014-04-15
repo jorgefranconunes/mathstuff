@@ -4,18 +4,20 @@
  *
  **************************************************************************/
 
+#include <assert.h>
+
+#include <ardevents/Event.h>
 #include <ardevents/TestEventListener.h>
 
 
 
 
 
-static int  TestEventListener_getEventType(EventListener *self);
-static void TestEventListener_handleEvent(EventListener *self);
+static void TestEventListener_notify(EventListener *self,
+                                     Event         *event);
 
 static EventListenerInterface interface = {
-    .getEventType = TestEventListener_getEventType,
-    .handleEvent  = TestEventListener_handleEvent
+    .notify  = TestEventListener_notify
 };
 
 
@@ -29,7 +31,7 @@ static EventListenerInterface interface = {
  **************************************************************************/
 
 void TestEventListener_init(TestEventListener *self,
-                            int                eventType,
+                            EventType         *eventType,
                             int                maxEventCount,
                             EventManager      *eventManager) {
 
@@ -86,28 +88,15 @@ int TestEventListener_getEventCount(TestEventListener *self) {
  *
  **************************************************************************/
 
-static int TestEventListener_getEventType(EventListener *self) {
+static void TestEventListener_notify(EventListener *self,
+                                     Event         *event) {
 
     TestEventListener *me = (TestEventListener *)self;
+    EventType         *expectedEventType = me->eventType;
 
-    int result = me->eventType;
-
-    return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static void TestEventListener_handleEvent(EventListener *self) {
-
-    TestEventListener *me = (TestEventListener *)self;
+    if ( expectedEventType != null ) {
+        assert( expectedEventType == Event_getEventType(event) );
+    }
 
     if ( me->eventCount < me->maxEventCount ) {
         ++(me->eventCount);
