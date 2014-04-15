@@ -16,24 +16,10 @@
  *
  **************************************************************************/
 
-int EventListener_getEventType(EventListener *self) {
+void EventListener_notify(EventListener *self,
+                          Event         *event) {
 
-    return self->vtable->getEventType(self);
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-void EventListener_handleEvent(EventListener *self) {
-
-    self->vtable->handleEvent(self);
+    self->vtable->notify(self, event);
 }
 
 

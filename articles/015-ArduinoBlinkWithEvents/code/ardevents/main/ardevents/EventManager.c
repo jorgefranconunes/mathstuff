@@ -4,6 +4,7 @@
  *
  **************************************************************************/
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #include <ardevents/EventManager.h>
@@ -17,13 +18,14 @@ static void EventSourceSlot_init(EventSourceSlot *self,
                                  EventSourceSlot *next);
 
 static void EventListenerSlot_init(EventListenerSlot *self,
+                                   EventType         *eventType,
                                    EventListener     *listener,
                                    EventListenerSlot *next);
 
 static void EventManager_checkEventSources(EventManager *self);
 static void EventManager_doEventLoop(EventManager *self);
 static void EventManager_fireEvent(EventManager *self,
-                                   int           eventType);
+                                   Event        *event);
 static bool EventManager_isRunning(EventManager *self);
 
 
@@ -74,9 +76,13 @@ void EventManager_addSource(EventManager    *self,
 
 void EventManager_addListener(EventManager      *self,
                               EventListenerSlot *slot,
+                              EventType         *eventType,
                               EventListener     *eventListener) {
 
-    EventListenerSlot_init(slot, eventListener, self->eventListenerListHead);
+    EventListenerSlot_init(slot,
+                           eventType,
+                           eventListener,
+                           self->eventListenerListHead);
 
     self->eventListenerListHead = slot;
 }
@@ -163,11 +169,10 @@ static void EventManager_checkEventSources(EventManager *self) {
           sourceSlot=sourceSlot->next ) {
 
         EventSource *eventSource = sourceSlot->item;
+        Event       *event       = EventSource_pollEvent(eventSource);
 
-        if ( EventSource_isPending(eventSource) ) {
-            int eventType = EventSource_getEventType(eventSource);
-
-            EventManager_fireEvent(self, eventType);
+        if ( NULL != event ) {
+            EventManager_fireEvent(self, event);
         }
     }
 }
@@ -183,8 +188,9 @@ static void EventManager_checkEventSources(EventManager *self) {
  **************************************************************************/
 
 static void EventManager_fireEvent(EventManager *self,
-                                   int           eventType) {
+                                   Event        *event) {
 
+    EventType         *eventType    = Event_getEventType(event);
     EventListenerSlot *listenerSlot = NULL;
 
     for ( listenerSlot=self->eventListenerListHead;
@@ -192,11 +198,11 @@ static void EventManager_fireEvent(EventManager *self,
           listenerSlot=listenerSlot->next ) {
 
         EventListener *listener     = listenerSlot->item;
-        int            listenerType = EventListener_getEventType(listener);
+        EventType     *listenerType = listenerSlot->eventType;
         bool           isInterested = (eventType==listenerType);
 
         if ( isInterested ) {
-            EventListener_handleEvent(listener);
+            EventListener_notify(listener, event);
         }
     }
 }
@@ -245,11 +251,13 @@ static void EventSourceSlot_init(EventSourceSlot *self,
  **************************************************************************/
 
 static void EventListenerSlot_init(EventListenerSlot *self,
+                                   EventType         *eventType,
                                    EventListener     *listener,
                                    EventListenerSlot *next) {
 
-    self->item = listener;
-    self->next = next;
+    self->eventType = eventType;
+    self->item      = listener;
+    self->next      = next;
 }
 
 

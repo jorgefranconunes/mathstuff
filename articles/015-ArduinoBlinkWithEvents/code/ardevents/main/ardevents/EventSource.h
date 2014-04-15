@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 
-#include <stdbool.h>
+#include <ardevents/Event.h>
 
 
 
@@ -21,8 +21,7 @@ extern "C" {
     typedef struct EventSourceStruct EventSource;
 
     struct EventSourceInterfaceStruct {
-        int  (*getEventType)(EventSource *);
-        bool (*isPending)(EventSource *);
+        Event *(*pollEvent)(EventSource *);
     };
     typedef struct EventSourceInterfaceStruct EventSourceInterface;
 
@@ -30,8 +29,7 @@ extern "C" {
         EventSourceInterface *vtable;
     };
 
-    int  EventSource_getEventType(EventSource *self);
-    bool EventSource_isPending(EventSource *self);
+    Event *EventSource_pollEvent(EventSource *self);
 
 
 

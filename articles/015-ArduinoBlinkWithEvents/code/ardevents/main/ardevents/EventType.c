@@ -4,7 +4,13 @@
  *
  **************************************************************************/
 
-#include <ardevents/EventSource.h>
+#include <ardevents/EventType.h>
+
+
+
+
+
+static int _eventIdCounter = 0;
 
 
 
@@ -16,9 +22,28 @@
  *
  **************************************************************************/
 
-Event *EventSource_pollEvent(EventSource *self) {
+EventType *EventType_init(EventType *self) {
 
-    return self->vtable->pollEvent(self);
+    int id = ++_eventIdCounter;
+
+    self->id = id;
+
+    return self;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+int EventType_getId(EventType *self) {
+
+    return self->id;
 }
 
 

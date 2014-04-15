@@ -4,7 +4,7 @@
  *
  **************************************************************************/
 
-#include <ardevents/EventSource.h>
+#include <ardevents/Event.h>
 
 
 
@@ -16,9 +16,27 @@
  *
  **************************************************************************/
 
-Event *EventSource_pollEvent(EventSource *self) {
+Event *Event_init(Event     *self,
+                  EventType *eventType) {
 
-    return self->vtable->pollEvent(self);
+    self->eventType = eventType;
+
+    return self;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+EventType *Event_getEventType(Event *self) {
+
+    return self->eventType;
 }
 
 

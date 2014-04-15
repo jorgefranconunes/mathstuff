@@ -4,7 +4,16 @@
  *
  **************************************************************************/
 
-#include <ardevents/EventSource.h>
+#include <stddef.h>
+
+#include <ardevents/TickEventType.h>
+
+
+
+
+
+static EventType  _tickEventTypeData;
+static EventType *_tickEventType = NULL;
 
 
 
@@ -16,9 +25,13 @@
  *
  **************************************************************************/
 
-Event *EventSource_pollEvent(EventSource *self) {
+EventType *TickEventType_get() {
 
-    return self->vtable->pollEvent(self);
+    if ( NULL == _tickEventType ) {
+        _tickEventType = EventType_init(&_tickEventTypeData);
+    }
+
+    return _tickEventType;
 }
 
 
@@ -30,4 +43,5 @@ Event *EventSource_pollEvent(EventSource *self) {
  * 
  *
  **************************************************************************/
+
 

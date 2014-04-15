@@ -12,6 +12,7 @@ extern "C" {
 #endif
 
 #include <ardevents/EventListener.h>
+#include <ardevents/EventType.h>
 #include <ardevents/EventSource.h>
 
 
@@ -26,6 +27,7 @@ extern "C" {
 
 
     struct EventListenerSlotStruct {
+        EventType                      *eventType;
         EventListener                  *item;
         struct EventListenerSlotStruct *next;
     };
@@ -54,6 +56,7 @@ extern "C" {
 
     void EventManager_addListener(EventManager      *self,
                                   EventListenerSlot *slot,
+                                  EventType         *eventType,
                                   EventListener     *eventListener);
 
     void EventManager_start(EventManager *self);

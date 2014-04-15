@@ -4,7 +4,9 @@
  *
  **************************************************************************/
 
-#include <ardevents/EventSource.h>
+#include <CppUTest/TestHarness.h>
+
+#include <ardevents/TickEventType.h>
 
 
 
@@ -16,9 +18,29 @@
  *
  **************************************************************************/
 
-Event *EventSource_pollEvent(EventSource *self) {
+TEST_GROUP(TickEventType) {
+};
 
-    return self->vtable->pollEvent(self);
+
+
+
+
+TEST(TickEventType, itExists) {
+
+    CHECK( NULL != TickEventType_get() );
+}
+
+
+
+
+
+TEST(TickEventType, isConstant) {
+
+    EventType *evType1 = TickEventType_get();
+    EventType *evType2 = TickEventType_get();
+
+    POINTERS_EQUAL( evType1, evType2 );
+    CHECK_EQUAL(EventType_getId(evType1), EventType_getId(evType2));
 }
 
 

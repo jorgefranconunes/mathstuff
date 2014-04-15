@@ -11,6 +11,8 @@
 extern "C" {
 #endif
 
+#include <ardevents/Event.h>
+
 
 
 
@@ -19,8 +21,7 @@ extern "C" {
     typedef struct EventListenerStruct EventListener;
 
     struct EventListenerInterfaceStruct {
-        int  (*getEventType)(EventListener *);
-        void (*handleEvent)(EventListener *);
+        void (*notify)(EventListener*, Event*);
     };
     typedef struct EventListenerInterfaceStruct EventListenerInterface;
 
@@ -28,8 +29,8 @@ extern "C" {
         EventListenerInterface *vtable;
     };
 
-    int  EventListener_getEventType(EventListener *self);
-    void EventListener_handleEvent(EventListener *self);
+    void EventListener_notify(EventListener *self,
+                              Event         *event);
 
 
 
