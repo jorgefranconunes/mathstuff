@@ -11,49 +11,57 @@
 extern "C" {
 #endif
 
+#include <ardevents/Clock.h>
+#include <ardevents/Task.h>
 
 
 
 
-    typedef struct TaskSlotStruct taskSlot;
+    typedef enum TaskStatus {
+        ACTIVE,
+        CANCELED,
+        DONE,
+        RESCHEDULE
+    } TaskStatus;
+
+
+    typedef struct TaskSlotStruct TaskSlot;
     struct TaskSlotStruct {
-        Task     *item;
-        long      when;
-        TaskSlot *next;
+        Task      *task;
+        long       when;
+        long       period;
+        TaskStatus status;
+        TaskSlot  *next;
     };
 
 
     typedef struct TaskSchedulerStruct TaskScheduler;
-
-    typedef struct TaskSchedulerInterfaceStruct TaskSchedulerInterface;
-    struct TaskSchedulerInterfaceStruct {
-        TaskScheduler *(*addTask)(TaskScheduler *scheduler,
-                                  TaskSlot      *taskSlot,
-                                  Task          *task,
-                                  long           delay);
-        TaskSchduler *(*addPeriodicTask)(TaskScheduler *scheduler,
-                                         TaskSlot      *taskSlot,
-                                         Task          *task,
-                                         long           period);
-    };
-
     struct TaskSchedulerStruct {
-        TaskSchedulerInterface *vtable;
+        Clock    *clock;
+        TaskSlot *taskListHead;
     };
 
 
 
 
 
-    TaskScheduler *TaskScheduler_addTask(TaskScheduler *scheduler,
+    TaskScheduler *TaskScheduler_init(TaskScheduler *self);
+
+    TaskScheduler *TaskScheduler_addTask(TaskScheduler *self,
                                          TaskSlot      *taskSlot,
                                          Task          *task,
                                          long           delay);
 
-    TaskScheduler *TaskScheduler_addPeriodicTask(TaskScheduler *scheduler,
+    TaskScheduler *TaskScheduler_addPeriodicTask(TaskScheduler *self,
                                                  TaskSlot      *taskSlot,
                                                  Task          *task,
+                                                 long           delay,
                                                  long           period);
+
+    TaskScheduler *TaskScheduler_cancelTask(TaskScheduler *self,
+                                            TaskSlot      *taskSlot);
+
+    TaskScheduler *TaskScheduler_runPendingTasks();
 
 
 

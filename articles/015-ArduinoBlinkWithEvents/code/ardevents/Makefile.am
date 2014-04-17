@@ -10,10 +10,13 @@ noinst_LIBRARIES = \
 libardevents_a_SOURCES = \
 	main/helloutils.c \
 	main/ardevents/Event.c \
+	main/ardevents/Clock.c \
 	main/ardevents/EventListener.c \
 	main/ardevents/EventManager.c \
 	main/ardevents/EventSource.c \
 	main/ardevents/EventType.c \
+	main/ardevents/Task.c \
+	main/ardevents/TaskScheduler.c \
 	main/ardevents/TickEventType.c
 
 libardevents_a_CPPFLAGS = \

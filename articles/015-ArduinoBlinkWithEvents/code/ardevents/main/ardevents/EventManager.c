@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#include <ardevents/Event.h>
 #include <ardevents/EventManager.h>
 
 
