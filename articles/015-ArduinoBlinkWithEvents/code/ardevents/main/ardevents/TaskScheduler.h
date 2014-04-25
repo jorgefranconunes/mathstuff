@@ -45,7 +45,8 @@ extern "C" {
 
 
 
-    TaskScheduler *TaskScheduler_init(TaskScheduler *self);
+    TaskScheduler *TaskScheduler_init(TaskScheduler *self,
+                                      Clock         *clock);
 
     TaskScheduler *TaskScheduler_addTask(TaskScheduler *self,
                                          TaskSlot      *taskSlot,

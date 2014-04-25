@@ -19,8 +19,10 @@
  *
  **************************************************************************/
 
-TaskScheduler *TaskScheduler_init(TaskScheduler *self) {
+TaskScheduler *TaskScheduler_init(TaskScheduler *self,
+                                  Clock         *clock) {
 
+    self->clock        = clock;
     self->taskListHead = NULL;
 
     return self;
