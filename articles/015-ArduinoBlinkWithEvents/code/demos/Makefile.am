@@ -10,9 +10,9 @@ hello_SOURCES = \
 
 hello_CPPFLAGS = \
 	-I$(top_srcdir)/demos/main \
-	-I$(top_srcdir)/ardevents/main
+	-I$(top_srcdir)/ardev/main
 
 hello_LDADD = \
-	$(top_builddir)/ardevents/libardevents.a
+	$(top_builddir)/ardev/libardev.a
 
 

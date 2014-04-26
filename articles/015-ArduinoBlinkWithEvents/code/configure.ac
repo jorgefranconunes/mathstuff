@@ -2,7 +2,7 @@
 #
 #
 
-AC_INIT([ardevents], 
+AC_INIT([ardev], 
         [1.0], 
         [jorgefranconunes@gmail.com])
 
@@ -24,7 +24,7 @@ AC_CONFIG_HEADERS([config.h])
 
 AC_CONFIG_FILES([
         Makefile
-        ardevents/Makefile
+        ardev/Makefile
         demos/Makefile
 ])
 
