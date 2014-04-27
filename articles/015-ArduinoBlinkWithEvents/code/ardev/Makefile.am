@@ -14,10 +14,13 @@ libardev_a_SOURCES = \
 	main/ardev/events/EventManager.c \
 	main/ardev/events/EventSource.c \
 	main/ardev/events/EventType.c \
+	main/ardev/tasks/CounterTaskService.c \
 	main/ardev/tasks/Task.c \
 	main/ardev/tasks/TaskScheduler.c \
 	main/ardev/tasks/TaskService.c \
 	main/ardev/ticks/Clock.c \
+	main/ardev/ticks/CounterClock.c \
+	main/ardev/ticks/CounterTickSource.c \
 	main/ardev/ticks/TickEventType.c
 
 libardev_a_CPPFLAGS = \

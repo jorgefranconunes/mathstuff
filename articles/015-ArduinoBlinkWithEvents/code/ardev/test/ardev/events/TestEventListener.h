@@ -34,6 +34,7 @@ extern "C" {
                                 EventManager      *eventManager);
 
     EventListener *TestEventListener_asEventListener(TestEventListener *self);
+
     int            TestEventListener_getEventCount(TestEventListener *self);
 
 

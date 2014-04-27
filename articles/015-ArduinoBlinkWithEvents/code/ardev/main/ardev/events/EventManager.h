@@ -11,10 +11,6 @@
 extern "C" {
 #endif
 
-
-
-
-
 #include <ardev/events/EventListener.h>
 #include <ardev/events/EventType.h>
 #include <ardev/events/EventSource.h>

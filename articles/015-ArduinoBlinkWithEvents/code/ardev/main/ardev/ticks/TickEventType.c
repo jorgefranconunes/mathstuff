@@ -28,7 +28,9 @@ static EventType *_tickEventType = NULL;
 EventType *TickEventType_get() {
 
     if ( NULL == _tickEventType ) {
-        _tickEventType = EventType_init(&_tickEventTypeData);
+        EventType_init(&_tickEventTypeData);
+
+        _tickEventType = &_tickEventTypeData;
     }
 
     return _tickEventType;

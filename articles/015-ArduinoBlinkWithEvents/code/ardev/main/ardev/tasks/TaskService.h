@@ -30,10 +30,14 @@ extern "C" {
     };
 
 
-
+    typedef struct TaskServiceInterfaceStruct TaskServiceInterface;
+    struct TaskServiceInterfaceStruct {
+        void (*start)(TaskService *self);
+    };
 
 
     struct TaskServiceStruct {
+        TaskServiceInterface   *vtable;
         EventManager           *eventManager;
         TaskScheduler           scheduler;
         TaskServiceTickListener tickListener;
@@ -44,21 +48,21 @@ extern "C" {
                                   EventManager *eventManager,
                                   Clock        *clock);
 
-    TaskService *TaskService_start(TaskService *self);
+    void TaskService_start(TaskService *self);
 
-    TaskService *TaskService_addTask(TaskService *self,
+    void TaskService_addTask(TaskService *self,
+                             TaskSlot    *taskSlot,
+                             Task        *task,
+                             long         delay);
+
+    void TaskService_addPeriodicTask(TaskService *self,
                                      TaskSlot    *taskSlot,
                                      Task        *task,
-                                     long         delay);
+                                     long         delay,
+                                     long         period);
 
-    TaskService *TaskService_addPeriodicTask(TaskService *self,
-                                             TaskSlot    *taskSlot,
-                                             Task        *task,
-                                             long         delay,
-                                             long         period);
-
-    TaskService *TaskService_cancelTask(TaskService *self,
-                                        TaskSlot    *taskSlot);
+    void TaskService_cancelTask(TaskService *self,
+                                TaskSlot    *taskSlot);
 
 
 

@@ -18,7 +18,7 @@ TaskServiceTickListener_asEventListener(TaskServiceTickListener *self);
 
 static void
 TaskServiceTickListener_init(TaskServiceTickListener *self,
-                             TaskService              *taskService);
+                             TaskService             *taskService);
 
 static void
 TaskServiceTickListener_notify(EventListener *self,
@@ -26,6 +26,18 @@ TaskServiceTickListener_notify(EventListener *self,
 
 static EventListenerInterface taskServiceEventListenerInterface = {
     .notify = TaskServiceTickListener_notify
+};
+
+
+
+
+
+static void TaskService_tickEvent(TaskService *self);
+
+static void TaskService_myStart(TaskService *self);
+
+static TaskServiceInterface taskServiceInterface = {
+    .start = TaskService_myStart
 };
 
 
@@ -43,6 +55,7 @@ TaskService *TaskService_init(TaskService  *self,
                               EventManager *eventManager,
                               Clock        *clock) {
 
+    self->vtable = &taskServiceInterface;
     self->eventManager = eventManager;
     TaskScheduler_init(&self->scheduler, clock);
     TaskServiceTickListener_init(&self->tickListener, self);
@@ -61,7 +74,23 @@ TaskService *TaskService_init(TaskService  *self,
  *
  **************************************************************************/
 
-TaskService *TaskService_start(TaskService  *self) {
+void TaskService_start(TaskService  *self) {
+
+    self->vtable->start(self);
+}
+
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+static void TaskService_myStart(TaskService  *self) {
 
     EventListener *tickListener =
         TaskServiceTickListener_asEventListener(&self->tickListener);
@@ -70,8 +99,6 @@ TaskService *TaskService_start(TaskService  *self) {
                              &self->tickListenerSlot,
                              TickEventType_get(),
                              tickListener);
-
-    return self;
 }
 
 
@@ -84,14 +111,12 @@ TaskService *TaskService_start(TaskService  *self) {
  *
  **************************************************************************/
 
-TaskService *TaskService_addTask(TaskService *self,
-                                 TaskSlot    *taskSlot,
-                                 Task        *task,
-                                 long         delay) {
+void TaskService_addTask(TaskService *self,
+                         TaskSlot    *taskSlot,
+                         Task        *task,
+                         long         delay) {
 
     TaskScheduler_addTask(&self->scheduler, taskSlot, task, delay);
-
-    return self;
 }
 
 
@@ -108,19 +133,17 @@ TaskService *TaskService_addTask(TaskService *self,
  *
  **************************************************************************/
 
-TaskService *TaskService_addPeriodicTask(TaskService *self,
-                                         TaskSlot    *taskSlot,
-                                         Task        *task,
-                                         long         delay,
-                                         long         period) {
+void TaskService_addPeriodicTask(TaskService *self,
+                                 TaskSlot    *taskSlot,
+                                 Task        *task,
+                                 long         delay,
+                                 long         period) {
 
     TaskScheduler_addPeriodicTask(&self->scheduler,
                                   taskSlot,
                                   task,
                                   delay,
                                   period);
-
-    return self;
 }
 
 
@@ -138,12 +161,10 @@ TaskService *TaskService_addPeriodicTask(TaskService *self,
  *
  **************************************************************************/
 
-TaskService *TaskService_cancelTask(TaskService *self,
-                                    TaskSlot    *taskSlot) {
+void TaskService_cancelTask(TaskService *self,
+                            TaskSlot    *taskSlot) {
 
     TaskScheduler_cancelTask(&self->scheduler, taskSlot);
-
-    return self;
 }
 
 
@@ -156,7 +177,7 @@ TaskService *TaskService_cancelTask(TaskService *self,
  *
  **************************************************************************/
 
-void TaskService_tickEvent(TaskService *self) {
+static void TaskService_tickEvent(TaskService *self) {
 
     TaskScheduler_runPendingTasks(&self->scheduler);
 }

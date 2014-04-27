@@ -4,25 +4,22 @@
  *
  **************************************************************************/
 
-#ifndef EVENTTYPE_H
-#define EVENTTYPE_H
+#ifndef ATMEGA328PEVENTMANAGER_H
+#define ATMEGA328PEVENTMANAGER_H
 
-#ifdef __cplusplus
+#ifdef __clplusplus
 extern "C" {
 #endif
 
+#include <ardev/events/EventManager.h>
 
 
 
 
-    typedef struct EventTypeStruct EventType;
-    struct EventTypeStruct {
-        int id;
-    };
 
-    EventType *EventType_init(EventType *);
+    EventManager *Atmega328pEventManager_get(void);
 
-    int  EventType_getId(EventType *);
+    void Atmega328pEventManager_start();
 
 
 
