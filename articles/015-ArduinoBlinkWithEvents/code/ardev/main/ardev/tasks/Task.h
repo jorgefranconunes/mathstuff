@@ -15,7 +15,15 @@ extern "C" {
 
 
 
-    typedef struct TaskStruct Task; 
+    typedef enum TaskStatus {
+        ACTIVE,
+        CANCELED,
+        DONE,
+        RESCHEDULE
+    } TaskStatus;
+
+
+    typedef struct TaskStruct Task;
 
     typedef struct TaskInterfaceStruct TaskInterface;
     struct TaskInterfaceStruct {
@@ -24,6 +32,10 @@ extern "C" {
 
     struct TaskStruct {
         TaskInterface *vtable;
+        long           when;
+        long           period;
+        TaskStatus     status;
+        Task          *next;
     };
 
     void Task_run(Task *self);

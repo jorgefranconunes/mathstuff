@@ -51,18 +51,16 @@ extern "C" {
     void TaskService_start(TaskService *self);
 
     void TaskService_addTask(TaskService *self,
-                             TaskSlot    *taskSlot,
                              Task        *task,
                              long         delay);
 
     void TaskService_addPeriodicTask(TaskService *self,
-                                     TaskSlot    *taskSlot,
                                      Task        *task,
                                      long         delay,
                                      long         period);
 
     void TaskService_cancelTask(TaskService *self,
-                                TaskSlot    *taskSlot);
+                                Task        *task);
 
 
 

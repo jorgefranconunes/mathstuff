@@ -33,14 +33,9 @@ int main(void) {
 
     CallbackTask callbackTaskData;
     Task        *task = CallbackTask_build(&callbackTaskData, &blinkCallback);
-    TaskSlot     taskSlot;
     TaskService *taskService = Atm328pTaskService_get();
     
-    TaskService_addPeriodicTask(taskService,
-                                &taskSlot,
-                                task,
-                                0,
-                                BLINK_DELAY_MS);
+    TaskService_addPeriodicTask(taskService, task, 0, BLINK_DELAY_MS);
 
     /* Set pin 5 of PORTD for output*/
     DDRD |= _BV(DDD5);

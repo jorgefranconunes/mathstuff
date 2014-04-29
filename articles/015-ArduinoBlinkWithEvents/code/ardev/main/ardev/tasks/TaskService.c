@@ -112,11 +112,10 @@ static void TaskService_myStart(TaskService  *self) {
  **************************************************************************/
 
 void TaskService_addTask(TaskService *self,
-                         TaskSlot    *taskSlot,
                          Task        *task,
                          long         delay) {
 
-    TaskScheduler_addTask(&self->scheduler, taskSlot, task, delay);
+    TaskScheduler_addTask(&self->scheduler, task, delay);
 }
 
 
@@ -126,7 +125,7 @@ void TaskService_addTask(TaskService *self,
 
 /**************************************************************************
  *
- * The TaskSlot will be in use until the given task is cancelled.
+ * The Task will be in use until the given task is cancelled.
  *
  * This method can be called from within a task being run by
  * TaskService_runPendingTasks.
@@ -134,16 +133,11 @@ void TaskService_addTask(TaskService *self,
  **************************************************************************/
 
 void TaskService_addPeriodicTask(TaskService *self,
-                                 TaskSlot    *taskSlot,
                                  Task        *task,
                                  long         delay,
                                  long         period) {
 
-    TaskScheduler_addPeriodicTask(&self->scheduler,
-                                  taskSlot,
-                                  task,
-                                  delay,
-                                  period);
+    TaskScheduler_addPeriodicTask(&self->scheduler, task, delay, period);
 }
 
 
@@ -153,8 +147,8 @@ void TaskService_addPeriodicTask(TaskService *self,
 
 /**************************************************************************
  *
- * The TaskSlot is guaranteed to be no longer in use by the
- * TaskService by the time this method returns.
+ * The Task is guaranteed to be no longer in use by the TaskService by
+ * the time this method returns.
  *
  * This method can be called from within a task being run by
  * TaskService_runPendingTasks.
@@ -162,9 +156,9 @@ void TaskService_addPeriodicTask(TaskService *self,
  **************************************************************************/
 
 void TaskService_cancelTask(TaskService *self,
-                            TaskSlot    *taskSlot) {
+                            Task        *task) {
 
-    TaskScheduler_cancelTask(&self->scheduler, taskSlot);
+    TaskScheduler_cancelTask(&self->scheduler, task);
 }
 
 

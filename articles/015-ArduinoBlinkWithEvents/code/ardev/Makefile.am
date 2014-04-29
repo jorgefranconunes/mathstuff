@@ -14,6 +14,7 @@ libardev_a_SOURCES = \
 	main/ardev/events/EventManager.c \
 	main/ardev/events/EventSource.c \
 	main/ardev/events/EventType.c \
+	main/ardev/tasks/CallbackTask.c \
 	main/ardev/tasks/CounterTaskService.c \
 	main/ardev/tasks/Task.c \
 	main/ardev/tasks/TaskScheduler.c \
@@ -41,6 +42,9 @@ AllTests_SOURCES = \
 	test/ardev/events/EventManagerTest.cpp \
 	test/ardev/events/TestEventListener.c \
 	test/ardev/events/TestEventSource.c \
+	test/ardev/tasks/CallbackTaskTest.cpp \
+	test/ardev/tasks/TaskSchedulerTest.cpp \
+	test/ardev/tasks/TestClock.c \
 	test/ardev/ticks/TickEventTypeTest.cpp
 
 AllTests_CPPFLAGS = \

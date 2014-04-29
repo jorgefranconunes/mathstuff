@@ -17,48 +17,28 @@ extern "C" {
 
 
 
-    typedef enum TaskStatus {
-        ACTIVE,
-        CANCELED,
-        DONE,
-        RESCHEDULE
-    } TaskStatus;
-
-
-    typedef struct TaskSlotStruct TaskSlot;
-    struct TaskSlotStruct {
-        Task      *task;
-        long       when;
-        long       period;
-        TaskStatus status;
-        TaskSlot  *next;
-    };
-
-
     typedef struct TaskSchedulerStruct TaskScheduler;
     struct TaskSchedulerStruct {
-        Clock    *clock;
-        TaskSlot *taskListHead;
+        Clock *clock;
+        Task  *taskListHead;
     };
 
-    TaskScheduler *TaskScheduler_init(TaskScheduler *self,
-                                      Clock         *clock);
+    void TaskScheduler_init(TaskScheduler *self,
+                            Clock         *clock);
 
-    TaskScheduler *TaskScheduler_addTask(TaskScheduler *self,
-                                         TaskSlot      *taskSlot,
-                                         Task          *task,
-                                         long           delay);
+    void TaskScheduler_addTask(TaskScheduler *self,
+                               Task          *task,
+                               long           delay);
 
-    TaskScheduler *TaskScheduler_addPeriodicTask(TaskScheduler *self,
-                                                 TaskSlot      *taskSlot,
-                                                 Task          *task,
-                                                 long           delay,
-                                                 long           period);
+    void TaskScheduler_addPeriodicTask(TaskScheduler *self,
+                                       Task          *task,
+                                       long           delay,
+                                       long           period);
 
-    TaskScheduler *TaskScheduler_cancelTask(TaskScheduler *self,
-                                            TaskSlot      *taskSlot);
+    void TaskScheduler_cancelTask(TaskScheduler *self,
+                                  Task          *task);
 
-    TaskScheduler *TaskScheduler_runPendingTasks(TaskScheduler *self);
+    void TaskScheduler_runPendingTasks(TaskScheduler *self);
 
 
 
