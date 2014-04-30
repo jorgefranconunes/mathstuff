@@ -26,6 +26,8 @@ extern "C" {
     void TaskScheduler_init(TaskScheduler *self,
                             Clock         *clock);
 
+    int TaskScheduler_getPendingCount(TaskScheduler *self);
+
     void TaskScheduler_addTask(TaskScheduler *self,
                                Task          *task,
                                long           delay);

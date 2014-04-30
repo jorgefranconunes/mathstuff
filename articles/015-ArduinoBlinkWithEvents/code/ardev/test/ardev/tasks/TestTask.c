@@ -4,16 +4,16 @@
  *
  **************************************************************************/
 
-#include <ardev/tasks/TestClock.h>
+#include <ardev/tasks/TestTask.h>
 
 
 
 
 
-static long TestClock_getCurrentTimeMillis(Clock *baseSelf);
+static void TestTask_run(Task *baseSelf);
 
-static ClockInterface interface = {
-    .currentTimeMillis = &TestClock_getCurrentTimeMillis
+static TaskInterface interface = {
+    .run = &TestTask_run
 };
 
 
@@ -26,10 +26,10 @@ static ClockInterface interface = {
  *
  **************************************************************************/
 
-void TestClock_init(TestClock *self) {
+void TestTask_init(TestTask *self) {
 
     self->base.vtable = &interface;
-    self->time        = 0;
+    self->callCount   = 0;
 }
 
 
@@ -42,41 +42,9 @@ void TestClock_init(TestClock *self) {
  *
  **************************************************************************/
 
-void TestClock_setTime(TestClock *self,
-                       long       time) {
+Task *TestTask_asTask(TestTask *self) {
 
-    self->time = time;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-void TestClock_addTime(TestClock *self,
-                       long       interval) {
-
-    self->time += interval;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-long TestClock_time(TestClock *self) {
-
-    long result = self->time;
+    Task *result = (Task *)self;
 
     return result;
 }
@@ -91,9 +59,9 @@ long TestClock_time(TestClock *self) {
  *
  **************************************************************************/
 
-Clock *TestClock_asClock(TestClock *self) {
+int TestTask_getCallCount(TestTask *self) {
 
-    Clock *result = (Clock *)self;
+    long result = self->callCount;
 
     return result;
 }
@@ -108,13 +76,11 @@ Clock *TestClock_asClock(TestClock *self) {
  *
  **************************************************************************/
 
-static long TestClock_getCurrentTimeMillis(Clock *baseSelf) {
+static void TestTask_run(Task *baseSelf) {
 
-    TestClock *self   = (TestClock *)baseSelf;
-    long       result = TestClock_time(self);
+    TestTask *self = (TestTask *)baseSelf;
 
-    return result;
-
+    ++self->callCount;
 }
 
 

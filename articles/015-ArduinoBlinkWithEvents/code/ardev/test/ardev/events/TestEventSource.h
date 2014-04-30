@@ -11,6 +11,8 @@
 extern "C" {
 #endif
 
+#include <stdbool.h>
+
 #include <ardev/events/Event.h>
 #include <ardev/events/EventSource.h>
 

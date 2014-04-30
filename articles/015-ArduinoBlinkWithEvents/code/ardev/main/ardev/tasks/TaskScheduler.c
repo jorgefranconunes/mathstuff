@@ -4,10 +4,17 @@
  *
  **************************************************************************/
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #include <ardev/tasks/TaskScheduler.h>
 
+
+
+
+
+static void TaskScheduler_addInitializedTask(TaskScheduler *self,
+                                             Task          *task);
 
 
 
@@ -24,6 +31,27 @@ void TaskScheduler_init(TaskScheduler *self,
 
     self->clock        = clock;
     self->taskListHead = NULL;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+int TaskScheduler_getPendingCount(TaskScheduler *self) {
+
+    int count = 0;
+    
+    for ( Task *task=self->taskListHead; NULL!=task; task=task->next ) {
+        ++count;
+    }
+
+    return count;
 }
 
 
@@ -51,7 +79,6 @@ void TaskScheduler_addTask(TaskScheduler *self,
 
 
 
-
 /**************************************************************************
  *
  * The Task will be in use until the given task is cancelled.
@@ -72,7 +99,25 @@ void TaskScheduler_addPeriodicTask(TaskScheduler *self,
     task->when   = when;
     task->period = period;
     task->status = ACTIVE;
+    task->next   = NULL;
 
+    TaskScheduler_addInitializedTask(self, task);
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * Adds an already initialized task to the pending task list.
+ *
+ **************************************************************************/
+
+static void TaskScheduler_addInitializedTask(TaskScheduler *self,
+                                             Task          *task) {
+
+    long when = task->when;
 
     /* Insert the task at the right position in the list, keeping the
        list ordered by increasing time. */
@@ -85,7 +130,6 @@ void TaskScheduler_addPeriodicTask(TaskScheduler *self,
     task->next = *ptask;
     *ptask = task;
 }
-
 
 
 
@@ -133,7 +177,36 @@ void TaskScheduler_cancelTask(TaskScheduler *self,
 
 void TaskScheduler_runPendingTasks(TaskScheduler *self) {
 
-    /* TBD */
+    long   now        = Clock_currentTimeMillis(self->clock);
+    bool   isChecking = true;
+    Task **head       = &self->taskListHead;
+
+    while ( NULL!=(*head) && isChecking ) {
+        Task *task = *head;
+
+        if ( now < task->when ) {
+            /* This task is not yet ripe. Because we keep the pending
+               task list orderered, that means no more tasks are yet
+               ripe and so we bail out. */
+            isChecking = false;
+        } else {
+            /* Remove the task from the pending task list. */
+            *head = (*head)->next;
+
+            Task_run(task);
+
+            if ( task->period > 0 ) {
+                /* The task is periodic. We will re-add it to the
+                   pending list. Note that it may get re-added at the
+                   head of the list, and that means we will run it
+                   again, if the time is right, at the next
+                   iteration. */
+                task->when += task->period;
+                TaskScheduler_addInitializedTask(self, task);
+            }
+        }
+
+    }
 }
 
 

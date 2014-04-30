@@ -2,7 +2,7 @@
 #
 #
 
-AM_CFLAGS = -g -Os -Wall
+AM_CFLAGS = -g -Os -Wall -std=gnu99
 
 noinst_LIBRARIES = \
 	libardev.a
@@ -45,6 +45,7 @@ AllTests_SOURCES = \
 	test/ardev/tasks/CallbackTaskTest.cpp \
 	test/ardev/tasks/TaskSchedulerTest.cpp \
 	test/ardev/tasks/TestClock.c \
+	test/ardev/tasks/TestTask.c \
 	test/ardev/ticks/TickEventTypeTest.cpp
 
 AllTests_CPPFLAGS = \

@@ -28,6 +28,8 @@ extern "C" {
 
     void TestClock_setTime(TestClock *self, long time);
 
+    void TestClock_addTime(TestClock *self, long interval);
+
     long TestClock_time(TestClock *self);
 
     Clock *TestClock_asClock(TestClock *self);
