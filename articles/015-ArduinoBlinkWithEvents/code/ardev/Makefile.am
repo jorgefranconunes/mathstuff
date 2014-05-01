@@ -44,6 +44,7 @@ AllTests_SOURCES = \
 	test/ardev/events/TestEventSource.c \
 	test/ardev/tasks/CallbackTaskTest.cpp \
 	test/ardev/tasks/TaskSchedulerTest.cpp \
+	test/ardev/tasks/TaskServiceTest.cpp \
 	test/ardev/tasks/TestClock.c \
 	test/ardev/tasks/TestTask.c \
 	test/ardev/ticks/TickEventTypeTest.cpp

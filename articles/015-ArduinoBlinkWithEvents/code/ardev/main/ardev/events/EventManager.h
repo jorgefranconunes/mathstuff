@@ -63,6 +63,8 @@ extern "C" {
 
     void EventManager_stop(EventManager *self);
 
+    void EventManager_sweep(EventManager *self);
+
 
 
 

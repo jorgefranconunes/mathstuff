@@ -127,6 +127,36 @@ void EventManager_start(EventManager *self) {
  *
  **************************************************************************/
 
+void EventManager_stop(EventManager *self) {
+
+    self->status = STOPED;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+void EventManager_sweep(EventManager *self) {
+
+    EventManager_checkEventSources(self);
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
 static bool EventManager_isRunning(EventManager *self) {
 
     bool isRunning = (self->status == STARTED);
@@ -206,21 +236,6 @@ static void EventManager_fireEvent(EventManager *self,
             EventListener_notify(listener, event);
         }
     }
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-void EventManager_stop(EventManager *self) {
-
-    self->status = STOPED;
 }
 
 
