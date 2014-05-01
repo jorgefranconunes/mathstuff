@@ -72,9 +72,7 @@ EventListener *TestEventListener_asEventListener(TestEventListener *self) {
 
 int TestEventListener_getEventCount(TestEventListener *self) {
 
-    TestEventListener *me = (TestEventListener *)self;
-
-    int result = me->eventCount;
+    int result = self->eventCount;
 
     return result;
 }
@@ -89,21 +87,21 @@ int TestEventListener_getEventCount(TestEventListener *self) {
  *
  **************************************************************************/
 
-static void TestEventListener_notify(EventListener *self,
+static void TestEventListener_notify(EventListener *baseSelf,
                                      Event         *event) {
 
-    TestEventListener *me = (TestEventListener *)self;
-    EventType         *expectedEventType = me->eventType;
+    TestEventListener *self              = (TestEventListener *)baseSelf;
+    EventType         *expectedEventType = self->eventType;
 
     if ( NULL != expectedEventType ) {
         assert( expectedEventType == Event_getEventType(event) );
     }
 
-    if ( me->eventCount < me->maxEventCount ) {
-        ++(me->eventCount);
+    if ( self->eventCount < self->maxEventCount ) {
+        ++(self->eventCount);
 
-        if ( me->eventCount == me->maxEventCount ) {
-            EventManager_stop(me->eventManager);
+        if ( self->eventCount == self->maxEventCount ) {
+            EventManager_stop(self->eventManager);
         }
     }
 }
