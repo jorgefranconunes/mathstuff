@@ -23,12 +23,13 @@ extern "C" {
         Clock base;
         int   incrFactorN;
         int   incrFactorD;
-        long  currentTimeMillis;
+        long  ticks;
+        long  time;
     };
 
-    void CounterClock_init(CounterClock *self,
-                           int           incrementFactorN,
-                           int           incrementFactorD);
+    CounterClock *CounterClock_init(CounterClock *self,
+                                    int           incrementFactorN,
+                                    int           incrementFactorD);
 
     void CounterClock_update(CounterClock *self,
                              long          currentTickCount);

@@ -47,6 +47,8 @@ AllTests_SOURCES = \
 	test/ardev/tasks/TaskServiceTest.cpp \
 	test/ardev/tasks/TestClock.c \
 	test/ardev/tasks/TestTask.c \
+	test/ardev/ticks/CounterClockTest.cpp \
+	test/ardev/ticks/CounterTickSourceTest.cpp \
 	test/ardev/ticks/TickEventTypeTest.cpp
 
 AllTests_CPPFLAGS = \

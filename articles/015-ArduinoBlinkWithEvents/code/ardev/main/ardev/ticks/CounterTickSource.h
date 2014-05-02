@@ -29,14 +29,17 @@ extern "C" {
         long         lastTickCount;
     };
 
-    void CounterTickSource_init(CounterTickSource *self,
-                                long             (*tickCountGetter)(void),
-                                int                incrementFactorN,
-                                int                incrementeFactorD);
+    CounterTickSource *
+    CounterTickSource_init(CounterTickSource *self,
+                           long             (*tickCountGetter)(void),
+                           int                incrementFactorN,
+                           int                incrementeFactorD);
 
-    Clock *CounterTickSource_getClock(CounterTickSource *self);
+    Clock *
+    CounterTickSource_getClock(CounterTickSource *self);
 
-    EventSource *CounterTickSource_asEventSource(CounterTickSource *self);
+    EventSource *
+    CounterTickSource_asEventSource(CounterTickSource *self);
 
 
 

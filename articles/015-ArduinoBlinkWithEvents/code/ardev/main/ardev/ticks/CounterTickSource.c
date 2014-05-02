@@ -29,10 +29,11 @@ static EventSourceInterface interface = {
  *
  **************************************************************************/
 
-void CounterTickSource_init(CounterTickSource *self,
-                            long             (*tickCountGetter)(void),
-                            int                incrementFactorN,
-                            int                incrementFactorD) {
+CounterTickSource *
+CounterTickSource_init(CounterTickSource *self,
+                       long             (*tickCountGetter)(void),
+                       int                incrementFactorN,
+                       int                incrementFactorD) {
 
     self->base.vtable     = &interface;
     self->tickCountGetter = tickCountGetter;
@@ -40,6 +41,8 @@ void CounterTickSource_init(CounterTickSource *self,
 
     CounterClock_init(&self->clock, incrementFactorN, incrementFactorD);
     Event_init(&self->tickEvent, TickEventType_get());
+
+    return self;
 }
 
 
