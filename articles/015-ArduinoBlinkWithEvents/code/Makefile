@@ -1,0 +1,39 @@
+###########################################################################
+#
+# Copyright (c) 2014 Jorge Nunes, All Rights Reserved.
+#
+###########################################################################
+
+B_PROJ_VERSION = 0.0.2
+
+MODULES = \
+	ardev
+
+
+
+.PHONY : default all check clean
+
+default : all
+
+all :
+	@for module in $(MODULES) ; do make -C $$module $@; done
+
+check :
+	@for module in $(MODULES) ; do make -C $$module $@; done
+
+clean :
+	@for module in $(MODULES) ; do make -C $$module $@; done
+
+
+
+
+
+-include Makefile.conf
+
+Makefile.conf : 
+	@echo "***"
+	@echo "*** File \"Makefile.conf\" is missing."
+	@echo "*** See 00README-developers.txt for aditional details."
+	@echo "***"
+	@exit 1
+
