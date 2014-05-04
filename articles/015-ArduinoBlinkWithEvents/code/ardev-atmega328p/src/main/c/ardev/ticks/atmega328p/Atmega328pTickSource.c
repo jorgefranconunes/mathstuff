@@ -4,6 +4,7 @@
  *
  **************************************************************************/
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #include <avr/interrupt.h>
@@ -21,10 +22,11 @@
 static long getTickCount(void);
 static void setupAtmega328pTimer(void);
 
-static void Atmega328pTickSource_buildIfNeeded();
+static void init(void);
 
 static long volatile _tickCount = 0;
 
+static bool               _needsInit = true;
 static CounterTickSource  _tickSourceData;
 static CounterTickSource *_tickSource = NULL;
 static Clock             *_clock      = NULL;
@@ -39,9 +41,11 @@ static Clock             *_clock      = NULL;
  *
  **************************************************************************/
 
-Clock *Atmega328pTickSource_getClock() {
+Clock *Atmega328pTickSource_getClock(void) {
 
-    Atmega328pTickSource_buildIfNeeded();
+    if ( _needsInit ) {
+        init();
+    }
 
     return _clock;
 }
@@ -56,24 +60,15 @@ Clock *Atmega328pTickSource_getClock() {
  *
  **************************************************************************/
 
-static void Atmega328pTickSource_buildIfNeeded() {
+EventSource *Atmega328pTickSource_getTickSource() {
 
-    if ( NULL == _tickSource ) {
-        CounterTickSource *tickSource =
-            CounterTickSource_init(&_tickSourceData,
-                                   &getTickCount,
-                                   INCREMENT_FACTOR_N,
-                                   INCREMENT_FACTOR_D);
-        Clock *clock = CounterTickSource_getClock(tickSource);
+    if ( _needsInit ) {
+        init();
+    }
 
-        EventManager *eventManager = Atmega328pEventManager_get();
-        EventManager_addSource(eventManager,
-                               CounterTickSource_asEventSource(tickSource));
+    EventSource *result = CounterTickSource_asEventSource(_tickSource);
 
-        setupAtmega328pTimer();
-
-        _tickSource = tickSource;
-        _clock      = clock;
+    return result;
 }
 
 
@@ -86,7 +81,46 @@ static void Atmega328pTickSource_buildIfNeeded() {
  *
  **************************************************************************/
 
-static long getTickCount() {
+static void init() {
+
+    if ( !_needsInit ) {
+        return;
+    }
+
+    CounterTickSource *tickSource =
+        CounterTickSource_init(&_tickSourceData,
+                               &getTickCount,
+                               INCREMENT_FACTOR_N,
+                               INCREMENT_FACTOR_D);
+    Clock *clock =
+        CounterTickSource_getClock(tickSource);
+
+    EventManager *eventManager =
+        Atmega328pEventManager_get();
+
+    EventManager_addSource(eventManager,
+                           CounterTickSource_asEventSource(tickSource));
+
+    setupAtmega328pTimer();
+
+    _tickSource = tickSource;
+    _clock      = clock;
+    _needsInit  = false;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+static long getTickCount(void) {
+
+    return 0; // TBD
 
     long result;
 
@@ -103,7 +137,7 @@ static long getTickCount() {
      ** End of exclusive block.
      **/
 
-    SREG = currSReg;
+    SREG = currSREG;
 
     return result;
 }
@@ -119,6 +153,8 @@ static long getTickCount() {
  **************************************************************************/
 
 static void setupAtmega328pTimer() {
+
+    return; // TBD
 
     // Set the Timer 0 Mode to CTC
     TCCR0A |= _BV(WGM01);

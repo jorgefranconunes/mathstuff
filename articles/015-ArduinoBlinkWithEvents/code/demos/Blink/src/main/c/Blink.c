@@ -5,21 +5,21 @@
  **************************************************************************/
 
 #include <stdbool.h>
-#include <stddef.h>
 
+#include <avr/io.h>
+
+#include <ardev/tasks/CallbackTask.h>
+
+#include <ardev/tasks/atmega328p/Atmega328pTaskService.h>
 #include <ardev/events/atmega328p/Atmega328pEventManager.h>
-#include <ardev/ticks/atmega328p/Atmega328pTickSource.h>
-#include <ardev/tasks/CounterTaskService.h>
 
 
 
 
 
-static void init(void);
+#define BLINK_DELAY_MS 500
 
-static bool         _needsInit = true;
-static TaskService  _taskServiceData;
-static TaskService *_taskService = NULL;
+static void blinkCallback(void);
 
 
 
@@ -31,13 +31,20 @@ static TaskService *_taskService = NULL;
  *
  **************************************************************************/
 
-TaskService *Atmega328pTaskService_get () {
+int main(void) {
 
-    if ( _needsInit ) {
-        init();
-    }
+    /* Set pin 5 of PORTD for output*/
+    DDRD |= _BV(DDD5);
 
-    return _taskService;
+
+    CallbackTask callbackTaskData;
+    Task        *task = CallbackTask_build(&callbackTaskData, &blinkCallback);
+    TaskService *taskService = Atmega328pTaskService_get();
+    
+    TaskService_addPeriodicTask(taskService, task, 0, BLINK_DELAY_MS);
+
+    /* Run forever. */
+    Atmega328pEventManager_start();
 }
 
 
@@ -46,25 +53,21 @@ TaskService *Atmega328pTaskService_get () {
 
 /**************************************************************************
  *
- * 
+ * Called once per 0.5s. Toggles the LED connected to port 5.
  *
  **************************************************************************/
 
-static void init() {
+static void blinkCallback() {
 
-    if ( !_needsInit ) {
-        return;
+    static bool isOn = false;
+
+    if ( isOn ) {
+        PORTD |= _BV(PORTD5);
+    } else {
+        PORTD &= ~_BV(PORTD5);
     }
 
-    EventManager *eventManager = Atmega328pEventManager_get();
-    Clock        *clock        = Atmega328pTickSource_getClock();
-    TaskService  *taskService  =
-            TaskService_init(&_taskServiceData, eventManager, clock);
-
-    TaskService_start(taskService);
-
-    _taskService = taskService;
-    _needsInit   = false;
+    isOn = !isOn;
 }
 
 

@@ -4,22 +4,28 @@
  *
  **************************************************************************/
 
-#ifndef ATMEGA328PTICKSOURCE_H
-#define ATMEGA328PTICKSOURCE_H
+#ifndef EVENT_H
+#define EVENT_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ardev/ticks/Clock.h>
+#include <ardev/events/EventType.h>
 
 
 
 
 
-    Clock *Atmega328pTickSource_getClock(void);
+    typedef struct EventStruct Event;
+    struct EventStruct {
+        EventType *eventType;
+    };
 
-    EventSource *Atmega328pTickSource_getTickSource(void);
+    Event *Event_init(Event     *event,
+                      EventType *eventType);
+
+    EventType *Event_getEventType(Event *event);
 
 
 

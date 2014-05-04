@@ -7,7 +7,11 @@
 B_PROJ_VERSION = 0.0.2
 
 MODULES = \
-	ardev
+	ardev-core \
+	ardev-test \
+	ardev-atmega328p \
+	demos/Blink \
+	demos/HelloWorld
 
 
 
@@ -16,13 +20,13 @@ MODULES = \
 default : all
 
 all :
-	@for module in $(MODULES) ; do make -C $$module $@; done
+	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
 
 check :
-	@for module in $(MODULES) ; do make -C $$module $@; done
+	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
 
 clean :
-	@for module in $(MODULES) ; do make -C $$module $@; done
+	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
 
 
 

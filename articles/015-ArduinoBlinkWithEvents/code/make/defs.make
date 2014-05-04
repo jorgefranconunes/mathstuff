@@ -17,31 +17,34 @@ B_PROJ_VERSION = 0.0.1
 #
 B_TARGET_DIR = target
 
-B_SRC_MAIN_C   = src/main/c
-B_SRC_MAIN_CXX = src/main/cpp
+B_MAIN_C_SRCDIR   = src/main/c
+B_MAIN_CXX_SRCDIR = src/main/cpp
 
-B_SRC_TEST_C   = src/test/c
-B_SRC_TEST_CXX = src/test/cpp
+B_TEST_C_SRCDIR   = src/test/c
+B_TEST_CXX_SRCDIR = src/test/cpp
 
 B_CC = gcc
-B_CC_MAIN = $(B_CC)
-B_CC_TEST = $(B_CC)
+B_MAIN_CC = $(B_CC)
+B_TEST_CC = $(B_CC)
 
 B_CC_FLAGS =
-B_CC_FLAGS_MAIN = $(B_CC_FLAGS)
-B_CC_FLAGS_TEST = $(B_CC_FLAGS)
+B_MAIN_CC_FLAGS = $(B_CC_FLAGS)
+B_TEST_CC_FLAGS = $(B_CC_FLAGS)
 
 B_CXX = g++
-B_CXX_MAIN = $(B_CXX)
-B_CXX_TEST = $(B_CXX)
+B_MAIN_CXX = $(B_CXX)
+B_TEST_CXX = $(B_CXX)
 
 B_CXX_FLAGS =
-B_CXX_FLAGS_MAIN = $(B_CXX_FLAGS)
-B_CXX_FLAGS_TEST = $(B_CXX_FLAGS)
+B_MAIN_CXX_FLAGS = $(B_CXX_FLAGS)
+B_TEST_CXX_FLAGS = $(B_CXX_FLAGS)
 
 B_LD = g++
-B_LD_MAIN = $(B_LD)
-B_LD_TEST = $(B_LD)
+B_MAIN_LD = $(B_LD)
+B_TEST_LD = $(B_LD)
+
+B_AR = ar 
+B_RANLIB = ranlib
 
 
 
@@ -52,8 +55,6 @@ B_LD_TEST = $(B_LD)
 #
 B_MKDIR = mkdir -p
 B_DELETE = rm -rf
-B_AR = ar cru
-B_RANLIB = ranlib
 
 
 

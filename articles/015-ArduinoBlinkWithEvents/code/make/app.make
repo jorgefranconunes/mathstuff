@@ -26,7 +26,7 @@
 #
 ###########################################################################
 
-B_MAIN_TARGET_BASENAME = lib$(B_PROJ)-$(B_PROJ_VERSION).a
+B_MAIN_TARGET_BASENAME = $(B_PROJ)-$(B_PROJ_VERSION)
 B_MAIN_TARGET          = $(B_TARGET_DIR)/$(B_MAIN_TARGET_BASENAME)
 
 B_TEST_TARGET = $(B_TARGET_DIR)/AllTests
@@ -49,7 +49,7 @@ ifneq (,$(B_TEST_C_SOURCES)$(B_TEST_CXX_SOURCES))
 check : $(B_TEST_TARGET)
 	$(B_TEST_TARGET)
 else
-check : $(B_MAIN_TARGET)
+check : all
 endif
 
 clean :
@@ -89,8 +89,7 @@ B_MY_MAIN_CXX_FLAGS = \
 
 
 $(B_MAIN_TARGET) : $(B_MAIN_ALL_OBJS)
-	$(B_AR) cru $(B_MAIN_TARGET) $(B_MAIN_ALL_OBJS)
-	$(B_RANLIB) $(B_MAIN_TARGET)
+	$(B_MAIN_LD) -o $@ $(B_MAIN_ALL_OBJS) $(B_MAIN_LD_FLAGS)
 
 $(B_MAIN_C_OBJDIR)/%.o : $(B_MAIN_C_SRCDIR)/%.c
 	$(B_MKDIR) $(@D)
@@ -145,7 +144,7 @@ B_MY_TEST_LD_FLAGS = \
 	$(B_TEST_LD_FLAGS)
 
 
-$(B_TEST_TARGET) : $(B_MAIN_TARGET) $(B_TEST_ALL_OBJS)
+$(B_TEST_TARGET) : all $(B_TEST_ALL_OBJS) $(B_MAIN_ALL_OBJS)
 	$(B_TEST_LD) -o $@ $(B_TEST_ALL_OBJS) $(B_MY_TEST_LD_FLAGS)
 
 $(B_TEST_C_OBJDIR)/%.o : $(B_TEST_C_SRCDIR)/%.c

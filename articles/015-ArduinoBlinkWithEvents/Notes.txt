@@ -29,6 +29,11 @@ avrdude \
     -U flash:w:./blink.hex:i
 
 
+To list the layout of an executable:
+
+
+
+
 
 
 
