@@ -24,11 +24,11 @@ B_RANLIB = avr-ranlib
 B_MAIN_CC_FLAGS = \
 	$(B_CC_FLAGS) \
 	-I ../../ardev-core/src/main/c \
-	-I ../../ardev-atmega328p/src/main/c
+	-I ../../ardev-atm328p/src/main/c
 
 B_MAIN_LD_FLAGS = \
-	-L ../../ardev-atmega328p/target \
-	-lardev-atmega328p-$(B_PROJ_VERSION) \
+	-L ../../ardev-atm328p/target \
+	-lardev-atm328p-$(B_PROJ_VERSION) \
 	-L ../../ardev-core/target \
 	-lardev-core-$(B_PROJ_VERSION)
 

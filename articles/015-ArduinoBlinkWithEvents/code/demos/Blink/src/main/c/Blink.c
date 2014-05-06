@@ -10,8 +10,9 @@
 
 #include <ardev/tasks/CallbackTask.h>
 
-#include <ardev/tasks/atmega328p/Atmega328pTaskService.h>
-#include <ardev/events/atmega328p/Atmega328pEventManager.h>
+#include <ardev/sys/SysEventManager.h>
+#include <ardev/sys/SysTaskService.h>
+#include <ardev/sys/atm328p/Atm328pTaskService.h>
 
 
 
@@ -33,18 +34,20 @@ static void blinkCallback(void);
 
 int main(void) {
 
+    Atm328pTaskService_init();
+
     /* Set pin 5 of PORTD for output*/
     DDRD |= _BV(DDD5);
 
 
     CallbackTask callbackTaskData;
     Task        *task = CallbackTask_build(&callbackTaskData, &blinkCallback);
-    TaskService *taskService = Atmega328pTaskService_get();
+    TaskService *taskService = SysTaskService_get();
     
     TaskService_addPeriodicTask(taskService, task, 0, BLINK_DELAY_MS);
 
     /* Run forever. */
-    Atmega328pEventManager_start();
+    SysEventManager_start();
 }
 
 

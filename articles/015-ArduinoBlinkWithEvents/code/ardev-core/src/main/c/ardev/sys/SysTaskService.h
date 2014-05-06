@@ -4,22 +4,20 @@
  *
  **************************************************************************/
 
-#ifndef ATMEGA328PEVENTMANAGER_H
-#define ATMEGA328PEVENTMANAGER_H
+#ifndef SYSTASKSERVICE_H
+#define SYSTASKSERVICE_H
 
-#ifdef __clplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ardev/events/EventManager.h>
+#include <ardev/tasks/TaskService.h>
 
 
 
 
 
-    EventManager *Atmega328pEventManager_get(void);
-
-    void Atmega328pEventManager_start();
+    TaskService *SysTaskService_get(void);
 
 
 

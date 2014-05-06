@@ -10,7 +10,7 @@ include ../make/defs.make
 B_PROJ = ardev-core
 
 B_CC       = avr-gcc
-B_CC_FLAGS = -g -Os -Wall -std=gnu99 -mmcu=atmega328p
+B_CC_FLAGS = -g -Os -Wall -std=gnu99 -mmcu=atmega328p -DNDEBUG
 
 B_LD     = avr-gcc
 B_AR     = avr-ar
@@ -27,6 +27,9 @@ B_MAIN_C_SOURCES = \
 	ardev/events/EventManager.c \
 	ardev/events/EventSource.c \
 	ardev/events/EventType.c \
+	ardev/sys/SysEventManager.c \
+	ardev/sys/SysTaskService.c \
+	ardev/sys/SysTickSource.c \
 	ardev/tasks/CallbackTask.c \
 	ardev/tasks/CounterTaskService.c \
 	ardev/tasks/Task.c \

@@ -7,8 +7,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include <ardev/events/atmega328p/Atmega328pEventManager.h>
-#include <ardev/ticks/atmega328p/Atmega328pTickSource.h>
+#include <ardev/sys/SysEventManager.h>
+#include <ardev/sys/SysTickSource.h>
 #include <ardev/tasks/CounterTaskService.h>
 
 
@@ -31,7 +31,7 @@ static TaskService *_taskService = NULL;
  *
  **************************************************************************/
 
-TaskService *Atmega328pTaskService_get () {
+TaskService *SysTaskService_get () {
 
     if ( _needsInit ) {
         init();
@@ -56,8 +56,8 @@ static void init() {
         return;
     }
 
-    EventManager *eventManager = Atmega328pEventManager_get();
-    Clock        *clock        = Atmega328pTickSource_getClock();
+    EventManager *eventManager = SysEventManager_get();
+    Clock        *clock        = SysTickSource_getClock();
     TaskService  *taskService  =
             TaskService_init(&_taskServiceData, eventManager, clock);
 

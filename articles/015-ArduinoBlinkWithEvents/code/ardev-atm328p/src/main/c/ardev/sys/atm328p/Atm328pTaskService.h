@@ -4,22 +4,18 @@
  *
  **************************************************************************/
 
-#ifndef ATMEGA328PTICKSOURCE_H
-#define ATMEGA328PTICKSOURCE_H
+#ifndef ATM328PTASKSERVICE_H
+#define ATM328PTASKSERVICE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ardev/ticks/Clock.h>
 
 
 
 
-
-    Clock *Atmega328pTickSource_getClock(void);
-
-    EventSource *Atmega328pTickSource_getTickSource(void);
+    void Atm328pTaskService_init(void);
 
 
 

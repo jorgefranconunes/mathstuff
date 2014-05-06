@@ -9,7 +9,7 @@ B_PROJ_VERSION = 0.0.2
 MODULES = \
 	ardev-core \
 	ardev-test \
-	ardev-atmega328p \
+	ardev-atm328p \
 	demos/Blink \
 	demos/HelloWorld
 

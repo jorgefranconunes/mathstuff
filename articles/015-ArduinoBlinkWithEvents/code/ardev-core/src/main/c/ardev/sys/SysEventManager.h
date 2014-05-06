@@ -4,18 +4,22 @@
  *
  **************************************************************************/
 
-#ifndef HELLOUTILS_H
-#define HELLOUTILS_H
+#ifndef SYSEVENTMANAGER_H
+#define SYSEVENTMANAGER_H
 
-#ifdef __cplusplus
+#ifdef __clplusplus
 extern "C" {
 #endif
 
+#include <ardev/events/EventManager.h>
 
 
 
 
-char *getPackageName(void);
+
+    EventManager *SysEventManager_get(void);
+
+    void SysEventManager_start();
 
 
 

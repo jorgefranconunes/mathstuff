@@ -6,7 +6,7 @@
 
 #include <stddef.h>
 
-#include <ardev/events/atmega328p/Atmega328pEventManager.h>
+#include <ardev/sys/SysEventManager.h>
 
 
 
@@ -25,7 +25,7 @@ static EventManager *_eventManager = NULL;
  *
  **************************************************************************/
 
-EventManager *Atmega328pEventManager_get() {
+EventManager *SysEventManager_get() {
 
     if ( NULL == _eventManager ) {
         _eventManager = EventManager_init(&_eventManagerData);
@@ -44,9 +44,9 @@ EventManager *Atmega328pEventManager_get() {
  *
  **************************************************************************/
 
-void Atmega328pEventManager_start() {
+void SysEventManager_start() {
 
-    EventManager *eventManager = Atmega328pEventManager_get();
+    EventManager *eventManager = SysEventManager_get();
 
     EventManager_start(eventManager);
 }

@@ -24,6 +24,9 @@ B_MAIN_C_SOURCES = \
 	ardev/events/EventManager.c \
 	ardev/events/EventSource.c \
 	ardev/events/EventType.c \
+	ardev/sys/SysEventManager.c \
+	ardev/sys/SysTaskService.c \
+	ardev/sys/SysTickSource.c \
 	ardev/tasks/CallbackTask.c \
 	ardev/tasks/CounterTaskService.c \
 	ardev/tasks/Task.c \

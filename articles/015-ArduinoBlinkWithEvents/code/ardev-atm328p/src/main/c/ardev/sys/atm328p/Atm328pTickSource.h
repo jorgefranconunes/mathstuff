@@ -4,20 +4,18 @@
  *
  **************************************************************************/
 
-#ifndef ATMEGA328PTASKSERVICE_H
-#define ATMEGA328PTASKSERVICE_H
+#ifndef ATM328PTICKSOURCE_H
+#define ATM328PTICKSOURCE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include <ardev/tasks/TaskService.h>
 
 
 
 
-
-    TaskService *Atmega328pTaskService_get(void);
+    void Atm328pTickSource_init(void);
 
 
 
