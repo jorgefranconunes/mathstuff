@@ -16,9 +16,9 @@
  *
  **************************************************************************/
 
-Event *EventSource_pollEvent(EventSource *self) {
+Event *EventSource_poll(EventSource *self) {
 
-    return self->vtable->pollEvent(self);
+    return self->vtable->poll(self);
 }
 
 

@@ -93,7 +93,7 @@ TEST_GROUP(CounterTickSource) {
 
     void assertHasTickEvent() {
 
-        Event *event = EventSource_pollEvent(eventSource);
+        Event *event = EventSource_poll(eventSource);
 
         CHECK( event != NULL);
         POINTERS_EQUAL(tickEventType, Event_getEventType(event));
@@ -111,7 +111,7 @@ TEST_GROUP(CounterTickSource) {
 
     void assertHasNoEvent() {
 
-        POINTERS_EQUAL(NULL, EventSource_pollEvent(eventSource));
+        POINTERS_EQUAL(NULL, EventSource_poll(eventSource));
     }
 
 

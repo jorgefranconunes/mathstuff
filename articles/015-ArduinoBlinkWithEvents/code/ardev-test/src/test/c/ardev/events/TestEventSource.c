@@ -13,10 +13,10 @@
 
 
 
-static Event *TestEventSource_pollEvent(EventSource *self);
+static Event *TestEventSource_poll(EventSource *self);
 
 static EventSourceInterface interface = {
-    .pollEvent    = TestEventSource_pollEvent
+    .poll    = TestEventSource_poll
 };
 
 
@@ -92,7 +92,7 @@ int TestEventSource_getQueryCount(TestEventSource *self) {
  *
  **************************************************************************/
 
-static Event *TestEventSource_pollEvent(EventSource *self) {
+static Event *TestEventSource_poll(EventSource *self) {
 
     TestEventSource *me     = (TestEventSource *)self;
     Event           *result = NULL;

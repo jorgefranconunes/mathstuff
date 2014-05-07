@@ -189,7 +189,7 @@ static void EventManager_checkEventSources(EventManager *self) {
           eventSource != NULL;
           eventSource = eventSource->next ) {
 
-        Event *event = EventSource_pollEvent(eventSource);
+        Event *event = EventSource_poll(eventSource);
 
         if ( NULL != event ) {
             EventManager_fireEvent(self, event);

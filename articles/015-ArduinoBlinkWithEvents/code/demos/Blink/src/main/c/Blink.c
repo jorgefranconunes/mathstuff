@@ -39,7 +39,6 @@ int main(void) {
     /* Set pin 5 of PORTD for output*/
     DDRD |= _BV(DDD5);
 
-
     CallbackTask callbackTaskData;
     Task        *task = CallbackTask_build(&callbackTaskData, &blinkCallback);
     TaskService *taskService = SysTaskService_get();

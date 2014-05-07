@@ -13,10 +13,10 @@
 
 
 
-static Event *CounterTickSource_pollEvent(EventSource *baseSelf);
+static Event *CounterTickSource_poll(EventSource *baseSelf);
 
 static EventSourceInterface interface = {
-    .pollEvent = CounterTickSource_pollEvent
+    .poll = CounterTickSource_poll
 };
 
 
@@ -89,7 +89,7 @@ EventSource *CounterTickSource_asEventSource(CounterTickSource *self) {
  *
  **************************************************************************/
 
-static Event *CounterTickSource_pollEvent(EventSource *baseSelf) {
+static Event *CounterTickSource_poll(EventSource *baseSelf) {
 
     CounterTickSource *self = (CounterTickSource *)baseSelf;
 

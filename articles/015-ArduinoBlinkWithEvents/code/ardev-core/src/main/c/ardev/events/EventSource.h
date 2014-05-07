@@ -21,7 +21,7 @@ extern "C" {
 
     typedef struct EventSourceInterfaceStruct EventSourceInterface;
     struct EventSourceInterfaceStruct {
-        Event *(*pollEvent)(EventSource *);
+        Event *(*poll)(EventSource *);
     };
 
     struct EventSourceStruct {
@@ -29,7 +29,7 @@ extern "C" {
         EventSource          *next;
     };
 
-    Event *EventSource_pollEvent(EventSource *self);
+    Event *EventSource_poll(EventSource *self);
 
 
 

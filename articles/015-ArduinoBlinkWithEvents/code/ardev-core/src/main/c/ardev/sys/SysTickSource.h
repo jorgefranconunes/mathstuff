@@ -24,7 +24,7 @@ extern "C" {
 
     Clock *SysTickSource_getClock(void);
 
-    EventSource *SysTickSource_getTickSource(void);
+    EventSource *SysTickSource_get(void);
 
 
 
