@@ -6,6 +6,8 @@
 
 include ../make/defs.make
 
+include ../Makefile.conf
+
 
 B_PROJ = ardev-test
 

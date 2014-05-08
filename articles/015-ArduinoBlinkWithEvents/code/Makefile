@@ -19,13 +19,13 @@ MODULES = \
 
 default : all
 
-all :
+all : Makefile.conf
 	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
 
-check :
+check : Makefile.conf
 	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
 
-clean :
+clean : Makefile.conf
 	@for module in $(MODULES) ; do make -C $$module $@ || exit 1; done
 
 

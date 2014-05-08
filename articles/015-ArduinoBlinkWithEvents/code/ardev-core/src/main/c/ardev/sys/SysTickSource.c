@@ -82,11 +82,36 @@ EventSource *SysTickSource_get() {
  *
  **************************************************************************/
 
-Clock *SysTickSource_getClock(void) {
+Clock *SysTickSource_getClock() {
 
     assert( _needsInit == false );
 
     return _clock;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * Restores the state as it was prior to calling the
+ * <code>SysTickSource_init(...)</code> function.
+ *
+ * <p>After calling this function, the
+ * <code>SysTickSource_init(...)</code> needs to be called before
+ * attempting to invoke any other functions.</p>
+ *
+ * <p>This function would not usually be called in a production
+ * application. But it is usefull in test environment.</p>
+ *
+ **************************************************************************/
+
+void SysTickSource_reset() {
+
+    _tickSource = NULL;
+    _clock      = NULL;
+    _needsInit  = true;
 }
 
 

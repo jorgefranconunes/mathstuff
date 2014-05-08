@@ -7,6 +7,7 @@
 #include <CppUTest/TestHarness.h>
 
 #include <ardev/sys/SysTickSource.h>
+#include <ardev/ticks/TickEventType.h>
 
 
 
@@ -41,6 +42,47 @@ static long getCounter() {
 
 
 
+static void testCheckEvents(long counterValueList[],
+                            int  counterValuesSize) {
+
+    SysTickSource_reset();
+    initCounter(counterValueList, counterValuesSize);
+    SysTickSource_init(getCounter, 1, 1);
+
+    EventSource *eventSource   = SysTickSource_get();
+    Clock       *clock         = SysTickSource_getClock();
+    EventType   *tickEventType = TickEventType_get();
+    CHECK( NULL != eventSource );
+
+    int  checkCount      = 0;
+    long previousCounter = 0L;
+
+    for ( int i=0, size=counterValuesSize; i<size; ++i ) {
+        long   currentCounter = counterValueList[i];
+        Event *event          = EventSource_poll(eventSource);
+
+        if ( currentCounter == previousCounter ) {
+            CHECK( NULL == event );
+        } else {
+            CHECK( NULL != event );
+            
+            EventType *eventType = Event_getEventType(event);
+            POINTERS_EQUAL(tickEventType, eventType);
+        }
+
+        CHECK_EQUAL( currentCounter, Clock_currentTimeMillis(clock));
+
+        previousCounter = currentCounter;
+        ++checkCount;
+    }
+
+    CHECK_EQUAL(counterValuesSize, checkCount);
+}
+
+
+
+
+
 /**************************************************************************
  *
  * 
@@ -66,19 +108,86 @@ TEST_GROUP(SysTickSource) {
 
 
 
+IGNORE_TEST(SysTickSource, getWihoutInit) {
 
-TEST(SysTickSource, noEvents) {
+    SysTickSource_reset();
+    SysTickSource_get();
+}
 
+
+
+
+
+TEST(SysTickSource, noEvents01) {
     long counterValueList[] = { 0 };
     int  counterValuesSize  = 1;
-    initCounter(counterValueList, counterValuesSize);
+    testCheckEvents(counterValueList, counterValuesSize);
+}
 
-    SysTickSource_init(&getCounter, 1 , 1);
 
-    EventSource *eventSource = SysTickSource_get();
-    Event       *event       = EventSource_poll(eventSource);
+TEST(SysTickSource, noEvents02) {
+    long counterValueList[] = { 0, 0 };
+    int  counterValuesSize  = 2;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
 
-    POINTERS_EQUAL(NULL, event);
+
+TEST(SysTickSource, noEvents03) {
+    long counterValueList[] = { 0, 0, 0, 0, 0 };
+    int  counterValuesSize  = 5;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
+
+
+
+
+
+TEST(SysTickSource, manyEvents01) {
+    long counterValueList[] = { 0, 1 };
+    int  counterValuesSize  = 2;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
+
+
+TEST(SysTickSource, manyEvents02) {
+    long counterValueList[] = { 1, 1 };
+    int  counterValuesSize  = 2;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
+
+
+TEST(SysTickSource, manyEvents03) {
+    long counterValueList[] = { 1, 2 };
+    int  counterValuesSize  = 2;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
+
+
+TEST(SysTickSource, manyEvents04) {
+    long counterValueList[] = { 1, 1, 2 };
+    int  counterValuesSize  = 3;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
+
+
+TEST(SysTickSource, manyEvents05) {
+    long counterValueList[] = { 1, 2, 2 };
+    int  counterValuesSize  = 3;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
+
+
+TEST(SysTickSource, manyEvents06) {
+    long counterValueList[] = { 1, 7, 7 };
+    int  counterValuesSize  = 3;
+    testCheckEvents(counterValueList, counterValuesSize);
+}
+
+
+TEST(SysTickSource, manyEvents07) {
+    long counterValueList[] = { 1, 2, 2, 10, 11, 20, 20, 20, 50, 52 };
+    int  counterValuesSize  = 10;
+    testCheckEvents(counterValueList, counterValuesSize);
 }
 
 

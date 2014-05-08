@@ -26,6 +26,8 @@ extern "C" {
 
     EventSource *SysTickSource_get(void);
 
+    void SysTickSource_reset(void);
+
 
 
 
