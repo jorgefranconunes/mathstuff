@@ -7,7 +7,7 @@
 #ifndef SYSEVENTMANAGER_H
 #define SYSEVENTMANAGER_H
 
-#ifdef __clplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -19,7 +19,9 @@ extern "C" {
 
     EventManager *SysEventManager_get(void);
 
-    void SysEventManager_start();
+    void SysEventManager_start(void);
+
+    void SysEventManager_reset(void);
 
 
 

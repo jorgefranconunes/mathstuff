@@ -61,6 +61,7 @@ B_TEST_C_SOURCES = \
 B_TEST_CXX_SOURCES = \
 	AllTests.cpp \
 	ardev/events/EventManagerTest.cpp \
+	ardev/sys/SysTaskServiceTest.cpp \
 	ardev/sys/SysTickSourceTest.cpp \
 	ardev/tasks/CallbackTaskTest.cpp \
 	ardev/tasks/TaskSchedulerTest.cpp \

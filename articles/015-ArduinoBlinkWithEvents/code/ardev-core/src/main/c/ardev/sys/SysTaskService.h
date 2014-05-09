@@ -19,6 +19,8 @@ extern "C" {
 
     TaskService *SysTaskService_get(void);
 
+    void SysTaskService_reset(void);
+
 
 
 

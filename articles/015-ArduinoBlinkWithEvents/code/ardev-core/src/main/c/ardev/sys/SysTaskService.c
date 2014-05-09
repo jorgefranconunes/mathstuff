@@ -17,7 +17,7 @@
 
 static void init(void);
 
-static bool         _needsInit = true;
+static bool         _isInited = false;
 static TaskService  _taskServiceData;
 static TaskService *_taskService = NULL;
 
@@ -33,9 +33,7 @@ static TaskService *_taskService = NULL;
 
 TaskService *SysTaskService_get () {
 
-    if ( _needsInit ) {
-        init();
-    }
+    init();
 
     return _taskService;
 }
@@ -52,19 +50,35 @@ TaskService *SysTaskService_get () {
 
 static void init() {
 
-    if ( !_needsInit ) {
+    if ( _isInited ) {
         return;
     }
 
     EventManager *eventManager = SysEventManager_get();
     Clock        *clock        = SysTickSource_getClock();
     TaskService  *taskService  =
-            TaskService_init(&_taskServiceData, eventManager, clock);
+        TaskService_init(&_taskServiceData, eventManager, clock);
 
     TaskService_start(taskService);
 
     _taskService = taskService;
-    _needsInit   = false;
+    _isInited    = true;
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+void SysTaskService_reset() {
+
+    _taskService = NULL;
+    _isInited    = false;
 }
 
 

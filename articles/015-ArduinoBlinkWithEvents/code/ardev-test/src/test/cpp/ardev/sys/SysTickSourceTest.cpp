@@ -13,9 +13,9 @@
 
 
 
-int   _counterValueIndex    = 0;
-long *_counterValueList     = NULL;
-int   _maxCounterValueIndex = 0;
+static int   _counterValueIndex    = 0;
+static long *_counterValueList     = NULL;
+static int   _maxCounterValueIndex = 0;
 
 
 static void initCounter(long *counterValueList,
@@ -70,7 +70,7 @@ static void testCheckEvents(long counterValueList[],
             POINTERS_EQUAL(tickEventType, eventType);
         }
 
-        CHECK_EQUAL( currentCounter, Clock_currentTimeMillis(clock));
+        CHECK_EQUAL( currentCounter, Clock_currentTimeMillis(clock) );
 
         previousCounter = currentCounter;
         ++checkCount;

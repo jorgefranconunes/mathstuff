@@ -32,11 +32,10 @@ TEST_GROUP(TaskScheduler) {
 
     void setup() {
 
-        TestClock_init(&testClockData);
-        testClock = &testClockData;
-
-        TaskScheduler_init(&schedulerData, TestClock_asClock(testClock));
-        scheduler = &schedulerData;
+        testClock =
+            TestClock_init(&testClockData);
+        scheduler =
+            TaskScheduler_init(&schedulerData, TestClock_asClock(testClock));
     }
 
 

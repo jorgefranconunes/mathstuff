@@ -26,10 +26,12 @@ static TaskInterface interface = {
  *
  **************************************************************************/
 
-void TestTask_init(TestTask *self) {
+TestTask *TestTask_init(TestTask *self) {
 
     self->base.vtable = &interface;
     self->callCount   = 0;
+
+    return self;
 }
 
 

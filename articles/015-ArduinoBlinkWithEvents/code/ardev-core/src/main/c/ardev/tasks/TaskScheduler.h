@@ -23,8 +23,8 @@ extern "C" {
         Task  *taskListHead;
     };
 
-    void TaskScheduler_init(TaskScheduler *self,
-                            Clock         *clock);
+    TaskScheduler *TaskScheduler_init(TaskScheduler *self,
+                                      Clock         *clock);
 
     int TaskScheduler_getPendingCount(TaskScheduler *self);
 

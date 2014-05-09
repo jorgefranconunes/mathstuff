@@ -18,6 +18,7 @@
 static long getTickCount(void);
 static void setupAtmega328pTimer(void);
 
+static bool _isInited = false;
 static long volatile _tickCount = 0;
 
 
@@ -26,14 +27,24 @@ static long volatile _tickCount = 0;
 
 /**************************************************************************
  *
- * 
+ * Initializes the system tick source. Only after calling this
+ * function you can safely call <code>SysTickSource_get()</code>
+ *
+ * It is ok to call this function more than once. Only the first call
+ * will have an effect.
  *
  **************************************************************************/
 
 void Atm328pTickSource_init() {
 
-    SysTickSource_init(&getTickCount, INCREMENT_FACTOR_N, INCREMENT_FACTOR_D);
-    setupAtmega328pTimer();
+    if ( !_isInited ) {
+        SysTickSource_init(&getTickCount,
+                           INCREMENT_FACTOR_N,
+                           INCREMENT_FACTOR_D);
+        setupAtmega328pTimer();
+
+        _isInited = true;
+    }
 }
 
 

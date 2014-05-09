@@ -26,11 +26,13 @@ static void TaskScheduler_addInitializedTask(TaskScheduler *self,
  *
  **************************************************************************/
 
-void TaskScheduler_init(TaskScheduler *self,
-                        Clock         *clock) {
+TaskScheduler *TaskScheduler_init(TaskScheduler *self,
+                                  Clock         *clock) {
 
     self->clock        = clock;
     self->taskListHead = NULL;
+
+    return self;
 }
 
 

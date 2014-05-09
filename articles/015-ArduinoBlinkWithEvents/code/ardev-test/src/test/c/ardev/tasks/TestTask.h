@@ -24,7 +24,7 @@ extern "C" {
         int  callCount;
     };
 
-    void TestTask_init(TestTask *self);
+    TestTask *TestTask_init(TestTask *self);
 
     Task *TestTask_asTask(TestTask *self);
 
