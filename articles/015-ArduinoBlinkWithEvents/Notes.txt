@@ -37,65 +37,21 @@ To list the layout of an executable:
 
 
 
-== ArdEvents toolkit
+== Timers and interrupts
 
+TCNTn - Timer/Counter. 8 bits in timer 0.
 
-class EventManager
+OCRnx - Output Compare Register. 8 bits in timer 0.
 
-Manages low level events directly corresponding to interrupts.
+TIFRn - Timer Interrupt Flag Register.
 
+TIMSKn - Timer Interrupt Mask Register. To enable/disable timer
+interrupts.
 
-EventSourceSlot addSource(EventSource source)
+OCnx - Output Compare pins.
 
-EventListenerSlot addListener(EventListener listener)
+OCFnx - Output Compare Flag.
 
-void start() - 
+TOVn - Timer/Counter Overflow Flag.
 
-void stop() - 
-
-
-
-
-
-interface EventSource
-
-Generates events corresonding to interrupts.
-
-
-int getEventType() - 
-
-boolean isPending() - 
-
-
-
-
-
-interface EventListener
-
-Receives events corresponding to interrupts.
-
-
-int getEventType() - 
-
-void handleEvent() - 
-
-
-
-
-
-class TaskScheduler
-
-Used for executing tasks in the future.
-
-
-TaskHandler scheduleTask(Task task, long delay)
-
-TaskHandler schedulePeriodicTask(Task task, long period)
-
-
-
-
-
-interface Procedure
-
-void apply()
+TCCRnx - Timer/Counter Control Register

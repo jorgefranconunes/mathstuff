@@ -12,7 +12,9 @@ B_PROJ = Blink
 B_CC       = avr-gcc
 B_CC_FLAGS = -g -Os -Wall -std=gnu99 -mmcu=atmega328p
 
-B_LD     = avr-gcc
+B_LD       = avr-gcc
+B_LD_FLAGS = -mmcu=atmega328p
+
 B_AR     = avr-ar
 B_RANLIB = avr-ranlib
 
@@ -27,6 +29,7 @@ B_MAIN_CC_FLAGS = \
 	-I ../../ardev-atm328p/src/main/c
 
 B_MAIN_LD_FLAGS = \
+	$(B_LD_FLAGS) \
 	-L ../../ardev-atm328p/target \
 	-lardev-atm328p-$(B_PROJ_VERSION) \
 	-L ../../ardev-core/target \

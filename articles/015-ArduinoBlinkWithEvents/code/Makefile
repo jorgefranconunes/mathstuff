@@ -11,6 +11,8 @@ MODULES = \
 	ardev-test \
 	ardev-atm328p \
 	demos/Blink \
+	demos/Blink101 \
+	demos/BlinkMany \
 	demos/HelloWorld
 
 

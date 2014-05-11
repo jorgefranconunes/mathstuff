@@ -4,6 +4,8 @@
  *
  **************************************************************************/
 
+#include <stdbool.h>
+
 #include <avr/interrupt.h>
 
 #include <ardev/sys/SysTickSource.h>
@@ -57,9 +59,36 @@ void Atm328pTickSource_init() {
  *
  **************************************************************************/
 
-static long getTickCount(void) {
+static void setupAtmega328pTimer() {
 
-    return 0; // TBD
+    cli();
+
+    // Set Timer 0 Mode to CTC
+    TCCR0A |= _BV(WGM01);
+
+    // Select CLK/64 prescaler.
+    TCCR0B |= _BV(CS01) | _BV(CS00);
+
+    // Set Output Compare Register A for 1KHz timer.
+    OCR0A = 0xF9;
+
+    // Enable TIMER0_COMPA interrupt for each tick of Timer 0.
+    TIMSK0 |= _BV(OCIE0A);
+
+    sei();
+}
+
+
+
+
+
+/**************************************************************************
+ *
+ * 
+ *
+ **************************************************************************/
+
+static long getTickCount(void) {
 
     long result;
 
@@ -79,35 +108,6 @@ static long getTickCount(void) {
     SREG = currSREG;
 
     return result;
-}
-
-
-
-
-
-/**************************************************************************
- *
- * 
- *
- **************************************************************************/
-
-static void setupAtmega328pTimer() {
-
-    return; // TBD
-
-    // Set the Timer 0 Mode to CTC
-    TCCR0A |= _BV(WGM01);
-
-    // Set the value that you want to count to.
-    OCR0A = 0xF9;
-
-    //Set the ISR COMPA vect.
-    TIMSK0 |= _BV(OCIE0A);
-
-    // Set prescaler to 64 and start the timer.
-    TCCR0B |= _BV(CS00);
-
-    sei();
 }
 
 

@@ -43,6 +43,10 @@ B_LD = g++
 B_MAIN_LD = $(B_LD)
 B_TEST_LD = $(B_LD)
 
+B_LD_FLAGS =
+B_MAIN_LD_FLAGS = $(B_LD_FLAGS)
+B_TEST_LD_FLAGS = $(B_LD_FLAGS)
+
 B_AR = ar 
 B_RANLIB = ranlib
 

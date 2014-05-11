@@ -7,12 +7,12 @@
 include ../../make/defs.make
 
 
-B_PROJ = HelloWorld
+B_PROJ = BlinkMany
 
 B_CC       = avr-gcc
 B_CC_FLAGS = -g -Os -Wall -std=gnu99 -mmcu=atmega328p
 
-B_LD     = avr-gcc
+B_LD       = avr-gcc
 B_LD_FLAGS = -mmcu=atmega328p
 
 B_AR     = avr-ar
@@ -25,13 +25,21 @@ B_RANLIB = avr-ranlib
 
 B_MAIN_CC_FLAGS = \
 	$(B_CC_FLAGS) \
-	-DF_CPU=16000000UL
+	-I ../../ardev-core/src/main/c \
+	-I ../../ardev-atm328p/src/main/c
+
+B_MAIN_LD_FLAGS = \
+	$(B_LD_FLAGS) \
+	-L ../../ardev-atm328p/target \
+	-lardev-atm328p-$(B_PROJ_VERSION) \
+	-L ../../ardev-core/target \
+	-lardev-core-$(B_PROJ_VERSION)
 
 B_MAIN_C_SOURCES = \
-	HelloWorld.c
+	BlinkMany.c
 
 
-include ../../make/app.make
+include ../../make/app.make 
 
 
 all : ../../bin/$(B_PROJ).hex
