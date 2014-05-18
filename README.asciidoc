@@ -12,11 +12,12 @@ tools used to generate articles results and images.
 
 * link:http://jfnunes.blogspot.com/2007/08/triangulo-de-sierpinsky.html[Triângulo
   de Sierpinsky]
-  (link:https://github.com/jorgefranconunes/mathstuff/raw/master/articles/002-TrianguloSierpinsky/report/002-TrianguloSierpinsky.pdf[PDF])
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/002-TrianguloSierpinsky/report/002-TrianguloSierpinsky.pdf[PDF])
 
-* link:http://jfnunes.blogspot.com/2012/10/cubos-desdobrados.html[Cubos Desdobrados] (link:https://github.com/jorgefranconunes/mathstuff/raw/master/articles/004-CubosDesdobrados/report/004-CubosDesdobrados.pdf[PDF])
+* link:http://jfnunes.blogspot.com/2012/10/cubos-desdobrados.html[Cubos Desdobrados]
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/004-CubosDesdobrados/report/004-CubosDesdobrados.pdf[PDF])
 
 * link:http://jfnunes.blogspot.com/2010/06/ilha-de-koch.html[Ilha de
   Koch]
-  (link:https://github.com/jorgefranconunes/mathstuff/raw/master/articles/013-IlhaDeKoch/report/013-IlhaDeKoch.pdf[PDF])
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/013-IlhaDeKoch/report/013-IlhaDeKoch.pdf[PDF])
 
