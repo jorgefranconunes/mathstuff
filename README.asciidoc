@@ -1,0 +1,17 @@
+
+
+Repository of LaTeX articles of blog posts at
+http://jfnunes.blogspot.com/. It also includes the source code for the
+tools used to generate articles results and images.
+
+
+
+
+
+== Articles
+
+*
+  link:http://jfnunes.blogspot.com/2007/08/triangulo-de-sierpinsky.html[Triângulo
+  de Sierpinsky]
+  (link:https://github.com/jorgefranconunes/mathstuff/raw/master/articles/002-TrianguloSierpinsky/report/002-TrianguloSierpinsky.pdf[PDF])
+
