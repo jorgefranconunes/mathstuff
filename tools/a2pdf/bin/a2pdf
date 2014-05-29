@@ -17,6 +17,7 @@ _baseDir=$(cd ${_scriptDir}/..; pwd)
 
 
 _dblatexSpecsFile=${_baseDir}/conf/dblatex/PlainReport.specs
+_isDebugOn=false
 
 
 
@@ -136,8 +137,11 @@ function asciidoc2pdf () {
     # for the resulting PDF.
 
     asciidoc2docbook ${asciidocFile} \
-        && docbook2pdf ${docbookFile} \
-        && rm -f ${xmlFile}
+        && docbook2pdf ${docbookFile}
+
+    if [ ${_isDebugOn} != true ] ; then
+        rm -f ${xmlFile}
+    fi
 }
 
 
@@ -179,7 +183,14 @@ function docbook2pdf () {
 
     a2pLog "Generating PDF document from DocBook document..."
 
+    local dbLatexDebugFlag=""
+
+    if [ ${_isDebugOn} == true ] ; then
+        dbLatexDebugFlag="--debug"
+    fi
+
     dblatex \
+        ${dblatexDebugFlag} \
         --type=pdf \
         -S ${_dblatexSpecsFile} \
         ${docbookFile}
@@ -206,6 +217,10 @@ a2pCheckForTools asciidoc dblatex
 #
 for option in "$@" ; do
     case "$option" in
+	--debug )
+	    _isDebugOn=true
+            shift
+	    ;;
 	--help )
 	    displayHelp
 	    exit 0
