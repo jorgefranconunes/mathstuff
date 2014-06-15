@@ -1,0 +1,27 @@
+To get the number of frames in a video:
+
+ffmpeg -i ~/Pictures/MVI_0080.AVI -vcodec copy -f null /dev/null
+
+frame=  437 fps=0.0 q=-1.0 Lsize=N/A time=00:00:14.56 bitrate=N/A    
+
+
+ffmpeg \
+    -i ~/Pictures/MVI_0080.AVI \
+    -metadata title="ADC with an Arduino demo." \
+    -metadata date="2014-06-15" \
+    -metadata copyright="2014 Jorge Nunes" \
+    -vf "scale=640x480,fade=in:0:60,fade=out:377:60" \
+     -vcodec mpeg4 -q:v 1 -an ./ArduinoAdc-01.avi
+
+
+
+
+Uploaded to YouTube:
+
+Title: Demo of Arduino Uno ADC
+
+Description: The voltage at the business end of a potentiometer is
+measured with one of the Arduino ADC inputs. Its value is used to
+drive a set of LEDs like a gauge.
+
+URL: http://youtu.be/PVxcLOqzzo0

@@ -9,8 +9,17 @@ ffmpeg \
     -metadata title="Blinking LEDs with an Arduino" \
     -metadata date="2014-05-17" \
     -metadata copyright="2014 Jorge Nunes" \
-    -vf "fade=in:0:60,fade=out:306:60" \
-     -vcodec mpeg2video -q:v 1 -an ./ArduinoBlinkMany-01.avi
+    -vf "scale=640x480,fade=in:0:60,fade=out:306:60" \
+     -vcodec mpeg4 -q:v 1 -an ./ArduinoBlinkMany-01.avi
+
+
+Uploaded to YouTube:
+
+Title: Arduino with many blinking LEDs
+
+Description: An Arduino Uno with the classical multiple blinking leds.
+
+URL: http://youtu.be/HyX_qjSJUZs
 
 
 

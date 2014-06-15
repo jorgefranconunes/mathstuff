@@ -17,6 +17,15 @@ What this article is all about.
 
 == Introduction
 
+What is an Arduino? The Arduino is a prototyping board with an Atmel
+ATMega368p microcontroller. Its design is open source. Details at
+http://www.arduino.cc/.
+
+What is the purpose of this article? We are going to show how to make
+a led blink with an Arduino board. As a side effect we will see the
+tools required for compiling code to run in an ATMega 368p and how to
+upload code to the Arduino.
+
 Mapping between Arduino and Atmega328 ports:
 http://arduino.cc/en/Hacking/PinMapping168#.UxrYyEEux6Y
 
@@ -39,12 +48,17 @@ image::../arduino-photo.jpg[scaledwidth="50%"]
 
 == Required tools
 
+We are not using the Arduino IDE to write our code. We are going to
+write plain C code and compile it with the GCC compiler for the AVR
+architecture.
+
 The following tools are needed for creating code to be run on the
 Arduino board:
 
 * avr-gcc -- GCC cross compiler for the Atmel processor.
 
-* avr-libc -- Minimal libC implementation.
+* avr-libc -- A libC implementation for the AVR architecture. This
+  includes the ATMega368p microcontroller.
 
 * avrdude -- Tool for uploading the code into the Arduino board.
 
@@ -61,6 +75,10 @@ yum install avr-gcc avr-libc avrdude
 
 This is the code we are going to compile and run in the Arduino
 board.
+
+How did we know what to do with which ports? Well, we asked Google and
+we read the ATMega368p data sheet provided by Atmel. By the time we
+did it it was available at http://www.atmel.com/devices/atmega328p.aspx.
 
 [[fig-Code]]
 .Example code for the blinking LED.
@@ -113,6 +131,8 @@ Finally, to upload the code to the Arduino board:
 ----
 avrdude -c arduino -p ATMEGA328P -P /dev/ttyACM0 -U flash:w:./blink.hex:i
 ----
+
+What happens we we upload code to the Arduino?
 
 
 
