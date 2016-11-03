@@ -1,0 +1,161 @@
+= Haskell on CentOS 7
+
+
+
+
+
+== Abstract
+
+Where we describe how to install the Haskell development tools on
+CentOS 7 and proceed to compile the canonical "hello, world" program.
+
+
+
+
+
+== Introduction
+
+Here is the introduction.
+
+The discerning reader is by now wondering why not just
+http://bfy.tw/8Y76[ask Google] about all this.
+
+In the following sections we will address three very specific
+subjects.
+
+* Installing the Haskell development tools on CentOS 7 -- These
+  include the Haskell compiler.
+
+* Writing and compiling the Haskell "hello, world" program -- Here we
+  confirm the Haskell compiler has been installed, and is working as
+  intended.
+
+* Enabling the Emacs mode for Haskell -- Your favorite editor (that
+  would be Emacs, just in case you momentarilly forgot) naturally
+  includes a mode for editing Haskell source files. Here we describe
+  how to make the Haskell mode available in Emacs.
+
+Without further ado let us then proceed.
+
+
+
+
+
+== Installing Haskell development tools on CentOS 7
+
+// TL;DR -- Just use `yum` to install the required packages with:
+//
+// ----
+// yum install -y epel-release
+// yum install -y haskell-platform
+// ----
+
+
+The Haskell development tools are available from the
+https://fedoraproject.org/wiki/EPEL[EPEL] repository provided by the
+https://start.fedoraproject.org/[Fedora Project].
+
+First we need to configure Yum to include the EPEL repository in the
+set of repositories used for installing packages.
+
+This has fortunately been made simple by the good people at the
+https://start.fedoraproject.org/[Fedora Project]. They have made
+available the CentOS `epel-release` package with the express purpose
+of making it simple to configure Yum to use the EPEL repository.
+
+So let us then install the said `epel-release` package. Like this:
+
+----
+yum install -y epel-release
+----
+
+After the command above completes successfully, the EPEL repository is
+now part of the set of repositories that Yum uses for fetching
+packages.
+
+And we can now hapilly proceed with installing the Haskell development
+tools.
+
+----
+yum install -i haskell-platform
+----
+
+Well, that was easy. Let us do a quick check.
+
+----
+jfn@localhost:~$ ghc --version
+The Glorious Glasgow Haskell Compilation System, version 7.6.3
+jfn@localhost:~$ ghci
+GHCi, version 7.6.3: http://www.haskell.org/ghc/  :? for help
+Loading package ghc-prim ... linking ... done.
+Loading package integer-gmp ... linking ... done.
+Loading package base ... linking ... done.
+Prelude>
+----
+
+Hooray! All is cool! We did it!
+
+
+
+
+
+== Haskell hello world
+
+We now have the Haskell compiler installed. This means we are ready to
+create our very first Haskell program. Following the time honored
+tradition long put in place by our elders, our very first program in a
+programing language will have to be the canonical "hello, world".
+
+We start with creating the file with the source code. Thats is easily
+done using everyone's favorite text editor (that would be Emacs, of
+course). The source code is shown below. We could have named that file
+whatever grandiose name we wanted, but having it named `hello.hs` just
+sort of feels right.
+
+----
+main = do
+  putStrLn "Hello, world!"
+----
+
+With our Haskell source file ready, we need to compile it to generate
+the executable binary. Let us just do it.
+
+----
+jfn@localhost:~$ ghc --make hello.hs
+[1 of 1] Compiling Main             ( hello.hs, hello.o )
+Linking hello ...
+----
+
+Finally we have the executable. All that is left is to run it. And run
+it we will!
+
+----
+jfn@localhost:~$ ./hello
+Hello, world!
+----
+
+Wow! Just wow! And with this, gentle reader, we have surely reached
+one of the high points in this most unpretentious blog post.
+
+
+
+
+
+== Emacs mode for Haskell
+
+Install the CentOS package that includes the Emacs mode for editing
+Haskell source code. This Emacs mode provides syntax highlighting and
+auto-indentation.
+
+----
+yum install emacs-haskell-mode
+----
+
+Add to your `custom-set-variables` on your `.emacs` the following
+parameter:
+
+[source,lisp]
+----
+(custom-set-variables
+ '(haskell-mode-hook '(turn-on-haskell-indentation)))
+----
