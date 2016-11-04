@@ -21,3 +21,7 @@ tools used to generate articles results and images.
   Koch^]
   (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/013-IlhaDeKoch/report/013-IlhaDeKoch.pdf[PDF^])
 
+* link:http://jfnunes.blogspot.lu/2016/11/haskell-on-centos-7.html[Haskell
+  on CentOS 7^]
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/017-HaskellOnCentOS/017-HaskellOnCentOS.pdf[PDF^])
+
