@@ -6,7 +6,9 @@
 
 Converting a PDF image file to PNG:
 
+----
 convert ./diagram.pdf -size 640 ./diagramp.png
+----
 
 
 
@@ -14,7 +16,9 @@ convert ./diagram.pdf -size 640 ./diagramp.png
 
 To get the number of frames in a video:
 
+----
 ffmpeg -i xxx.avi -vcodec copy -f null /dev/null
+----
 
 
 
@@ -30,7 +34,7 @@ http://wiki.multimedia.cx/index.php?title=FFmpeg_Metadata
 
 Keys are dependent on the file format being used.
 
-
+----
 ffmpeg \
     -i ~/Pictures/MVI_0078.AVI \
     -metadata title="Blinking led with an Arduino" \
@@ -38,4 +42,23 @@ ffmpeg \
     -metadata copyright="2014 Jorge Nunes" \
     -vf "fade=in:0:60,fade=out:284:60" \
      -vcodec mpeg4 -q:v 1 -an ./ArduinoHelloWorld-01.avi
+----
 
+
+
+
+
+== Raspbian on Raspberry Pi 3
+
+Playing videos out of the box (http://elinux.org/Omxplayer)
+
+----
+omxplayer MyVideoFile.avi
+----
+
+
+VLC does not work out of the box. At least with MPEG4 files.
+
+----
+apt-get install vlc
+----

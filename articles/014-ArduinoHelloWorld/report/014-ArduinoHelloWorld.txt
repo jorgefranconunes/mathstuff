@@ -1,5 +1,4 @@
-Arduino Hello World
-===================
+= Arduino Hello World
 Jorge Nunes <jorgefranconunes@gmail.com>
 v0.0.1, 2014/03/08: First internal draft
 
@@ -68,6 +67,21 @@ yum install avr-gcc avr-libc avrdude
 ----
 
 
+Tools for designing circuit diagrams:
+
+----
+apt-get install geda-gschem
+----
+
+
+Instructions on how to add symbols to be used by the `geda-gschem`
+tool:
+http://wiki.geda-project.org/geda:gschem_ug:config#symbol_and_source_libraries
+
+Additional symbols, including the ATMega328P controller:
+https://github.com/CWRU-EE/gschem-symbols
+
+
 
 
 
@@ -92,12 +106,12 @@ const int BLINK_DELAY_MS = 500;
 int main (void) {
     /* Set pin 5 of PORTD for output*/
     DDRD |= _BV(DDD5);
- 
+
     while(1) {
         /* Set pin 5 high to turn led on */
         PORTD |= _BV(PORTD5);
         _delay_ms(BLINK_DELAY_MS);
- 
+
         /* Set pin 5 low to turn led off */
         PORTD &= ~_BV(PORTD5);
         _delay_ms(BLINK_DELAY_MS);
