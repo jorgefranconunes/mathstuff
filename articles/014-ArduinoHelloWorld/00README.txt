@@ -98,14 +98,25 @@ inkscape \
     ./MyDiagram.eps
 ----
 
-And to convert from SVG to PDF:
+To convert from SVG to PDF:
 
 ----
 inkscape \
     --without-gui \
     --export-area-drawing \
     --export-pdf=./MyDiagram.pdf \
-    ./MyDiagram.pdf
+    ./MyDiagram.svg
+----
+
+To convert from SVG to PNG:
+
+----
+inkscape \
+    --without-gui \
+    --export-area-drawing \
+    --export-width=640 \
+    --export-png=./MyDiagram.png \
+    ./MyDiagram.svg
 ----
 
 To convert from EPS to PDF:
