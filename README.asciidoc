@@ -10,18 +10,27 @@ tools used to generate articles results and images.
 
 == Articles
 
-* link:http://jfnunes.blogspot.com/2007/08/triangulo-de-sierpinsky.html[Triângulo
-  de Sierpinsky^]
-  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/002-TrianguloSierpinsky/report/002-TrianguloSierpinsky.pdf[PDF^])
+* 2017/01/1 --
+  link:http://jfnunes.blogspot.lu/2017/01/arduino-development-with-raspberry-pi-3.html[Arduino Development with a Raspberry Pi 3^]
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/014-ArduinoHelloWorld/report/014-ArduinoHelloWorld.pdf[PDF^])
 
-* link:http://jfnunes.blogspot.com/2012/10/cubos-desdobrados.html[Cubos Desdobrados^]
-  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/004-CubosDesdobrados/report/004-CubosDesdobrados.pdf[PDF^])
+* 2016/11/04 --
+  link:http://jfnunes.blogspot.lu/2016/11/haskell-on-centos-7.html[Haskell
+  on CentOS 7^]
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/017-HaskellOnCentOS/017-HaskellOnCentOS.pdf[PDF^])
 
-* link:http://jfnunes.blogspot.com/2010/06/ilha-de-koch.html[Ilha de
+* 2010/06/14 --
+  link:http://jfnunes.blogspot.com/2010/06/ilha-de-koch.html[Ilha de
   Koch^]
   (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/013-IlhaDeKoch/report/013-IlhaDeKoch.pdf[PDF^])
 
-* link:http://jfnunes.blogspot.lu/2016/11/haskell-on-centos-7.html[Haskell
-  on CentOS 7^]
-  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/017-HaskellOnCentOS/017-HaskellOnCentOS.pdf[PDF^])
+* 2007/12//30 --
+  link:http://jfnunes.blogspot.com/2012/10/cubos-desdobrados.html[Cubos
+  Desdobrados^]
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/004-CubosDesdobrados/report/004-CubosDesdobrados.pdf[PDF^])
+
+* 2007/08/21 --
+  link:http://jfnunes.blogspot.com/2007/08/triangulo-de-sierpinsky.html[Triângulo
+  de Sierpinsky^]
+  (link:https://cdn.rawgit.com/jorgefranconunes/mathstuff/master/articles/002-TrianguloSierpinsky/report/002-TrianguloSierpinsky.pdf[PDF^])
 
