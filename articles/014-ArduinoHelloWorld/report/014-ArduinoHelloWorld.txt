@@ -1,6 +1,7 @@
-= Arduino Hello World
-Jorge Nunes <jorgefranconunes@gmail.com>
-v0.0.1, 2014/03/08: First internal draft
+= Arduino Development with a Raspberry Pi 3
+:author: Jorge Nunes
+:email: jorgefranconunes@gmail.com
+:revdate: 2017/01/01
 
 
 
@@ -8,7 +9,11 @@ v0.0.1, 2014/03/08: First internal draft
 
 == Abstract
 
-What this article is all about.
+In this article we show how to do Arduino development on an Raspberry
+Pi 3 with Raspbian. We will describe how to install the GNU GCC tool
+chain for the AVR microcontroller family, how to compile the
+archetypal "hello world" program for the Arduino UNO, and how to
+upload it to an Arduino UNO board.
 
 
 
@@ -16,86 +21,128 @@ What this article is all about.
 
 == Introduction
 
-What is an Arduino? The Arduino is a prototyping board with an Atmel
-ATMega368p microcontroller. Its design is open source. Details at
-http://www.arduino.cc/.
+The https://www.arduino.cc/en/Main/ArduinoBoardUno[Arduino UNO] is a
+prototyping board based on the Atmel
+http://www.atmel.com/devices/atmega328p.aspx[ATMega328P]
+microcontroller.
 
-What is the purpose of this article? We are going to show how to make
-a led blink with an Arduino board. As a side effect we will see the
-tools required for compiling code to run in an ATMega 368p and how to
-upload code to the Arduino.
+The https://www.raspberrypi.org/help/faqs/[Raspberry Pi] is a family
+of single board computers with ARM based processors. The
+https://www.raspberrypi.org/products/raspberry-pi-3-model-b/[Raspberry
+Pi 3 Model B] is the latest member of that family (at the time we
+write this). The Raspberry Pi 3 Model B is quite capable of being used
+as a desktop development machine. Several Linux distributions are
+available for the Raspberry Pi. The
+https://www.raspbian.org/[Raspbian] Linux distribution is one of
+those. Raspbian is based on Debian and is optimized for the Raspberry
+Pi hardware. Raspbian provides most (all?)  of the packages available
+from the venerable Debian distribution, making it an easy choice for a
+development system.
 
-Mapping between Arduino and Atmega328 ports:
-http://arduino.cc/en/Hacking/PinMapping168#.UxrYyEEux6Y
+In this article we are going to show how you can use a Raspberry Pi 3
+installed with Raspbian to develop code intended to be run in an
+Arduino UNO board. We will do this by going through the steps to
+create a program for making the Arduino blink a LED. The blinking LED
+is the archetypal "hello world" program for microcontrollers.
+
+* <<sec-BlinkingLedCircuit>> introduces the circuit diagram for the
+  Arduino with blinking LED. This is a one of the simplest circuits
+  involving an Arduino.
+
+* <<sec-InstallingToolChain>> shows how to install the tool chain for
+  compiling C code for the Arduino.
+
+* <<sec-ArduinoHelloWorld>> continues with the instructions for
+  compiling the blinking LED program.
+
+* <<sec-UploadingToArduino>>, finally, shows how to upload the
+  compiled program to the Arduino board.
+
+Please note that in this article we will not be using the
+https://www.arduino.cc/en/Main/Software[Arduino IDE] (though it is
+also available for Raspbian) for writing and compiling our code. We
+are going to write plain C code and compile it with the GCC
+cross-compiler for the AVR architecture.
+
+
+
+
+
+[[sec-BlinkingLedCircuit]]
+== Blinking LED circuit
+
+The "hello world" program for a microcontroller involves making a LED
+blink. We thus have to prepare the circuit with a LED connected to the
+Arduino UNO board. The figure below shows the schematic for the
+circuit that we are going to assemble.
 
 [[fig-CircuitDiagram]]
 .Circuit diagram showing how to connect the LED to the Arduino board.
-image::../diagram.pdf[scaledwidth="45%"]
+image::../CircuitDiagram.pdf[scaledwidth="33%"]
 
-And the actual real setup.
+The circuit diagram in <<fig-CircuitDiagram>> was created with the
+'gschem' tool of the http://www.geda-project.org/[gEDA project]
+software suite.
 
-[[fig-ArduinoBoard]]
-.An Arduino One board with the circuit already set up.
-image::../arduino-photo.jpg[scaledwidth="50%"]
+// And the picture below shows the actual assembled setup.
 
-
-
-
-
-
+// [[fig-ArduinoBoard]]
+// .An Arduino One board with the circuit already set up.
+// image::../arduino-photo.jpg[scaledwidth="50%"]
 
 
-== Required tools
 
-We are not using the Arduino IDE to write our code. We are going to
-write plain C code and compile it with the GCC compiler for the AVR
-architecture.
 
-The following tools are needed for creating code to be run on the
-Arduino board:
 
-* avr-gcc -- GCC cross compiler for the Atmel processor.
+[[sec-InstallingToolChain]]
+== Installing the GNU GCC tool chain for Arduino
 
-* avr-libc -- A libC implementation for the AVR architecture. This
-  includes the ATMega368p microcontroller.
+The tool chain required for writing C programs for the Arduino is the
+standard GNU GCC tool chain. This same tool chain can actually be used
+with the whole Atmel family of AVR microcontrollers. All the required
+packages are available from the standard Raspbian repositories. We
+will make use of the following packages:
 
-* avrdude -- Tool for uploading the code into the Arduino board.
+* https://gcc.gnu.org/wiki/avr-gcc[gcc-avr] -- GNU GCC cross compiler
+  for the AVR architecture.
 
+* avr-binutils -- http://www.sourceware.org/binutils/[GNU Binutils]
+  tools for the AVR architecture. These include the GNU linker and
+  other tools for generating the final image files.
+
+* http://www.nongnu.org/avr-libc/user-manual/index.html[avr-libc] -- A
+  standard C library for the AVR architecture. This includes the
+  ATMega368p microcontroller of the Arduino UNO.
+
+* http://www.nongnu.org/avrdude/[avrdude] -- Tool for uploading
+  program images into the Arduino board.
+
+The procedure for installing the above packages under Raspbian is the
+familiar one using the 'apt-get' tool. To wit, from a command line:
 
 ----
-yum install avr-gcc avr-libc avrdude
+apt-get install gcc-avr binutils-avr avr-libc avrdude
 ----
 
-
-Tools for designing circuit diagrams:
-
-----
-apt-get install geda-gschem
-----
-
-
-Instructions on how to add symbols to be used by the `geda-gschem`
-tool:
-http://wiki.geda-project.org/geda:gschem_ug:config#symbol_and_source_libraries
-
-Additional symbols, including the ATMega328P controller:
-https://github.com/CWRU-EE/gschem-symbols
+Now that we have the tools for compiling code, we can continue with
+actually writing the code in order to compile it.
 
 
 
 
 
-== The code
+[[sec-ArduinoHelloWorld]]
+== Arduino "hello world" program
 
-This is the code we are going to compile and run in the Arduino
-board.
+We are now going to write and compile our "hello world" program. As we
+mentioned before, this will be a program to just make a LED blink in
+the Arduino board. The full program source code is shown below. The
+instructions later on will assume we have this code saved in a file
+unimaginatively named 'HelloWorld.c'.
 
-How did we know what to do with which ports? Well, we asked Google and
-we read the ATMega368p data sheet provided by Atmel. By the time we
-did it it was available at http://www.atmel.com/devices/atmega328p.aspx.
 
 [[fig-Code]]
-.Example code for the blinking LED.
+.The code for the Arduino blinking LED.
 [source,c]
 ----
 #include <avr/io.h>
@@ -103,16 +150,16 @@ did it it was available at http://www.atmel.com/devices/atmega328p.aspx.
 
 const int BLINK_DELAY_MS = 500;
 
-int main (void) {
-    /* Set pin 5 of PORTD for output*/
+int main(void) {
+    /* Set pin 5 of port D for output*/
     DDRD |= _BV(DDD5);
 
-    while(1) {
-        /* Set pin 5 high to turn led on */
+    while (1) {
+        /* Set pin 5 of port D high to turn led on */
         PORTD |= _BV(PORTD5);
         _delay_ms(BLINK_DELAY_MS);
 
-        /* Set pin 5 low to turn led off */
+        /* Set pin 5 of port D low to turn led off */
         PORTD &= ~_BV(PORTD5);
         _delay_ms(BLINK_DELAY_MS);
     }
@@ -120,44 +167,124 @@ int main (void) {
 }
 ----
 
+You will have noticed that the C code makes reference to a pin 5 of
+port D. The
+http://www.nongnu.org/avr-libc/user-manual/index.html[avr-libc]
+library provides a set of functions and macros to interact with the
+pins from the Atmel AVR microcontroller. In the avr-libc library the
+pins are named by their native Atmel conventions, and not by their
+numbering in the Arduino UNO board.
 
+The Arduino documentation describes the
+https://www.arduino.cc/en/Hacking/PinMapping168[pin mapping] between
+the pins in the Atmel AVR processor and the numbering in the Arduino
+UNO board. From that we see that pin 5 in the Arduino board where we
+connected our LED (see circuit diagram in <<fig-CircuitDiagram>>)
+corresponds to pin 5 of port D on the Atmel AVR processor. And it is
+this pin 5 in port D that we refer to in the C code.
 
+Detailed information on available ports, and how to work with them is
+available in the
+http://www.atmel.com/devices/atmega328p.aspx[ATMega368p data sheet]
+provided by Atmel. Documentation for the avr-libc function and macros
+used in the program is available on the
+http://www.nongnu.org/avr-libc/user-manual/modules.html[avr-libc user
+manual].
 
-
-
-== Compiling the code
-
-To compile the code:
+We have the source code, we can go ahead and compile it. To compile
+the code for the Arduino UNO board we will use the GCC cross compiler
+we installed in the previous section. The commands for compiling the
+code and producing the final image file are the following:
 
 ----
-avr-gcc -Os -DF_CPU=16000000UL -mmcu=atmega328p -o blink blink.c
-avr-objcopy -O ihex -R .eeprom ./blink ./blink.hex
+avr-gcc -DF_CPU=16000000UL -mmcu=atmega328p -o HelloWorld HelloWorld.c
+avr-objcopy -O ihex -R .eeprom ./HelloWorld ./HelloWorld.hex
 ----
 
+The 'HelloWorld.hex' image file is the final result of compiling the C
+source code. It is this image file that is used in the next step when
+uploading the compiled program to the Arduino board.
+
+// The '_delay_ms' function, as the name hints, is used for pausing the
+// execution for the given number of milliseconds. Documentation for the
+// '_delay_ms' function is available from the
+// http://www.nongnu.org/avr-libc/user-manual/modules.html[avr-libc]
+// site.
 
 
 
 
-== Uploading the compiled code to Arduino
 
-Finally, to upload the code to the Arduino board:
+
+[[sec-UploadingToArduino]]
+== Uploading the program image to Arduino
+
+Finally we are now going to upload the compiled program to the Arduino
+board. After uploading the program the Arduino board will
+automatically start running the program.
+
+In order to upload the program to the Arduino board we first need to
+connect the board to the host PC with an USB cable. The host PC is, of
+course, our Raspberry Pi 3 happily running Raspbian.
+
+To upload the code to the Arduino board we need the 'avrdude'
+tool. The command for uploading the image for the "hello world"
+program we created in the previous section is the following:
 
 ----
-avrdude -c arduino -p ATMEGA328P -P /dev/ttyACM0 -U flash:w:./blink.hex:i
+avrdude \
+    -c arduino \
+    -p ATMEGA328P \
+    -P /dev/ttyACM0 \
+    -U flash:w:./HelloWorld.hex:i
 ----
 
-What happens we we upload code to the Arduino?
+After the above command completes the program will automatically start
+running in the Arduino board. The LED should by now be merrily
+blinking away.
+
+The '/dev/ttyACM0' device referenced in the command above is the
+serial device for communicating with the Arduino board. You can
+confirm the device path for your specific case by looking into the
+messages appearing in '/var/log/syslog' when you connect the Arduino
+board with the USB cable to the host computer (i.e. your Raspberry Pi
+3).
+
+[[fig-ArduinoBoard]]
+.An Arduino One board with the circuit from <<fig-ArduinoBoard>>.
+image::../arduino-photo.jpg[scaledwidth="50%"]
+
+
+
+// When you connect an Arduino board to the HOST PC with the USB cable
+// the Arduino board will be automatically recognized. A serial device is
+// also automatically created. Tipically the serial device will be
+// created at '/dev/ttyACM0'. To make sure of the path of the device you
+// can look into 'tail -f /var/log/syslog' when you connect the USB
+// cable. The actual path of the device will be mentioned.
+
+// You can see a snippet of '/var/log/syslog' with the relevant lines
+// below:
+
+// ----
+// Dec 26 16:40:48 raspberrypi kernel: [1578248.784086] usb 1-1.2: new full-speed USB device number 7 using dwc_otg
+// Dec 26 16:40:48 raspberrypi kernel: [1578248.897961] usb 1-1.2: New USB device found, idVendor=2341, idProduct=0043
+// Dec 26 16:40:48 raspberrypi kernel: [1578248.897987] usb 1-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=220
+// Dec 26 16:40:48 raspberrypi kernel: [1578248.898000] usb 1-1.2: Manufacturer: Arduino (www.arduino.cc)
+// Dec 26 16:40:48 raspberrypi kernel: [1578248.898014] usb 1-1.2: SerialNumber: 75335313437351207290
+// Dec 26 16:40:48 raspberrypi kernel: [1578248.900506] cdc_acm 1-1.2:1.0: ttyACM0: USB ACM device
+// ----
 
 
 
 
 
-[[colophon]]
-== Colophon
+[[sec-Conclusion]]
+== Conclusion
 
-The circuit diagram was designed with the +gschem+ tool of the
-http://www.geda-project.org/[gEDA project] software suite.
-
-The video was edited and transcoded to MPEG-2 using the
-http://www.ffmpeg.org/[FFmpeg] tools.
-
+We showed in this article how to prepare a Raspberry Pi 3 with
+Raspbian to be a development host for Arduino programming. We started
+with installing the compiler and other development tools. Then we
+compiled a program for making a LED blink in the Arduino board. And
+finally we uploaded the program image file to the Arduino board to see
+it running.

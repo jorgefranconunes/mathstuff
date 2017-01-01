@@ -1,5 +1,7 @@
 = Haskell on CentOS 7
-Jorge Nunes <jorgefranconunes@gmail.com>
+:author: Jorge Nunes
+:email: jorgefranconunes@gmail.com
+:revdate: 2016/11/04
 
 
 
