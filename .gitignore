@@ -1,6 +1,9 @@
 *~
 *.aux
+dist
+*.hi
 *.log
+*.o
 *.out
 *.pid
 target

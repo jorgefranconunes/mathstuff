@@ -1,0 +1,83 @@
+== Haskell on Raspberry Pi 3
+
+
+
+
+
+== Abstract
+
+
+
+
+
+== Installing Haskell development tools on Raspberry Pi 3
+
+----
+sudo apt-get install haskell-platform
+----
+
+The `ghc-dynamic` package is not currently available for the `armhf`
+architecture. this means we will not be able to generate binaries
+dynamically linked to the Haskell Prelude libraries.
+
+
+
+
+
+
+== Haskell hello world
+
+----
+main :: IO ()
+main = do
+  putStrLn "Hello, world!"
+----
+
+----
+jfn@raspberrypi:~$ ghc --make hello.hs
+[1 of 1] Compiling Main             ( hello.hs, hello.o )
+Linking hello ...
+----
+
+
+
+
+
+== Emacs mode for Haskell
+
+----
+sudo apt-get install haskell-mode
+----
+
+
+Add the following to your `~/.emacs`:
+
+[source,lisp]
+----
+(custom-set-variables
+ '(haskell-mode-hook '(turn-on-haskell-indentation)))
+----
+
+
+
+
+
+== GPIO and sysfs
+
+Setup GPIO port for output:
+
+----
+echo 12 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio12/direction
+----
+
+Changing the GPIO port output level:
+
+----
+while true ; do
+    echo 1 > /sys/class/gpio/gpio12/value
+    sleep 1
+    echo 0 > /sys/class/gpio/gpio12/value
+    sleep 1
+done
+----
