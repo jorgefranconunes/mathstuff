@@ -81,3 +81,19 @@ while true ; do
     sleep 1
 done
 ----
+
+
+
+
+
+== Building with Cabal
+
+Cabal is a system for building and packaging Haskell libraries and
+programs.
+
+Useful information on structuring the project directory tree:
+
+*
+  http://stackoverflow.com/questions/12305970/how-to-make-a-haskell-cabal-project-with-libraryexecutables-that-still-run-with
+
+* http://taylor.fausak.me/2014/03/04/haskeleton-a-haskell-project-skeleton/
