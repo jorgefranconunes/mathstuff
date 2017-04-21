@@ -6,6 +6,8 @@
 
 == Abstract
 
+Make a LED blink with a Raspberry Pi 3 running an Haskell program.
+
 
 
 
@@ -64,22 +66,64 @@ Add the following to your `~/.emacs`:
 
 == GPIO and sysfs
 
-Setup GPIO port for output:
-
+[source,sh]
 ----
-echo 12 > /sys/class/gpio/export
-echo out > /sys/class/gpio/gpio12/direction
-----
+#!/bin/bash
 
-Changing the GPIO port output level:
+portNumber=12
+blinkHalfPeriod=0.5
+portBaseDir=/sys/class/gpio/gpio${portNumber}
 
-----
+# Setup port  for output
+if [ ! -d ${portBaseDir} ] ; then
+    echo ${portNumber} > /sys/class/gpio/export
+fi
+echo out > ${portBaseDir}/direction
+
+# Blink forever
 while true ; do
-    echo 1 > /sys/class/gpio/gpio12/value
-    sleep 1
-    echo 0 > /sys/class/gpio/gpio12/value
-    sleep 1
+    echo 1 > ${portBaseDir}/value
+    sleep ${blinkHalfPeriod}
+    echo 0 > ${portBaseDir}/value
+    sleep ${blinkHalfPeriod}
 done
+----
+
+
+
+
+
+== Project tree
+
+----
+LedBlink/
+├── api
+│   └── Gpio.hs
+├── cli
+│   └── Main.hs
+├── LedBlink.cabal
+└── Setup.hs
+----
+
+
+[source,haskell]
+----
+import Control.Concurrent
+import Control.Monad
+import qualified Gpio as Gpio
+
+portNumber = "12"
+blinkHalfPeriod = 500000
+
+main :: IO ()
+main = do
+  putStrLn $ "Using GPIO port " ++ portNumber
+  port <- Gpio.outPort portNumber
+  forever $ do
+    Gpio.turnOn port
+    threadDelay blinkHalfPeriod
+    Gpio.turnOff port
+    threadDelay blinkHalfPeriod
 ----
 
 
@@ -96,4 +140,41 @@ Useful information on structuring the project directory tree:
 *
   http://stackoverflow.com/questions/12305970/how-to-make-a-haskell-cabal-project-with-libraryexecutables-that-still-run-with
 
-* http://taylor.fausak.me/2014/03/04/haskeleton-a-haskell-project-skeleton/
+*
+  http://taylor.fausak.me/2014/03/04/haskeleton-a-haskell-project-skeleton/
+
+.Contents of the `LedBlink.cabal` file.
+----
+name: LedBlink
+version: 0.1.0.0
+build-type: Simple
+
+library
+  hs-source-dirs: api
+  exposed-modules: Gpio
+  build-depends: base, directory
+  default-language: Haskell2010
+
+executable led
+  hs-source-dirs: cli
+  main-is: Main.hs
+  build-depends: base, directory, LedBlink
+  default-language: Haskell2010
+----
+
+
+
+
+Haskell build systems:
+
+* https://www.fpcomplete.com/blog/2015/06/why-is-stack-not-cabal
+
+* https://docs.haskellstack.org/en/stable/README/
+
+
+Issues with permissions of `/sys/class/gpio/gpio*/direction`:
+
+*
+  http://stackoverflow.com/questions/25695973/raspberry-pi-gpio-value-file-appears-with-wrong-permissions-momentarily
+
+* https://github.com/raspberrypi/linux/issues/553

@@ -1,61 +1,80 @@
 --
 --
 --
-module Gpio
-( portSetup
-, portTurnOn
-, portTurnOff
-) where
+module Gpio (
+  Port,
+  outPort,
+  set,
+  turnOn,
+  turnOff
+  ) where
 
 import System.Directory
 import System.IO
 
 
-portSetup :: String -> IO ()
-portSetup port = do
+data Port = Port {
+  name :: String,
+  baseDir :: String
+}
+
+
+--
+-- Factory function.
+--
+outPort :: String -> IO Port
+outPort portName = do
+  let port = Port {
+        name = portName,
+        baseDir = gpioBaseDir ++ "/gpio" ++ portName
+        }
+  setupAsOutput port
+  return port
+
+
+--
+-- Prepares the GPIO port to be used as output.
+--
+setupAsOutput :: Port -> IO ()
+setupAsOutput port = do
   portCreate port
-  portSetAsOutput port
+  portSetDirection "out" port
 
 
-portCreate :: String -> IO ()
+portCreate :: Port -> IO ()
 portCreate port = do
-  let portBaseDir = gpioPortBaseDir port
-  isPortAlreadySetup <- doesDirectoryExist portBaseDir
+  isPortAlreadySetup <- doesDirectoryExist (baseDir port)
   if isPortAlreadySetup
      then return ()
      else portReallyCreate port
 
 
-portReallyCreate :: String -> IO ()
+portReallyCreate :: Port -> IO ()
 portReallyCreate port = do
   let exportPath = gpioBaseDir ++ "/export"
-  writeFile exportPath port
+  writeFile exportPath (name port)
 
 
-portSetAsOutput :: String -> IO ()
-portSetAsOutput port = do
-  let directionPath = (gpioPortBaseDir port) ++ "/direction"
-  writeFile directionPath "out"
+portSetDirection :: String -> Port -> IO ()
+portSetDirection direction port = do
+  let directionPath = (baseDir port) ++ "/direction"
+  writeFile directionPath direction
 
 
-portTurnOn :: String -> IO ()
-portTurnOn port = portSet port True
+turnOn :: Port -> IO ()
+turnOn = set True
 
 
-portTurnOff :: String -> IO ()
-portTurnOff port = portSet port False
+turnOff :: Port -> IO ()
+turnOff = set False
 
 
-portSet :: String -> Bool -> IO ()
-portSet port isOn = do
-  let portPath = (gpioPortBaseDir port) ++ "/value"
+set :: Bool -> Port -> IO ()
+set isOn port = do
+  let portPath = (baseDir port) ++ "/value"
       value = if isOn then "1" else "0"
   writeFile portPath value
 
 
 gpioBaseDir :: String
 gpioBaseDir = "/sys/class/gpio"
-
-
-gpioPortBaseDir :: String -> String
-gpioPortBaseDir port = gpioBaseDir ++ "/gpio" ++ port

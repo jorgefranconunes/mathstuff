@@ -35,15 +35,29 @@ library
   default-language: Haskell2010
 
 
-executable led
+executable Blink
   -- Directories containing source files.
-  hs-source-dirs: cli
+  hs-source-dirs: Blink
 
   -- .hs or .lhs file containing the Main module.
   main-is: Main.hs
 
-  -- LANGUAGE extensions used by modules in this package.
-  -- other-extensions:
+  -- Other library packages from which modules are imported.
+  build-depends:
+    base >=4.6 && <4.7,
+    directory,
+    LedBlink
+
+  -- Base language which the package is written in.
+  default-language: Haskell2010
+
+
+executable BlinkMany
+  -- Directories containing source files.
+  hs-source-dirs: BlinkMany
+
+  -- .hs or .lhs file containing the Main module.
+  main-is: Main.hs
 
   -- Other library packages from which modules are imported.
   build-depends:
