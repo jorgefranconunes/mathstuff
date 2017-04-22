@@ -1,9 +1,9 @@
 --
 --
 --
-import Control.Concurrent
-import Control.Exception
-import Control.Monad
+import Control.Concurrent ( threadDelay )
+import Control.Exception ( IOException, try )
+import Control.Monad ( forever )
 import qualified Gpio as Gpio
 
 

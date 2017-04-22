@@ -13,10 +13,10 @@ import System.Directory
 import System.IO
 
 
-data Port = Port {
-  name :: String,
-  baseDir :: String
-}
+data Port = Port
+            { name :: String
+            , baseDir :: String
+            }
 
 
 --
