@@ -1,4 +1,7 @@
-== Haskell on Raspberry Pi 3
+= Haskell on Raspberry Pi 3
+:author: Jorge Nunes
+:email: jorgefranconunes@gmail.com
+:revdate: 2017/04/23
 
 
 
@@ -6,7 +9,15 @@
 
 == Abstract
 
-Make a LED blink with a Raspberry Pi 3 running an Haskell program.
+Make LEDs blink with a Raspberry Pi 3 from within an Haskell program.
+
+
+
+
+
+== Introduction
+
+What is this document about?
 
 
 
@@ -14,38 +25,68 @@ Make a LED blink with a Raspberry Pi 3 running an Haskell program.
 
 == Installing Haskell development tools on Raspberry Pi 3
 
+The instructions in this section apply to the
+https://www.raspbian.org/[Raspbian] Linux distribution.
+
+The Raspbian distribution is based on Debian. So to install the
+Haskell development tools we just need to install the right
+package. Like this:
+
 ----
 sudo apt-get install haskell-platform
 ----
 
-The `ghc-dynamic` package is not currently available for the `armhf`
-architecture. this means we will not be able to generate binaries
-dynamically linked to the Haskell Prelude libraries.
+To quickly check the Haskell compiler has been successfully
+installed:
+
+----
+jfn@raspberrypi:~ $ ghc --version
+The Glorious Glasgow Haskell Compilation System, version 7.6.3
+----
+
+We're in business.
 
 
 
 
 
+=== Haskell hello world
 
-== Haskell hello world
+Just for kicks, let us write an hello world program
+in Haskell. Begin with creating an Haskell source file named
+`hello.hs`, and with the following contents:
 
+[source,haskell]
 ----
 main :: IO ()
 main = do
   putStrLn "Hello, world!"
 ----
 
+Now compile it into an executable:
+
 ----
-jfn@raspberrypi:~$ ghc --make hello.hs
+jfn@raspberrypi:~$ ghc --make ./hello.hs
 [1 of 1] Compiling Main             ( hello.hs, hello.o )
 Linking hello ...
 ----
 
+The above compilation command generated an executabled named, you
+guessed it, `hello`. To run it:
+
+----
+jfn@raspberrypi:~$ ./hello
+Hello, world!
+----
+
+Cool. All is fine. But don't grab a beer just yet. The really fun
+parts are yet to start.
 
 
 
 
-== Emacs mode for Haskell
+
+=== Emacs mode for Haskell
 
 ----
 sudo apt-get install haskell-mode
@@ -64,7 +105,27 @@ Add the following to your `~/.emacs`:
 
 
 
-== GPIO and sysfs
+== Accessing Raspberry Pi GPIO ports
+
+How do we access GPIO pins from user space applications?
+
+The GPIO ports of the Raspberry Pi 3 are accessible from user
+space. This means applications have access to the GPIO pins. Some
+details at https://www.kernel.org/doc/Documentation/gpio/sysfs.txt
+
+The GPIO ports are accessible through the sysfs file system. GPIO
+Sysfs interface.
+
+Raspberry Pi 3 is based on the
+https://www.raspberrypi.org/documentation/hardware/raspberrypi/bcm2835/BCM2835-ARM-Peripherals.pdf[Broadcom
+BCM2835] board.
+
+Raspberry PI3 GPIO pins are phisically available
+(https://www.raspberrypi.org/documentation/usage/gpio-plus-and-raspi2/README.md). Details
+on the available PINs at https://pinout.xyz/
+
+As example Bourne shell script follows. It blinks one LED connected to
+port 12.
 
 [source,sh]
 ----
@@ -96,13 +157,15 @@ done
 == Project tree
 
 ----
-LedBlink/
-├── api
-│   └── Gpio.hs
-├── cli
-│   └── Main.hs
-├── LedBlink.cabal
-└── Setup.hs
+LedBlink
+|-- api
+|   `-- Gpio.hs
+|-- Blink
+|   `-- Main.hs
+|-- BlinkMany
+|   `-- Main.hs
+|-- LedBlink.cabal
+`-- Setup.hs
 ----
 
 
