@@ -1,0 +1,21 @@
+= Brownian motion
+
+
+
+
+
+== Installing require Python libraries
+
+NumPy documentation: https://docs.scipy.org/doc/numpy/index.html
+
+
+----
+yum install numpy python-matplotlib
+----
+
+
+
+
+
+== Saving a plot to a file
+
