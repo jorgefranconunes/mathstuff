@@ -1,0 +1,213 @@
+
+digraph Pairs {
+
+    //
+    // ETH
+    //
+    ETH -> BCH;
+    ETH -> ETC;
+    ETH -> GNO;
+    ETH -> GNT;
+    ETH -> LSK;
+    ETH -> REP;
+    ETH -> STEEM;
+    ETH -> ZEC;
+    ETH -> ZRX;
+
+    BCH -> ETH;
+    ETC -> ETH;
+    GNO -> ETH;
+    GNT -> ETH;
+    LSK -> ETH;
+    REP -> ETH;
+    STEEM -> ETH;
+    ZEC -> ETH;
+    ZRX -> ETH;
+
+    //
+    // XMR
+    //
+    XMR -> BCN;
+    XMR -> BLK;
+    XMR -> BTCD;
+    XMR -> DASH;
+    XMR -> LTC;
+    XMR -> MAID;
+    XMR -> NXT;
+    XMR -> ZEC;
+
+    BCN -> XMR;
+    BLK -> XMR;
+    BTCD -> XMR;
+    DASH -> XMR;
+    LTC -> XMR;
+    MAID -> XMR;
+    NXT -> XMR;
+    ZEC -> XMR;
+
+    //
+    // USDT
+    //
+    USDT -> BCH;
+    USDT -> BTC;
+    USDT -> DASH;
+    USDT -> ETC;
+    USDT -> ETH;
+    USDT -> LTC;
+    USDT -> NXT;
+    USDT -> REP;
+    USDT -> STR;
+    USDT -> XMR;
+    USDT -> XRP;
+    USDT -> ZEC;
+
+    BCH -> USDT;
+    BTC -> USDT;
+    DASH -> USDT;
+    ETC -> USDT;
+    ETH -> USDT;
+    LTC -> USDT;
+    NXT -> USDT;
+    REP -> USDT;
+    STR -> USDT;
+    XMR -> USDT;
+    XRP -> USDT;
+    ZEC -> USDT;
+
+    //
+    // BTC
+    //
+//    BTC -> AMP;
+//    BTC -> ARDR;
+//    BTC -> BCH;
+//    BTC -> BCN;
+//    BTC -> BCY;
+//    BTC -> BELA;
+//    BTC -> BLK;
+//    BTC -> BTCD;
+//    BTC -> BTM;
+//    BTC -> BTS;
+//    BTC -> BURST;
+//    BTC -> CLAM;
+//    BTC -> DASH;
+//    BTC -> DCR;
+//    BTC -> DGB;
+//    BTC -> DOGE;
+//    BTC -> EMC2;
+//    BTC -> ETC;
+//    BTC -> ETH;
+//    BTC -> EXP;
+//    BTC -> FCT;
+//    BTC -> FLDC;
+//    BTC -> FLO;
+//    BTC -> GAME;
+//    BTC -> GNO;
+//    BTC -> GNT;
+//    BTC -> GRC;
+//    BTC -> HUC;
+//    BTC -> LBC;
+//    BTC -> LSK;
+//    BTC -> LTC;
+//    BTC -> MAID;
+//    BTC -> NAUT;
+//    BTC -> NAV;
+//    BTC -> NEOS;
+//    BTC -> NMC;
+//    BTC -> NOTE;
+//    BTC -> NXC;
+//    BTC -> NXT;
+//    BTC -> OMNI;
+//    BTC -> PASC;
+//    BTC -> PINK;
+//    BTC -> POT;
+//    BTC -> PPC;
+//    BTC -> RADS;
+//    BTC -> REP;
+//    BTC -> RIC;
+//    BTC -> SBD;
+//    BTC -> SC;
+//    BTC -> SJCX;
+//    BTC -> STEEM;
+//    BTC -> STR;
+//    BTC -> STRAT;
+//    BTC -> SYS;
+//    BTC -> VIA;
+//    BTC -> VRC;
+//    BTC -> VTC;
+//    BTC -> XBC;
+//    BTC -> XCP;
+//    BTC -> XEM;
+//    BTC -> XMR;
+//    BTC -> XPM;
+//    BTC -> XRP;
+//    BTC -> XVC;
+//    BTC -> ZEC;
+//    BTC -> ZRX;
+
+//    AMP -> BTC;
+//    ARDR -> BTC;
+//    BCH -> BTC;
+//    BCN -> BTC;
+//    BCY -> BTC;
+//    BELA -> BTC;
+//    BLK -> BTC;
+//    BTCD -> BTC;
+//    BTM -> BTC;
+//    BTS -> BTC;
+//    BURST -> BTC;
+//    CLAM -> BTC;
+//    DASH -> BTC;
+//    DCR -> BTC;
+//    DGB -> BTC;
+//    DOGE -> BTC;
+//    EMC2 -> BTC;
+//    ETC -> BTC;
+//    ETH -> BTC;
+//    EXP -> BTC;
+//    FCT -> BTC;
+//    FLDC -> BTC;
+//    FLO -> BTC;
+//    GAME -> BTC;
+//    GNO -> BTC;
+//    GNT -> BTC;
+//    GRC -> BTC;
+//    HUC -> BTC;
+//    LBC -> BTC;
+//    LSK -> BTC;
+//    LTC -> BTC;
+//    MAID -> BTC;
+//    NAUT -> BTC;
+//    NAV -> BTC;
+//    NEOS -> BTC;
+//    NMC -> BTC;
+//    NOTE -> BTC;
+//    NXC -> BTC;
+//    NXT -> BTC;
+//    OMNI -> BTC;
+//    PASC -> BTC;
+//    PINK -> BTC;
+//    POT -> BTC;
+//    PPC -> BTC;
+//    RADS -> BTC;
+//    REP -> BTC;
+//    RIC -> BTC;
+//    SBD -> BTC;
+//    SC -> BTC;
+//    SJCX -> BTC;
+//    STEEM -> BTC;
+//    STR -> BTC;
+//    STRAT -> BTC;
+//    SYS -> BTC;
+//    VIA -> BTC;
+//    VRC -> BTC;
+//    VTC -> BTC;
+//    XBC -> BTC;
+//    XCP -> BTC;
+//    XEM -> BTC;
+//    XMR -> BTC;
+//    XPM -> BTC;
+//    XRP -> BTC;
+//    XVC -> BTC;
+//    ZEC -> BTC;
+//    ZRX -> BTC;
+}

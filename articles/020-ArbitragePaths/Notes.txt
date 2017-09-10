@@ -1,0 +1,35 @@
+= Notes
+
+Some notes on the making-of the actual article.
+
+
+
+
+
+== To do
+
+Given the possible pairs from the Poloniex exchange:
+
+* Generate the diagram with all possible arbitrage sequences -- This
+  will be a very big diagram.
+
+* Generate the diagram will all arbitrage sequences of length three or
+  longer -- This will be, hopefully, a visually appealing diagram.
+
+Generate main diagram.
+
+In a concrete case like the https://poloniex.com/[Poloniex exchange]
+many arbitrage sequences are of length two.
+
+Given the set of all possible pairs, retain only the pairs for which
+there are sequences of size longer than two.
+
+
+
+
+
+== SVG from dot files
+
+----
+dot -Tsvg -oMyDiagram.svg MyDiagram.dot
+----

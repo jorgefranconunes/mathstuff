@@ -1,0 +1,12 @@
+= Arbitrage paths
+
+
+
+
+
+== Introduction
+
+Given a set of currencies in an exchange, what are the possible
+arbitrage sequences?
+
+What is an arbitrage sequence.
