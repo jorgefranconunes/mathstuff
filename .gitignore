@@ -6,5 +6,5 @@ dist
 *.o
 *.out
 *.pid
+python_env
 target
-

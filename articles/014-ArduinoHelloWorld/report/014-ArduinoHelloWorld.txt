@@ -186,7 +186,7 @@ this pin 5 in port D that we refer to in the C code.
 Detailed information on available ports, and how to work with them is
 available in the
 http://www.atmel.com/devices/atmega328p.aspx[ATMega368p data sheet]
-provided by Atmel. Documentation for the avr-libc function and macros
+provided by Atmel. Documentation for the avr-libc functions and macros
 used in the program is available on the
 http://www.nongnu.org/avr-libc/user-manual/modules.html[avr-libc user
 manual].

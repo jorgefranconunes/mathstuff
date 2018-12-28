@@ -1,0 +1,47 @@
+= Graphs with Python
+
+
+
+
+
+== Installing Python and libraries
+
+Useful information:
+https://www.digitalocean.com/community/tutorials/how-to-install-python-3-and-set-up-a-local-programming-environment-on-centos-7
+
+----
+yum -y install https://centos7.iuscommunity.org/ius-release.rpm
+
+yum -y install python36u
+yum -y install python36u-pip
+yum -y install python36u-tkinter
+---
+
+
+----
+$ python3.6 --version
+Python 3.6.7
+----
+
+
+
+
+
+== Preparing local environment
+
+----
+python3.6 -m venv python_env
+
+source ./python_env/bin/activate
+----
+
+
+
+
+
+== Installing Matplotlib and friends
+
+----
+pip install --upgrade pip
+pip install --upgrade matplotlib
+----
